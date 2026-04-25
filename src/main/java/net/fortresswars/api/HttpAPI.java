@@ -21,4 +21,12 @@ public class HttpAPI extends BaseAPI {
         }
         return httpClient;
     }
+
+    public void close() {
+        if (httpClient != null) {
+            httpClient .close();
+            httpClient = null;
+        }
+    }
+
 }

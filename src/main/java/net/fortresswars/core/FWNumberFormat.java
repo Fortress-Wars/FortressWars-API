@@ -2,15 +2,15 @@ package net.fortresswars.core;
 
 import java.text.DecimalFormat;
 
-public enum NumberFormat {
+public enum FWNumberFormat {
     INT,
     DOUBLE,
     TIME,
     PERCENT,
-    FULLTIME,
+    FULL_TIME,
     TICK,
     POTION_LEVEL,
-    RATIOPERCENT,
+    RATIO_PERCENT,
     DURATION;
 
     private static String formatTime(double timeInSeconds) {
@@ -51,13 +51,13 @@ public enum NumberFormat {
         return String.format("%dd %tH:%<tM:%<tS", days, timeInMS);
     }
 
-    public static String formatStat(NumberFormat statType, double value) {
+    public static String formatStat(FWNumberFormat statType, double value) {
         return switch (statType) {
             case INT -> String.format("%,.0f", value);
             case PERCENT -> String.format("%,.0f%s", value, "%");
-            case RATIOPERCENT -> String.format("%,.1f%s", (value * 100), "%");
+            case RATIO_PERCENT -> String.format("%,.1f%s", (value * 100), "%");
             case TIME -> formatTime(value);
-            case FULLTIME -> formatFullTime(value);
+            case FULL_TIME -> formatFullTime(value);
             case TICK -> formatTime(value / 20.0);
             case DURATION -> formatDuration(value);
             default -> String.format("%,.2f", value);
