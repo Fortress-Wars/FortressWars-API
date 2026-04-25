@@ -1,7 +1,7 @@
 package net.fortresswars.api;
 
 import net.fortresswars.core.Leaderboard;
-import net.fortresswars.core.ParkourInfo;
+import net.fortresswars.core.ParkourProfile;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.net.URI;
@@ -40,12 +40,12 @@ public class PlayerProfileServiceAPI extends HttpAPI {
         return new Leaderboard(key, new Date(), new ArrayList<>());
     }
 
-    public ParkourInfo getParkourCourseInfo(String parkourId, UUID playerId) {
+    public ParkourProfile getParkourProfile(UUID playerId) {
         try {
             final HttpClient client = getHttpClient();
             final String playerProfileServiceUrl = this.config.getString("api.playerProfileServiceUrl");
             final String apiKey = this.config.getString("api.apiKey");
-            final String url = playerProfileServiceUrl + "/parkour/" + parkourId + "/player/" + playerId;
+            final String url = playerProfileServiceUrl + "/parkour/players/" + playerId;
             final HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(url))
                     .GET()
@@ -53,9 +53,9 @@ public class PlayerProfileServiceAPI extends HttpAPI {
                     .header("x-api-key", apiKey)
                     .build();
             final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            return gson.fromJson(response.body(), ParkourInfo.class);
+            return gson.fromJson(response.body(), ParkourProfile.class);
         } catch (Exception e) {
-            this.logger.warn("Failed to get player parkour course info " + parkourId + " for " + playerId + ": " + e.getMessage());
+            this.logger.warn("Failed to get player parkour profile for " + playerId + ": " + e.getMessage());
         }
         return null;
     }
