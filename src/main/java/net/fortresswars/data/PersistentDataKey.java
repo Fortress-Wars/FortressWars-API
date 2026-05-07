@@ -19,6 +19,7 @@ public enum PersistentDataKey {
     REMAINING_DURATION(PersistentDataType.INTEGER),
 
     // Attributes
+    WEIGHT(PersistentDataType.INTEGER),
     DAMAGE(PersistentDataType.DOUBLE),
     SPEED(PersistentDataType.DOUBLE),
     RADIUS(PersistentDataType.DOUBLE),

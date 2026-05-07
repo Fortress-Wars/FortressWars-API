@@ -158,6 +158,8 @@ public class PersistentData {
             setPersistentData(holder, value.asDouble(), PersistentDataType.DOUBLE, key);
         } else if (persistentDataType == PersistentDataType.FLOAT) {
             setPersistentData(holder, value.asFloat(), PersistentDataType.FLOAT, key);
+        } else if (persistentDataType == PersistentDataType.LONG) {
+            setPersistentData(holder, value.asLong(), PersistentDataType.LONG, key);
         } else {
             setPersistentData(holder, value.asString(), PersistentDataType.STRING, key);
         }

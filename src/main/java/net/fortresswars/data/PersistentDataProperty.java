@@ -2,6 +2,7 @@ package net.fortresswars.data;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -71,6 +72,17 @@ public class PersistentDataProperty {
     }
 
     /**
+     * Cast as a long
+     * @return value - long
+     */
+    public long asLong() {
+        if (value instanceof Number number) {
+            return number.longValue();
+        }
+        return 0;
+    }
+
+    /**
      * Cast as a float
      * @return value as a float
      */
@@ -130,4 +142,13 @@ public class PersistentDataProperty {
     public double asSeconds() {
         return asDouble() * 0.05;
     }
+
+    /**
+     * Cast as a date.
+     * @return value of the date
+     */
+    public Date asDate() {
+        return new Date(asLong());
+    }
+
 }
