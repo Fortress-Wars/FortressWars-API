@@ -6,7 +6,7 @@
 
     <groupId>net.fortresswars</groupId>
     <artifactId>fw-api</artifactId>
-    <version>1.0-SNAPSHOT.18</version>
+    <version>1.0-SNAPSHOT.19</version>
     <packaging>jar</packaging>
 
     <name>FortressWars-API</name>

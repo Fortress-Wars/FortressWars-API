@@ -12,6 +12,7 @@ public enum PersistentDataKey {
     CHILD(PersistentDataType.STRING),
 
     // Time
+    TIME(PersistentDataType.LONG),
     COOLDOWN(PersistentDataType.INTEGER),
     DURATION(PersistentDataType.INTEGER),
     DURATION_2(PersistentDataType.INTEGER),

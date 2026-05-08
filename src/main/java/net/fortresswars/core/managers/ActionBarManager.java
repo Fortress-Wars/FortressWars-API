@@ -42,7 +42,7 @@ public class ActionBarManager {
 
         final PersistentData previousData = PersistentData.fromHolder(
                 player,
-                Set.of(PersistentDataKey.COOLDOWN, PersistentDataKey.WEIGHT),
+                Set.of(PersistentDataKey.TIME, PersistentDataKey.WEIGHT),
                 ACTION_BAR_KEY
         );
 
@@ -51,7 +51,7 @@ public class ActionBarManager {
         final int currentWeight = msgType.weight;
 
         // Message Cooldown
-        final long previousTime = previousData.get(PersistentDataKey.COOLDOWN).asLong();
+        final long previousTime = previousData.get(PersistentDataKey.TIME).asLong();
         final long currentTime = new Date().getTime();
         final long elapsedTime = currentTime - previousTime;
         final boolean hasCooldown = ACTION_BAR_COOLDOWN_MS - elapsedTime > 0;
@@ -60,9 +60,8 @@ public class ActionBarManager {
         if (currentWeight < previousWeight && hasCooldown) return;
 
         // Set new data
-        PersistentData.setProperty(player, PersistentDataKey.COOLDOWN, currentTime, ACTION_BAR_KEY);
+        PersistentData.setProperty(player, PersistentDataKey.TIME, currentTime, ACTION_BAR_KEY);
         PersistentData.setProperty(player, PersistentDataKey.WEIGHT, currentWeight, ACTION_BAR_KEY);
-
 
         entity.sendActionBar(message);
     }
