@@ -4,6 +4,7 @@ import net.fortresswars.core.Leaderboard;
 import net.fortresswars.core.AddParkourTimeRequest;
 import net.fortresswars.core.DeleteParkourProfileRequest;
 import net.fortresswars.core.ParkourProfile;
+import net.fortresswars.core.ParkourServerRecord;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.net.URI;
@@ -109,5 +110,34 @@ public class PlayerProfileServiceAPI extends HttpAPI {
             this.logger.warn("Failed to delete parkour profile for " + playerId + ": " + e.getMessage());
         }
         return false;
+    }
+
+    public ParkourServerRecord getParkourCourseRecord(String courseID) {
+        try {
+            final HttpClient client = getHttpClient();
+            final String playerProfileServiceUrl = this.config.getString("api.playerProfileServiceUrl");
+            final String apiKey = this.config.getString("api.apiKey");
+            final String encodedCourseID = URLEncoder.encode(courseID, StandardCharsets.UTF_8);
+            final String url = playerProfileServiceUrl + "/parkour/courses/" + encodedCourseID + "/record";
+            final HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(url))
+                    .GET()
+                    .header("Content-Type", "application/json")
+                    .header("x-api-key", apiKey)
+                    .build();
+            final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() == 404) {
+                return null;
+            }
+            if (response.statusCode() != 200) {
+                this.logger.warn("Failed to get parkour course record for " + courseID + ": HTTP " + response.statusCode());
+                return null;
+            }
+            return gson.fromJson(response.body(), ParkourServerRecord.class);
+        } catch (Exception e) {
+            final var message = "Failed to get parkour course record for " + courseID + ": " + e.getMessage();
+            this.logger.warn(message);
+            throw new RuntimeException(message);
+        }
     }
 }
