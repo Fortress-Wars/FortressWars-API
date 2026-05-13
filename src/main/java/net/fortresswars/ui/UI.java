@@ -57,6 +57,10 @@ public abstract class UI {
 
             // Refresh Synchronously
             Bukkit.getScheduler().runTask(plugin, () -> menu.refreshInventory(player));
+        }).exceptionally((e) -> {
+            plugin.getLogger().warning("Error opening menu: " +  e.getMessage());
+            Bukkit.getScheduler().runTask(plugin, () -> menu.refreshInventory(player));
+            return null;
         });
     }
 

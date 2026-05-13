@@ -6,6 +6,8 @@ import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.Consumable;
 import net.fortresswars.FortressWarsAPI;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.format.Style;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
@@ -22,6 +24,7 @@ import org.bukkit.inventory.meta.components.UseCooldownComponent;
 import org.bukkit.inventory.meta.trim.ArmorTrim;
 import org.bukkit.inventory.meta.trim.TrimMaterial;
 import org.bukkit.inventory.meta.trim.TrimPattern;
+import org.bukkit.map.MinecraftFont;
 import org.bukkit.potion.PotionEffect;
 import org.jetbrains.annotations.NotNull;
 
@@ -57,8 +60,8 @@ public class ItemStackFactory {
     //                             Factory
     // ==================================================================
     
-    private final ItemStack item;
-    private final ItemMeta itemMeta;
+    private ItemStack item;
+    private ItemMeta itemMeta;
     private final BlockState blockState;
     private final Map<DataComponentType.Valued<Object>, Object> dataComponentMap;
 
@@ -82,7 +85,8 @@ public class ItemStackFactory {
     }
 
     public ItemStackFactory setType(Material type) {
-        item.setType(type);
+        item = item.withType(type);
+        itemMeta = item.getItemMeta();
         return this;
     }
 
@@ -94,6 +98,130 @@ public class ItemStackFactory {
     public ItemStackFactory setLore(Component... lore) {
         itemMeta.lore(List.of(lore));
         return this;
+    }
+
+    public ItemStackFactory addLoreContent(Component content, int width, int padding) {
+        if (content == null) {
+            return this;
+        }
+
+        final int sanitizedWidth = Math.max(width, 10);
+        final int sanitizedPadding = Math.max(0, padding);
+        final List<Component> newLore = new ArrayList<>();
+        final List<Component> oldLore = itemMeta.lore();
+        if (oldLore != null) {
+            newLore.addAll(oldLore);
+        }
+
+        newLore.addAll(wrapComponentLore(content, sanitizedWidth, sanitizedPadding));
+        itemMeta.lore(newLore);
+        return this;
+    }
+
+    private List<Component> wrapComponentLore(Component content, int width, int padding) {
+        final String paddingText = " ".repeat(padding);
+        final List<WordPart> words = new ArrayList<>();
+        collectWordParts(content, Style.empty(), words);
+
+        final List<Component> wrapped = new ArrayList<>();
+        Component currentLine = Component.empty();
+        int currentWidth = 0;
+        boolean hasWord = false;
+
+        for (WordPart part : words) {
+            if (part.lineBreak) {
+                if (hasWord) {
+                    wrapped.add(withPadding(currentLine, paddingText));
+                    currentLine = Component.empty();
+                    currentWidth = 0;
+                    hasWord = false;
+                } else {
+                    wrapped.add(Component.text(""));
+                }
+                continue;
+            }
+
+            final int wordWidth = MinecraftFont.Font.getWidth(part.text);
+            final int separatorWidth = hasWord ? MinecraftFont.Font.getWidth(" ") : 0;
+            final boolean exceedsLine = currentWidth + separatorWidth + wordWidth > width;
+
+            if (exceedsLine && hasWord) {
+                wrapped.add(withPadding(currentLine, paddingText));
+                currentLine = Component.empty();
+                currentWidth = 0;
+                hasWord = false;
+            }
+
+            if (hasWord) {
+                currentLine = currentLine.append(Component.space());
+                currentWidth += separatorWidth;
+            }
+
+            currentLine = currentLine.append(Component.text(part.text).style(part.style));
+            currentWidth += wordWidth;
+            hasWord = true;
+        }
+
+        if (hasWord) {
+            wrapped.add(withPadding(currentLine, paddingText));
+        }
+
+        return wrapped;
+    }
+
+    private Component withPadding(Component line, String paddingText) {
+        if (paddingText.isEmpty()) {
+            return line;
+        }
+        return Component.text(paddingText).append(line);
+    }
+
+    private void collectWordParts(Component component, Style inheritedStyle, List<WordPart> out) {
+        final Style currentStyle = inheritedStyle.merge(component.style(), Style.Merge.Strategy.ALWAYS);
+
+        if (component instanceof TextComponent textComponent) {
+            collectWordsFromText(textComponent.content(), currentStyle, out);
+        }
+
+        for (Component child : component.children()) {
+            collectWordParts(child, currentStyle, out);
+        }
+    }
+
+    private void collectWordsFromText(String text, Style style, List<WordPart> out) {
+        final StringBuilder word = new StringBuilder();
+        for (int i = 0; i < text.length(); i++) {
+            final char c = text.charAt(i);
+            if (c == '\r') {
+                continue;
+            }
+            if (c == '\n') {
+                if (!word.isEmpty()) {
+                    out.add(new WordPart(word.toString(), style, false));
+                    word.setLength(0);
+                }
+                out.add(WordPart.breakToken());
+                continue;
+            }
+            if (Character.isWhitespace(c)) {
+                if (!word.isEmpty()) {
+                    out.add(new WordPart(word.toString(), style, false));
+                    word.setLength(0);
+                }
+                continue;
+            }
+            word.append(c);
+        }
+
+        if (!word.isEmpty()) {
+            out.add(new WordPart(word.toString(), style, false));
+        }
+    }
+
+    private record WordPart(String text, Style style, boolean lineBreak) {
+        private static WordPart breakToken() {
+            return new WordPart("", Style.empty(), true);
+        }
     }
 
     public ItemStackFactory prependLore(Component... lore) {
