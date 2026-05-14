@@ -65,7 +65,7 @@ jobs:
           echo "SHA=$(git rev-parse HEAD)" >> $GITHUB_ENV
           echo "REF=$(git rev-parse --abbrev-ref HEAD)" >> $GITHUB_ENV
       - name: create about.json
-        uses: devops-actions/-file@v1
+        uses: devops-actions/json-file@v1
         with:
           json: '{ "BRANCH": "${{ env.REF }}", "SHA": "${{ github.sha }}", "VERSION": "${{ env.VERSION }}.${{ env.COMMITS }}"}'
           filename: 'about.json'
