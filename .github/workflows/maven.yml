@@ -65,7 +65,7 @@ jobs:
           echo "SHA=$(git rev-parse HEAD)" >> $GITHUB_ENV
           echo "REF=$(git rev-parse --abbrev-ref HEAD)" >> $GITHUB_ENV
       - name: create about.json
-        uses: devops-actions/json-to-file@v1
+        uses: devops-actions/json-to-file@v1.0.6
         with:
           json: '{ "BRANCH": "${{ env.REF }}", "SHA": "${{ github.sha }}", "VERSION": "${{ env.VERSION }}.${{ env.COMMITS }}"}'
           filename: 'about.json'
@@ -99,12 +99,12 @@ jobs:
           name: fw-api
           path: deployment_files
       - name: Read about.json
-        uses: antifree/json-to-variables@v1
+        uses: antifree/json-to-variables@v1.3.0
         with:
           filename: 'deployment_files/about.json'
           prefix: 'FW'
       - name: SFTP Deploy JAR File
-        uses: wlixcc/SFTP-Deploy-Action@v1
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.6
         with:
           username: ${{ secrets.SFTP_STAGE_USERNAME }}
           password: ${{ secrets.SFTP_STAGE_PASSWORD }}
@@ -114,7 +114,7 @@ jobs:
           remote_path: /plugins/FortressWars-API.jar
           sftp_only: true
       - name: SFTP Deploy About File
-        uses: wlixcc/SFTP-Deploy-Action@v1
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.6
         with:
           username: ${{ secrets.SFTP_STAGE_USERNAME }}
           password: ${{ secrets.SFTP_STAGE_PASSWORD }}
@@ -137,12 +137,12 @@ jobs:
           name: fw-api
           path: deployment_files
       - name: Read about.json
-        uses: antifree/json-to-variables@v1
+        uses: antifree/json-to-variables@v1.3.0
         with:
           filename: 'deployment_files/about.json'
           prefix: 'FW'
       - name: SFTP Deploy JAR File
-        uses: wlixcc/SFTP-Deploy-Action@v1
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.6
         with:
           username: ${{ secrets.SFTP_PRODUCTION_USERNAME }}
           password: ${{ secrets.SFTP_PRODUCTION_PASSWORD }}
@@ -152,7 +152,7 @@ jobs:
           remote_path: /plugins/FortressWars-API.jar
           sftp_only: true
       - name: SFTP Deploy About File
-        uses: wlixcc/SFTP-Deploy-Action@v1
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.6
         with:
           username: ${{ secrets.SFTP_PRODUCTION_USERNAME }}
           password: ${{ secrets.SFTP_PRODUCTION_PASSWORD }}
