@@ -24,12 +24,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: ${{ github.ref_name }}
           fetch-depth: 0
       - name: Set up JDK 21
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           java-version: '21'
           distribution: 'temurin'
@@ -46,12 +46,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: ${{ github.ref_name }}
           fetch-depth: 0
       - name: Set up JDK 21
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           java-version: '21'
           distribution: 'temurin'
@@ -83,7 +83,7 @@ jobs:
       - name: Upload Deployment File
         uses: actions/upload-artifact@v4.0.0
         with:
-          name: fortresswars
+          name: fw-api
           path: build_files
   deploy_stage:
     if: github.event_name == 'workflow_dispatch' && inputs.deploy_to_stage == true
@@ -96,7 +96,7 @@ jobs:
       - name: Download Build Artifact
         uses: actions/download-artifact@v4
         with:
-          name: fortresswars
+          name: fw-api
           path: deployment_files
       - name: Read about.json
         uses: antifree/json-to-variables@v1.2.0
@@ -134,7 +134,7 @@ jobs:
       - name: Download Build Artifact
         uses: actions/download-artifact@v4
         with:
-          name: fortresswars
+          name: fw-api
           path: deployment_files
       - name: Read about.json
         uses: antifree/json-to-variables@v1.2.0
