@@ -1,4 +1,4 @@
-package net.fortresswars.core;
+package net.fortresswars.util;
 
 import java.text.DecimalFormat;
 
@@ -51,7 +51,7 @@ public enum FWNumberFormat {
         return String.format("%dd %tH:%<tM:%<tS", days, timeInMS);
     }
 
-    public static String formatStat(FWNumberFormat statType, double value) {
+    private static String formatValue(FWNumberFormat statType, double value) {
         return switch (statType) {
             case INT -> String.format("%,.0f", value);
             case PERCENT -> String.format("%,.0f%s", value, "%");
@@ -65,6 +65,6 @@ public enum FWNumberFormat {
     }
 
     public String formatValue(double value) {
-        return formatStat(this, value);
+        return formatValue(this, value);
     }
 }

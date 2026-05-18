@@ -1,0 +1,23 @@
+package net.fortresswars.core.game;
+
+public enum FWGameState {
+    LOBBY,
+    GAME_STARTING,
+    GAMERULE_VOTING,
+    GAME_END,
+    CLASSIC_PREPARE_GAME,
+    CLASSIC_BUILDING,
+    CLASSIC_IN_GAME,
+    CLASSIC_SUDDEN_DEATH,
+    KOTH_PREPARE_GAME,
+    KOTH_IN_PRE_GAME,
+    KOTH_IN_GAME,
+    KOTH_OVERTIME,
+    AD_PREPARE_GAME,
+    AD_BUILDING,
+    AD_PRE_ROUND_1,
+    AD_ROUND_1,
+    AD_BETWEEN_ROUNDS,
+    AD_PRE_ROUND_2,
+    AD_ROUND_2
+}

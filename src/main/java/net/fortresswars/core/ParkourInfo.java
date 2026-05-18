@@ -1,5 +1,7 @@
 package net.fortresswars.core;
 
+import net.fortresswars.util.FWNumberFormat;
+
 public record ParkourInfo (
         String courseID,
         double bestTime,
