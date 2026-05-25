@@ -78,7 +78,7 @@ jobs:
           mkdir build_files
       - name: Copy Files
         run: |
-          cp target/fw-api-${{ env.VERSION }}.jar build_files/FortressWars-API-${{ env.VERSION }}.${{ env.COMMITS }}.jar
+          cp target/FortressWars-API.jar build_files/FortressWars-API-${{ env.VERSION }}.${{ env.COMMITS }}.jar
           cp about.json build_files/about.json
       - name: Upload Deployment File
         uses: actions/upload-artifact@v7
