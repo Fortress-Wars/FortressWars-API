@@ -1,25 +1,47 @@
-package net.fortresswars.core.subscriptions;
+package net.fortresswars.core;
 
+import java.time.Duration;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.UUID;
 
-public class SubscriptionHelper {
+public record Subscription(
+        Date endDate,
+        int totalDays
+) {
+
+    public int getTotalDays() {
+        return totalDays;
+    }
+
+    public Duration getTimeLeft() {
+        if (!isActive()) {
+            return Duration.ofMillis(0);
+        }
+        final Date now = new Date();
+        return Duration.ofMillis(endDate.getTime() - now.getTime());
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public boolean isActive() {
+        final Date now = new Date();
+        return endDate.after(now);
+    }
 
     /**
      * Create a new subscription class
-     * @param uuid uuid of player
-     * @param subscriptionType type of subscription
      * @param days days until the subscription expires
      * @ a new subscription class
      */
-    public static Subscription createSubscription(UUID uuid, SubscriptionType subscriptionType, int days) {
+    public static Subscription createSubscription(int days) {
         final Date currentDate = new Date();
         final Calendar calendar = Calendar.getInstance();
         calendar.setTime(currentDate);
         calendar.add(Calendar.DAY_OF_MONTH, days);
         final Date endDate = calendar.getTime();
-        return new Subscription(uuid, subscriptionType, days, endDate);
+        return new Subscription(endDate, days);
     }
 
     /**
@@ -29,8 +51,6 @@ public class SubscriptionHelper {
      * @return a new subscription class
      */
     public static Subscription addDays(Subscription subscription, int days) {
-        final UUID uuid = subscription.getUUID();
-        final SubscriptionType subscriptionType = subscription.getSubscriptionType();
         final int totalDays = subscription.getTotalDays();
         final Date endDate = subscription.getEndDate();
 
@@ -47,7 +67,6 @@ public class SubscriptionHelper {
         // New Data
         final Date newEndDate = calendar.getTime();
         final int newTotalDays = totalDays + days;
-        return new Subscription(uuid, subscriptionType, newTotalDays, newEndDate);
+        return new Subscription(newEndDate, newTotalDays);
     }
-
 }

@@ -1,10 +1,6 @@
 package net.fortresswars.api;
 
-import net.fortresswars.core.Leaderboard;
-import net.fortresswars.core.AddParkourTimeRequest;
-import net.fortresswars.core.DeleteParkourProfileRequest;
-import net.fortresswars.core.ParkourProfile;
-import net.fortresswars.core.ParkourServerRecord;
+import net.fortresswars.core.*;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.net.URI;
@@ -21,6 +17,27 @@ public class PlayerProfileServiceAPI extends HttpAPI {
 
     public PlayerProfileServiceAPI(JavaPlugin javaPlugin) {
         super(javaPlugin);
+    }
+
+    public PlayerProfile getPlayerProfile(UUID playerId) {
+        try {
+            final HttpClient client = getHttpClient();
+            final String playerProfileServiceUrl = this.config.getString("api.playerProfileServiceUrl");
+            final String apiKey = this.config.getString("api.apiKey");
+            final String url = playerProfileServiceUrl + "/profiles/" + playerId;
+            final HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(url))
+                    .GET()
+                    .header("Content-Type", "application/json")
+                    .header("x-api-key", apiKey)
+                    .build();
+            final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            return gson.fromJson(response.body(), PlayerProfile.class);
+        } catch (Exception e) {
+            final var message = "Failed to get player profile " + playerId + ": " + e.getMessage();
+            this.logger.warn(message);
+            throw new RuntimeException(message, e);
+        }
     }
 
     public Leaderboard getLeaderboard(String key) {
@@ -139,5 +156,88 @@ public class PlayerProfileServiceAPI extends HttpAPI {
             this.logger.warn(message);
             throw new RuntimeException(message);
         }
+    }
+
+    public CosmeticsProfile getCosmeticsProfile(UUID playerId) {
+        try {
+            final HttpClient client = getHttpClient();
+            final String playerProfileServiceUrl = this.config.getString("api.playerProfileServiceUrl");
+            final String apiKey = this.config.getString("api.apiKey");
+            final String url = playerProfileServiceUrl + "/cosmetics/" + playerId;
+            final HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(url))
+                    .GET()
+                    .header("Content-Type", "application/json")
+                    .header("x-api-key", apiKey)
+                    .build();
+
+            final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            return gson.fromJson(response.body(), CosmeticsProfile.class);
+        } catch (Exception e) {
+            final var message = "Failed to get cosmetic profile for " + playerId + ": " + e.getMessage();
+            this.logger.warn(message);
+            throw new RuntimeException(message, e);
+        }
+    }
+
+    public boolean setEquippedCosmetic(UUID playerId, SetEquippedCosmeticRequest cosmeticRequest) {
+        try {
+            final HttpClient client = getHttpClient();
+            final String playerProfileServiceUrl = this.config.getString("api.playerProfileServiceUrl");
+            final String apiKey = this.config.getString("api.apiKey");
+            final String url = playerProfileServiceUrl + "/cosmetics/" + playerId;
+            final String body = gson.toJson(cosmeticRequest);
+            final HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(url))
+                    .POST(HttpRequest.BodyPublishers.ofString(body))
+                    .header("Content-Type", "application/json")
+                    .header("x-api-key", apiKey)
+                    .build();
+            final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            return response.statusCode() == 201;
+        } catch (Exception e) {
+            this.logger.warn("Failed to set equipped cosmetic for " + playerId + ": " + e.getMessage());
+        }
+        return false;
+    }
+
+    public boolean deleteEquippedCosmetic(UUID playerId, String cosmeticType) {
+        try {
+            final HttpClient client = getHttpClient();
+            final String playerProfileServiceUrl = this.config.getString("api.playerProfileServiceUrl");
+            final String apiKey = this.config.getString("api.apiKey");
+            final String url = playerProfileServiceUrl + "/cosmetics/" + playerId + "?cosmeticType=" + cosmeticType;
+            final HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(url))
+                    .DELETE()
+                    .header("Content-Type", "application/json")
+                    .header("x-api-key", apiKey)
+                    .build();
+            final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            return response.statusCode() == 204;
+        } catch (Exception e) {
+            this.logger.warn("Failed to delete equipped cosmetic for " + playerId + ": " + e.getMessage());
+        }
+        return false;
+    }
+
+    public boolean deleteAllEquippedCosmetics(UUID playerId) {
+        try {
+            final HttpClient client = getHttpClient();
+            final String playerProfileServiceUrl = this.config.getString("api.playerProfileServiceUrl");
+            final String apiKey = this.config.getString("api.apiKey");
+            final String url = playerProfileServiceUrl + "/cosmetics/" + playerId;
+            final HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(url))
+                    .DELETE()
+                    .header("Content-Type", "application/json")
+                    .header("x-api-key", apiKey)
+                    .build();
+            final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            return response.statusCode() == 204;
+        } catch (Exception e) {
+            this.logger.warn("Failed to delete all equipped cosmetics for " + playerId + ": " + e.getMessage());
+        }
+        return false;
     }
 }
