@@ -36,6 +36,9 @@ public enum PersistentDataKey {
     // State
     STATUS(PersistentDataType.STRING),
     IS_ON_GROUND(PersistentDataType.BOOLEAN),
+
+    // Cosmetics
+    DISABLE_COSMETICS(PersistentDataType.BOOLEAN),
     ;
 
     private final PersistentDataType<?, ?> persistentDataType;
