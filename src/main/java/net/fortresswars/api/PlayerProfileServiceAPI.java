@@ -1,6 +1,8 @@
 package net.fortresswars.api;
 
 import net.fortresswars.core.*;
+import net.fortresswars.core.profiles.PlayerProfile;
+import net.fortresswars.core.profiles.ProfileGetRequest;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.net.URI;
@@ -32,7 +34,31 @@ public class PlayerProfileServiceAPI extends HttpAPI {
                     .header("x-api-key", apiKey)
                     .build();
             final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            return gson.fromJson(response.body(), PlayerProfile.class);
+            final ProfileGetRequest profileGetRequest = gson.fromJson(response.body(), ProfileGetRequest.class);
+            return new PlayerProfile(profileGetRequest);
+        } catch (Exception e) {
+            final var message = "Failed to get player profile " + playerId + ": " + e.getMessage();
+            this.logger.warn(message);
+            throw new RuntimeException(message, e);
+        }
+    }
+
+    public boolean saveProfile(PlayerProfile profile) {
+        final UUID playerId = profile.getUuid();
+        try {
+            final HttpClient client = getHttpClient();
+            final String playerProfileServiceUrl = this.config.getString("api.playerProfileServiceUrl");
+            final String apiKey = this.config.getString("api.apiKey");
+            final String url = playerProfileServiceUrl + "/profiles/" + playerId;
+            final String body = gson.toJson(profile);
+            final HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(url))
+                    .PUT(HttpRequest.BodyPublishers.ofString(body))
+                    .header("Content-Type", "application/json")
+                    .header("x-api-key", apiKey)
+                    .build();
+            final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            return response.statusCode() == 201;
         } catch (Exception e) {
             final var message = "Failed to get player profile " + playerId + ": " + e.getMessage();
             this.logger.warn(message);

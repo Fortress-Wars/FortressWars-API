@@ -7,7 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public abstract class EventManager implements Enableable, Listener {
 
-    private final JavaPlugin plugin;
+    protected final JavaPlugin plugin;
     private boolean isEnabled;
 
     protected EventManager(JavaPlugin plugin) {

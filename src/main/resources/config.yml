@@ -1,0 +1,6 @@
+# Don't touch this value unless you know what you are doing
+configVersion: 1
+
+api:
+  playerProfileServiceUrl: "http://localhost:40287"
+  apiKey: "<INSERT API KEY HERE>"
