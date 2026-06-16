@@ -8,6 +8,7 @@ import java.util.UUID;
 public class ProfileGetRequest {
     UUID uuid;
     String username;
+    String rank;
     Integer credits;
     Map<String, Subscription> subscriptions;
     Map<String, String> preferences;

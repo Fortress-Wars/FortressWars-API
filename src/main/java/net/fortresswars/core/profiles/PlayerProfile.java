@@ -13,6 +13,7 @@ public class PlayerProfile {
 
     private final UUID uuid;
     private final AtomicReference<String> username;
+    private final AtomicReference<String> rank;
     private final AtomicInteger credits;
     private final Map<String, Subscription> subscriptions;
     private final Map<String, String>  preferences;
@@ -20,6 +21,7 @@ public class PlayerProfile {
     public PlayerProfile(ProfileGetRequest profileGetRequest) {
         this.uuid = profileGetRequest.uuid;
         this.username = new AtomicReference<>(profileGetRequest.username);
+        this.rank = new AtomicReference<>(profileGetRequest.rank);
         this.credits = new AtomicInteger(profileGetRequest.credits);
         this.subscriptions = new ConcurrentHashMap<>(profileGetRequest.subscriptions);
         this.preferences = new ConcurrentHashMap<>(profileGetRequest.preferences);
@@ -28,10 +30,11 @@ public class PlayerProfile {
     public ProfilePutRequest toUpdateRequest() {
         final UUID uuid = this.uuid;
         final String username = this.username.get();
+        final String rank = this.rank.get();
         final Integer credits = this.credits.get();
         final @Nullable Map<String, Subscription> subscriptions = !this.subscriptions.isEmpty() ? this.subscriptions : null;
         final @Nullable Map<String, String> preferences = !this.preferences.isEmpty() ? this.preferences : null;
-        return new ProfilePutRequest(uuid, username, credits, subscriptions, preferences);
+        return new ProfilePutRequest(uuid, username, rank, credits, subscriptions, preferences);
     }
 
     public UUID getUuid() {
@@ -48,6 +51,18 @@ public class PlayerProfile {
 
     public void setUsername(String username) {
         this.username.set(username);
+    }
+
+    public void setRank(String rank) {
+        this.rank.set(rank);
+    }
+
+    public String getRank() {
+        return this.rank.get();
+    }
+
+    public boolean hasRank(String rank) {
+        return this.rank.get().equalsIgnoreCase(rank);
     }
 
     /**
@@ -82,6 +97,10 @@ public class PlayerProfile {
 
     public @Nullable Subscription getSubscription(String subscriptionType) {
         return subscriptions.get(subscriptionType);
+    }
+
+    public boolean hasSubscription(String subscriptionType) {
+        return subscriptions.containsKey(subscriptionType);
     }
 
     public void deleteSubscription(String subscriptionType) {

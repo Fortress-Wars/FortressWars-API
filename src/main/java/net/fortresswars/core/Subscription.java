@@ -9,6 +9,8 @@ public record Subscription(
         int totalDays
 ) {
 
+    public static String FW_PLUS = "FW_PLUS";
+
     public int getTotalDays() {
         return totalDays;
     }

@@ -50,7 +50,7 @@ public class PlayerProfileServiceAPI extends HttpAPI {
             final String playerProfileServiceUrl = this.config.getString("api.playerProfileServiceUrl");
             final String apiKey = this.config.getString("api.apiKey");
             final String url = playerProfileServiceUrl + "/profiles/" + playerId;
-            final String body = gson.toJson(profile);
+            final String body = gson.toJson(profile.toUpdateRequest());
             final HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(url))
                     .PUT(HttpRequest.BodyPublishers.ofString(body))
@@ -60,7 +60,7 @@ public class PlayerProfileServiceAPI extends HttpAPI {
             final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             return response.statusCode() == 201;
         } catch (Exception e) {
-            final var message = "Failed to get player profile " + playerId + ": " + e.getMessage();
+            final var message = "Failed to save player profile " + playerId + ": " + e.getMessage();
             this.logger.warn(message);
             throw new RuntimeException(message, e);
         }
@@ -184,7 +184,7 @@ public class PlayerProfileServiceAPI extends HttpAPI {
         }
     }
 
-    public CosmeticsProfile getCosmeticsProfile(UUID playerId) {
+    public CosmeticsProfileRequest getCosmeticsProfile(UUID playerId) {
         try {
             final HttpClient client = getHttpClient();
             final String playerProfileServiceUrl = this.config.getString("api.playerProfileServiceUrl");
@@ -198,7 +198,7 @@ public class PlayerProfileServiceAPI extends HttpAPI {
                     .build();
 
             final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            return gson.fromJson(response.body(), CosmeticsProfile.class);
+            return gson.fromJson(response.body(), CosmeticsProfileRequest.class);
         } catch (Exception e) {
             final var message = "Failed to get cosmetic profile for " + playerId + ": " + e.getMessage();
             this.logger.warn(message);
@@ -206,16 +206,17 @@ public class PlayerProfileServiceAPI extends HttpAPI {
         }
     }
 
-    public boolean setEquippedCosmetic(UUID playerId, SetEquippedCosmeticRequest cosmeticRequest) {
+    public boolean saveCosmeticsProfile(CosmeticsProfileRequest cosmeticsProfileRequest) {
+        final var playerId = cosmeticsProfileRequest.uuid();
         try {
             final HttpClient client = getHttpClient();
             final String playerProfileServiceUrl = this.config.getString("api.playerProfileServiceUrl");
             final String apiKey = this.config.getString("api.apiKey");
             final String url = playerProfileServiceUrl + "/cosmetics/" + playerId;
-            final String body = gson.toJson(cosmeticRequest);
+            final String body = gson.toJson(cosmeticsProfileRequest);
             final HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(url))
-                    .POST(HttpRequest.BodyPublishers.ofString(body))
+                    .PUT(HttpRequest.BodyPublishers.ofString(body))
                     .header("Content-Type", "application/json")
                     .header("x-api-key", apiKey)
                     .build();
