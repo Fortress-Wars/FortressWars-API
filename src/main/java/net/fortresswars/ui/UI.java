@@ -18,6 +18,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -46,9 +47,9 @@ public abstract class UI {
         menu.setBlockDefaultInteractions(true);
         menu.setAutomaticPaginationEnabled(true);
         setFrame(menu);
+        setToolBar(menu);
 
         // Open
-        player.sendMessage(Component.text("Opening menu...", NamedTextColor.GREEN));
         player.openInventory(menu.getInventory());
         final CompletableFuture<Void> buildFuture = this.build(menu, player);
         buildFuture.thenAccept((unused) -> {
@@ -82,21 +83,32 @@ public abstract class UI {
         return maxPage * pageSize;
     }
 
-    private void setFrame(SGMenu sgMenu) {
-        // Border
-        final SGButton borderButton = new SGButton(
+    private SGButton getFrameButton() {
+        return new SGButton(
                 ItemStackFactory.create(Material.GRAY_STAINED_GLASS_PANE)
                         .setTitle(Component.text(""))
                         .build()
         ).withListener(e -> e.setResult(Event.Result.DENY));
+    }
 
-        final List<Integer> borderSlots = List.of(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 44);
+    protected void setFrame(SGMenu sgMenu) {
+        final SGButton borderButton = getFrameButton();
+        final List<Integer> borderSlots = new LinkedList<>(List.of(0, 1, 2, 3, 4, 5, 6, 7, 8));
+
+        // Start at the second row and end at the second to last row, since the first and
+        // last rows are already filled with the border
+        for (int row = 2; row < getRows(); row++) {
+            borderSlots.add(9 * (row - 1));
+            borderSlots.add((9 * row) - 1);
+        }
         for (int slot : borderSlots) {
             sgMenu.setButton(slot, borderButton);
             sgMenu.stickSlot(slot);
         }
+    }
 
-        // Tool Bar
+    protected void setToolBar(SGMenu sgMenu) {
+        final SGButton borderButton = getFrameButton();
         sgMenu.setToolbarBuilder((slot, page, type, menu) -> {
             // Previous
             if (type == SGToolbarButtonType.PREV_BUTTON) {
@@ -117,7 +129,7 @@ public abstract class UI {
             }
 
             // Current
-            if (type == SGToolbarButtonType.CURRENT_BUTTON) {
+            if (type == SGToolbarButtonType.CURRENT_BUTTON && menu.getMaxPage() > 1) {
                 return new SGButton(
                         ItemStackFactory.create(Material.NETHER_STAR)
                                 .setTitle(
