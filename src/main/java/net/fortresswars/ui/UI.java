@@ -107,56 +107,77 @@ public abstract class UI {
         }
     }
 
+    protected SGButton getPreviousButton(SGMenu menu) {
+        return new SGButton(
+                ItemStackFactory.create(Material.GRAY_WOOL)
+                        .setTitle(
+                                Component.text(
+                                        "← Previous Page",
+                                        NamedTextColor.GRAY,
+                                        TextDecoration.BOLD
+                                )
+                        )
+                        .build())
+                .withListener((e) -> menu.previousPage(e.getWhoClicked()));
+    }
+
+    protected SGButton getCustomCenterButton(SGMenu menu) {
+        return null;
+    }
+
+    protected SGButton getCenterButton(SGMenu menu) {
+        return new SGButton(
+                ItemStackFactory.create(Material.NETHER_STAR)
+                        .setTitle(
+                                Component.text(
+                                        String.format("Page %d of %d", menu.getCurrentPage() + 1, menu.getMaxPage()),
+                                        NamedTextColor.GRAY,
+                                        TextDecoration.BOLD
+                                )
+                        )
+                        .build())
+                .withListener(e -> e.setResult(Event.Result.DENY));
+    }
+
+    protected SGButton getNextButton(SGMenu menu) {
+        return new SGButton(
+                ItemStackFactory.create(Material.GRAY_WOOL)
+                        .setTitle(
+                                Component.text(
+                                        "Next Page →",
+                                        NamedTextColor.GRAY,
+                                        TextDecoration.BOLD
+                                )
+                        )
+                        .build())
+                .withListener((e) -> menu.nextPage(e.getWhoClicked()));
+    }
+
     protected void setToolBar(SGMenu sgMenu) {
         final SGButton borderButton = getFrameButton();
         sgMenu.setToolbarBuilder((slot, page, type, menu) -> {
             // Previous
             if (type == SGToolbarButtonType.PREV_BUTTON) {
                 if (menu.getCurrentPage() > 0) {
-                    return new SGButton(
-                            ItemStackFactory.create(Material.GRAY_WOOL)
-                                    .setTitle(
-                                            Component.text(
-                                                    "← Previous Page",
-                                                    NamedTextColor.GRAY,
-                                                    TextDecoration.BOLD
-                                            )
-                                    )
-                                    .build())
-                            .withListener((e) -> menu.previousPage(e.getWhoClicked()));
+                    return getPreviousButton(menu);
                 }
                 return borderButton;
             }
 
             // Current
-            if (type == SGToolbarButtonType.CURRENT_BUTTON && menu.getMaxPage() > 1) {
-                return new SGButton(
-                        ItemStackFactory.create(Material.NETHER_STAR)
-                                .setTitle(
-                                        Component.text(
-                                                String.format("Page %d of %d", menu.getCurrentPage() + 1, menu.getMaxPage()),
-                                                NamedTextColor.GRAY,
-                                                TextDecoration.BOLD
-                                        )
-                                )
-                                .build())
-                        .withListener(e -> e.setResult(Event.Result.DENY));
+            if (type == SGToolbarButtonType.CURRENT_BUTTON) {
+                final var customCenterButton = getCustomCenterButton(sgMenu);
+                if (customCenterButton != null) {
+                    return customCenterButton;
+                } else if (menu.getMaxPage() > 1) {
+                    return getCenterButton(menu);
+                }
             }
 
             // Next
             if (type == SGToolbarButtonType.NEXT_BUTTON) {
                 if (menu.getCurrentPage() + 1 < menu.getMaxPage()) {
-                    return new SGButton(
-                            ItemStackFactory.create(Material.GRAY_WOOL)
-                                    .setTitle(
-                                            Component.text(
-                                                    "Next Page →",
-                                                    NamedTextColor.GRAY,
-                                                    TextDecoration.BOLD
-                                            )
-                                    )
-                                    .build())
-                            .withListener((e) -> menu.nextPage(e.getWhoClicked()));
+                    return getNextButton(menu);
                 }
                 return borderButton;
             }
@@ -170,7 +191,7 @@ public abstract class UI {
         return Instant.now().isAfter(lastClickedInstant.plus(250, ChronoUnit.MILLIS));
     }
 
-    public void addButton(SGMenu menu, SGButton button, SGButtonListener sgButtonListener) {
+    public int addButton(SGMenu menu, SGButton button, SGButtonListener sgButtonListener) {
         button.withListener((e) -> {
             // Work around for this bug: https://github.com/SamJakob/SpiGUI/issues/32
             final int slot = e.getSlot();
@@ -181,7 +202,13 @@ public abstract class UI {
                 sgButtonListener.onClick(e);
             });
         });
-        menu.setButton(this.getNextEmptySlot(menu), button);
+        final var slot = this.getNextEmptySlot(menu);
+        menu.setButton(slot, button);
+        return slot;
+    }
+
+    public void playUIClickSound(Player p) {
+        Bukkit.getScheduler().runTask(plugin, () -> p.playSound(p, Sound.UI_BUTTON_CLICK, 0.5f, 1f));
     }
 
     public void playUISuccessSound(Player p) {
