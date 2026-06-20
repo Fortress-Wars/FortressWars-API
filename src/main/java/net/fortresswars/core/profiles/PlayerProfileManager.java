@@ -12,13 +12,14 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 public class PlayerProfileManager extends ProfileManager<PlayerProfile> {
+
     public PlayerProfileManager(JavaPlugin plugin) {
         super(plugin);
     }
 
     @Override
     public CompletableFuture<Void> loadProfile(UUID uuid) {
-        return CompletableFuture.supplyAsync(() -> {
+        return supplyAsync(() -> {
             final PlayerProfile profile = playerProfileServiceAPI.getPlayerProfile(uuid);
             profileStore.put(uuid, profile);
             return profile;
@@ -31,8 +32,8 @@ public class PlayerProfileManager extends ProfileManager<PlayerProfile> {
     }
 
     @Override
-    public CompletableFuture<Void> saveProfile(UUID uuid) {
-        return CompletableFuture.runAsync(() -> {
+    protected CompletableFuture<Void> saveProfile(UUID uuid) {
+        return runAsync(() -> {
             final PlayerProfile profile = profileStore.get(uuid);
             playerProfileServiceAPI.saveProfile(profile);
             Bukkit.getScheduler().runTask(plugin, () -> {
@@ -43,8 +44,8 @@ public class PlayerProfileManager extends ProfileManager<PlayerProfile> {
     }
 
     @Override
-    public CompletableFuture<Void> deleteProfile(UUID uuid) {
-        return CompletableFuture.runAsync(() -> {
+    protected CompletableFuture<Void> deleteProfile(UUID uuid) {
+        return runAsync(() -> {
             final PlayerProfile profile = profileStore.remove(uuid);
             final ProfileDeletedEvent profileDeletedEvent = new ProfileDeletedEvent(profile);
             Bukkit.getPluginManager().callEvent(profileDeletedEvent);
@@ -52,7 +53,7 @@ public class PlayerProfileManager extends ProfileManager<PlayerProfile> {
     }
 
     @EventHandler
-    public void onProfileLoadedEvent(ProfileLoadedEvent event) {
+    protected void onProfileLoadedEvent(ProfileLoadedEvent event) {
         final PlayerProfile profile = event.getProfile();
         final UUID uuid = profile.getUuid();
         final Player player = Bukkit.getPlayer(uuid);

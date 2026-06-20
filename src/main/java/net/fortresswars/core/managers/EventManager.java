@@ -18,7 +18,7 @@ public abstract class EventManager implements Enableable, Listener {
     public void enable() {
         if (isEnabled()) return;
         Bukkit.getPluginManager().registerEvents(this, plugin);
-        plugin.getLogger().info("Enabled " + this);
+        plugin.getLogger().info("Enabled " + this.getClass().getName());
         this.isEnabled = true;
     }
 
@@ -26,7 +26,7 @@ public abstract class EventManager implements Enableable, Listener {
     public void disable() {
         if (!isEnabled()) return;
         HandlerList.unregisterAll(this);
-        plugin.getLogger().info("Disabled " + this);
+        plugin.getLogger().info("Disabled " + this.getClass().getName());
         this.isEnabled = false;
     }
 

@@ -21,6 +21,11 @@ public class PlayerProfileServiceAPI extends HttpAPI {
         super(javaPlugin);
     }
 
+    private void validateResponseCode(HttpResponse<String> response) {
+        if (response.statusCode() < 400) return;
+        throw new RuntimeException("HTTP Error: Status code " + response.statusCode() + " with body: " + response.body());
+    }
+
     public PlayerProfile getPlayerProfile(UUID playerId) {
         try {
             final HttpClient client = getHttpClient();
@@ -58,10 +63,11 @@ public class PlayerProfileServiceAPI extends HttpAPI {
                     .header("x-api-key", apiKey)
                     .build();
             final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            this.validateResponseCode(response);
             return response.statusCode() == 201;
         } catch (Exception e) {
             final var message = "Failed to save player profile " + playerId + ": " + e.getMessage();
-            this.logger.warn(message);
+            this.logger.error(message);
             throw new RuntimeException(message, e);
         }
     }
@@ -80,6 +86,7 @@ public class PlayerProfileServiceAPI extends HttpAPI {
                     .header("x-api-key", apiKey)
                     .build();
             final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            this.validateResponseCode(response);
             return gson.fromJson(response.body(), Leaderboard.class);
         } catch (Exception e) {
            this.logger.warn("Failed to get leaderboard " + key + ": ", e);
@@ -101,6 +108,7 @@ public class PlayerProfileServiceAPI extends HttpAPI {
                     .header("x-api-key", apiKey)
                     .build();
             final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            this.validateResponseCode(response);
             return gson.fromJson(response.body(), ParkourProfile.class);
         } catch (Exception e) {
             this.logger.warn("Failed to get player parkour profile for " + playerId + ": " + e.getMessage());
@@ -122,9 +130,10 @@ public class PlayerProfileServiceAPI extends HttpAPI {
                     .header("x-api-key", apiKey)
                     .build();
             final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            this.validateResponseCode(response);
             return response.statusCode() == 201;
         } catch (Exception e) {
-            this.logger.warn("Failed to add parkour time for " + playerId + ": " + e.getMessage());
+            this.logger.error("Failed to add parkour time for " + playerId + ": " + e.getMessage());
         }
         return false;
     }
@@ -148,9 +157,10 @@ public class PlayerProfileServiceAPI extends HttpAPI {
                     .header("x-api-key", apiKey)
                     .build();
             final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            this.validateResponseCode(response);
             return response.statusCode() == 204;
         } catch (Exception e) {
-            this.logger.warn("Failed to delete parkour profile for " + playerId + ": " + e.getMessage());
+            this.logger.error("Failed to delete parkour profile for " + playerId + ": " + e.getMessage());
         }
         return false;
     }
@@ -172,10 +182,7 @@ public class PlayerProfileServiceAPI extends HttpAPI {
             if (response.statusCode() == 404) {
                 return null;
             }
-            if (response.statusCode() != 200) {
-                this.logger.warn("Failed to get parkour course record for " + courseID + ": HTTP " + response.statusCode());
-                return null;
-            }
+            this.validateResponseCode(response);
             return gson.fromJson(response.body(), ParkourServerRecord.class);
         } catch (Exception e) {
             final var message = "Failed to get parkour course record for " + courseID + ": " + e.getMessage();
@@ -198,6 +205,7 @@ public class PlayerProfileServiceAPI extends HttpAPI {
                     .build();
 
             final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            this.validateResponseCode(response);
             return gson.fromJson(response.body(), CosmeticsProfileRequest.class);
         } catch (Exception e) {
             final var message = "Failed to get cosmetic profile for " + playerId + ": " + e.getMessage();
@@ -221,11 +229,13 @@ public class PlayerProfileServiceAPI extends HttpAPI {
                     .header("x-api-key", apiKey)
                     .build();
             final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            this.validateResponseCode(response);
             return response.statusCode() == 201;
         } catch (Exception e) {
-            this.logger.warn("Failed to set equipped cosmetic for " + playerId + ": " + e.getMessage());
+            final var message = "Failed to save cosmetic profile for " + playerId + ": " + e.getMessage();
+            this.logger.error(message);
+            throw new RuntimeException(message, e);
         }
-        return false;
     }
 
     public boolean deleteEquippedCosmetic(UUID playerId, String cosmeticType) {
@@ -241,11 +251,13 @@ public class PlayerProfileServiceAPI extends HttpAPI {
                     .header("x-api-key", apiKey)
                     .build();
             final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            this.validateResponseCode(response);
             return response.statusCode() == 204;
         } catch (Exception e) {
-            this.logger.warn("Failed to delete equipped cosmetic for " + playerId + ": " + e.getMessage());
+            final var message = "Failed to delete equipped cosmetic for " + playerId + ": " + e.getMessage();
+            this.logger.error(message);
+            throw new RuntimeException(message, e);
         }
-        return false;
     }
 
     public boolean deleteAllEquippedCosmetics(UUID playerId) {
@@ -263,8 +275,9 @@ public class PlayerProfileServiceAPI extends HttpAPI {
             final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             return response.statusCode() == 204;
         } catch (Exception e) {
-            this.logger.warn("Failed to delete all equipped cosmetics for " + playerId + ": " + e.getMessage());
+            final var message = "Failed to delete cosmetic profile for " + playerId + ": " + e.getMessage();
+            this.logger.error(message);
+            throw new RuntimeException(message, e);
         }
-        return false;
     }
 }

@@ -65,6 +65,21 @@ public class Logger {
         e.printStackTrace();
     }
 
+    public void error(String msg, Exception e) {
+        error(msg);
+        error(e);
+    }
+
+    public void error(String msg) {
+        plugin.getLogger().severe("[ERROR]: " + msg);
+    }
+
+    public void error(Exception e) {
+        if (logLevel.value() < LogLevel.WARN.value()) return;
+        plugin.getLogger().warning("[ERROR]: " + e.getMessage());
+        e.printStackTrace();
+    }
+
     public String setLogLevel(String s) {
         switch (s.toLowerCase()) {
             case "silly" -> {
