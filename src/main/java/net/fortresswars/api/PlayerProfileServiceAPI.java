@@ -89,7 +89,7 @@ public class PlayerProfileServiceAPI extends HttpAPI {
             this.validateResponseCode(response);
             return gson.fromJson(response.body(), Leaderboard.class);
         } catch (Exception e) {
-           this.logger.warn("Failed to get leaderboard " + key + ": ", e);
+           this.logger.warn("Failed to get leaderboard " + key + ": " + e.getMessage());
         }
         // Empty Leaderboard
         return new Leaderboard(key, new Date(), new ArrayList<>());
