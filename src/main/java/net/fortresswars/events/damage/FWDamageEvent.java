@@ -1,10 +1,11 @@
-package net.fortresswars.events;
+package net.fortresswars.events.damage;
 
 import net.fortresswars.core.damage.DamageType;
 import net.fortresswars.core.damage.FWDamageCause;
 import net.fortresswars.core.damage.FWDamageModifier;
 import net.fortresswars.core.entities.FortressWarsEntity;
 import net.fortresswars.core.kits.abilities.shields.ShieldDamageType;
+import net.fortresswars.events.FortressWarsCancellableEvent;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.damage.DamageSource;

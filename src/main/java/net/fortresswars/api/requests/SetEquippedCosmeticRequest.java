@@ -1,4 +1,4 @@
-package net.fortresswars.core;
+package net.fortresswars.api.requests;
 
 public record SetEquippedCosmeticRequest(
         String cosmeticType,

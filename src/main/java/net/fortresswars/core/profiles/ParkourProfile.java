@@ -1,4 +1,4 @@
-package net.fortresswars.core;
+package net.fortresswars.core.profiles;
 
 import java.util.Date;
 import java.util.Map;

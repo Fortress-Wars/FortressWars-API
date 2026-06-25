@@ -1,7 +1,7 @@
 package net.fortresswars.core.entities;
 
 import net.fortresswars.core.damage.FWDamageCause;
-import net.fortresswars.events.FWDamageEvent;
+import net.fortresswars.events.damage.FWDamageEvent;
 
 public interface Attackable {
 

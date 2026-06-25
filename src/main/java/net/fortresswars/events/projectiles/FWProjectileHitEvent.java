@@ -1,6 +1,7 @@
-package net.fortresswars.events;
+package net.fortresswars.events.projectiles;
 
 import net.fortresswars.core.entities.FortressWarsEntity;
+import net.fortresswars.events.FortressWarsEvent;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.entity.ProjectileHitEvent;
 

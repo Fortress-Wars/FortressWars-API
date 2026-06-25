@@ -1,6 +1,7 @@
-package net.fortresswars.events;
+package net.fortresswars.events.entities;
 
 import net.fortresswars.core.entities.FortressWarsEntity;
+import net.fortresswars.events.FortressWarsCancellableEvent;
 import org.bukkit.entity.Entity;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;

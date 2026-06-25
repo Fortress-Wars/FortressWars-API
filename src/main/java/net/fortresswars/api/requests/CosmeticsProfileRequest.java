@@ -1,4 +1,4 @@
-package net.fortresswars.core;
+package net.fortresswars.api.requests;
 
 import java.util.Map;
 import java.util.UUID;

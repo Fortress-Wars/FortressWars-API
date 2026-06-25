@@ -1,4 +1,4 @@
-package net.fortresswars.core;
+package net.fortresswars.core.leaderboards;
 
 import java.util.Comparator;
 import java.util.Date;

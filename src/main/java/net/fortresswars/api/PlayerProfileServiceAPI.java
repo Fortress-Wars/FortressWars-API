@@ -1,8 +1,13 @@
 package net.fortresswars.api;
 
-import net.fortresswars.core.*;
+import net.fortresswars.api.requests.AddParkourTimeRequest;
+import net.fortresswars.api.requests.CosmeticsProfileRequest;
+import net.fortresswars.api.requests.DeleteParkourProfileRequest;
+import net.fortresswars.core.leaderboards.Leaderboard;
+import net.fortresswars.core.parkour.ParkourServerRecord;
+import net.fortresswars.core.profiles.ParkourProfile;
 import net.fortresswars.core.profiles.PlayerProfile;
-import net.fortresswars.core.profiles.ProfileGetRequest;
+import net.fortresswars.api.requests.ProfileGetRequest;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.net.URI;

@@ -1,6 +1,7 @@
-package net.fortresswars.events;
+package net.fortresswars.events.shields;
 
 import net.fortresswars.core.entities.FortressWarsEntity;
+import net.fortresswars.events.FortressWarsCancellableEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class FWShieldRegenerationEvent extends FortressWarsCancellableEvent {

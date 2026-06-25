@@ -1,4 +1,4 @@
-package net.fortresswars.core;
+package net.fortresswars.core.parkour;
 
 import java.util.Date;
 import java.util.UUID;

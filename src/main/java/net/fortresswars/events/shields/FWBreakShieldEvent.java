@@ -1,7 +1,8 @@
-package net.fortresswars.events;
+package net.fortresswars.events.shields;
 
 import net.fortresswars.core.damage.FWDamageCause;
 import net.fortresswars.core.entities.FortressWarsEntity;
+import net.fortresswars.events.FortressWarsEvent;
 
 public class FWBreakShieldEvent extends FortressWarsEvent {
 

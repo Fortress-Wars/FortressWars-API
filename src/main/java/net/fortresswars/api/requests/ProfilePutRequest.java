@@ -1,6 +1,6 @@
-package net.fortresswars.core.profiles;
+package net.fortresswars.api.requests;
 
-import net.fortresswars.core.Subscription;
+import net.fortresswars.core.profiles.Subscription;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;

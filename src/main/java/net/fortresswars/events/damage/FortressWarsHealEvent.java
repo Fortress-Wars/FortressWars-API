@@ -1,7 +1,8 @@
-package net.fortresswars.events;
+package net.fortresswars.events.damage;
 
 import net.fortresswars.core.entities.FortressWarsEntity;
 import net.fortresswars.core.player.FWHealingSource;
+import net.fortresswars.events.FortressWarsCancellableEvent;
 import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("unused")

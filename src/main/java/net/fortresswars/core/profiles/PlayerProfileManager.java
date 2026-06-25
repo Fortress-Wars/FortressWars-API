@@ -1,8 +1,8 @@
 package net.fortresswars.core.profiles;
 
-import net.fortresswars.events.ProfileDeletedEvent;
-import net.fortresswars.events.ProfileLoadedEvent;
-import net.fortresswars.events.ProfileSavedEvent;
+import net.fortresswars.events.profiles.PlayerProfileDeletedEvent;
+import net.fortresswars.events.profiles.PlayerProfileLoadedEvent;
+import net.fortresswars.events.profiles.PlayerProfileSavedEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -25,7 +25,7 @@ public class PlayerProfileManager extends ProfileManager<PlayerProfile> {
             return profile;
         }).thenAccept((profile) -> {
             Bukkit.getScheduler().runTask(plugin, () -> {
-                final ProfileLoadedEvent profileLoadedEvent = new ProfileLoadedEvent(profile);
+                final PlayerProfileLoadedEvent profileLoadedEvent = new PlayerProfileLoadedEvent(profile);
                 Bukkit.getPluginManager().callEvent(profileLoadedEvent);
             });
         });
@@ -37,7 +37,7 @@ public class PlayerProfileManager extends ProfileManager<PlayerProfile> {
             final PlayerProfile profile = profileStore.get(uuid);
             playerProfileServiceAPI.saveProfile(profile);
             Bukkit.getScheduler().runTask(plugin, () -> {
-                final ProfileSavedEvent profileSavedEvent = new ProfileSavedEvent(profile);
+                final PlayerProfileSavedEvent profileSavedEvent = new PlayerProfileSavedEvent(profile);
                 Bukkit.getPluginManager().callEvent(profileSavedEvent);
             });
         });
@@ -47,13 +47,13 @@ public class PlayerProfileManager extends ProfileManager<PlayerProfile> {
     protected CompletableFuture<Void> deleteProfile(UUID uuid) {
         return runAsync(() -> {
             final PlayerProfile profile = profileStore.remove(uuid);
-            final ProfileDeletedEvent profileDeletedEvent = new ProfileDeletedEvent(profile);
+            final PlayerProfileDeletedEvent profileDeletedEvent = new PlayerProfileDeletedEvent(profile);
             Bukkit.getPluginManager().callEvent(profileDeletedEvent);
         });
     }
 
     @EventHandler
-    protected void onProfileLoadedEvent(ProfileLoadedEvent event) {
+    protected void onProfileLoadedEvent(PlayerProfileLoadedEvent event) {
         final PlayerProfile profile = event.getProfile();
         final UUID uuid = profile.getUuid();
         final Player player = Bukkit.getPlayer(uuid);

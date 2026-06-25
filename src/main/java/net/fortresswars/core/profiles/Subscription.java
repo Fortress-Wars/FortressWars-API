@@ -1,4 +1,4 @@
-package net.fortresswars.core;
+package net.fortresswars.core.profiles;
 
 import java.time.Duration;
 import java.util.Calendar;

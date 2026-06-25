@@ -1,6 +1,7 @@
 package net.fortresswars.core.profiles;
 
-import net.fortresswars.core.Subscription;
+import net.fortresswars.api.requests.ProfileGetRequest;
+import net.fortresswars.api.requests.ProfilePutRequest;
 
 import javax.annotation.Nullable;
 import java.util.Map;
@@ -19,12 +20,12 @@ public class PlayerProfile {
     private final Map<String, String>  preferences;
 
     public PlayerProfile(ProfileGetRequest profileGetRequest) {
-        this.uuid = profileGetRequest.uuid;
-        this.username = new AtomicReference<>(profileGetRequest.username);
-        this.rank = new AtomicReference<>(profileGetRequest.rank);
-        this.credits = new AtomicInteger(profileGetRequest.credits);
-        this.subscriptions = new ConcurrentHashMap<>(profileGetRequest.subscriptions);
-        this.preferences = new ConcurrentHashMap<>(profileGetRequest.preferences);
+        this.uuid = profileGetRequest.uuid();
+        this.username = new AtomicReference<>(profileGetRequest.username());
+        this.rank = new AtomicReference<>(profileGetRequest.rank());
+        this.credits = new AtomicInteger(profileGetRequest.credits());
+        this.subscriptions = new ConcurrentHashMap<>(profileGetRequest.subscriptions());
+        this.preferences = new ConcurrentHashMap<>(profileGetRequest.preferences());
     }
 
     public ProfilePutRequest toUpdateRequest() {
