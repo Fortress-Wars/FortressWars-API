@@ -100,8 +100,24 @@ public class PlayerProfile {
         return subscriptions.get(subscriptionType);
     }
 
+    /**
+     * Get if a player has a subscription. This method returns both active and inactive subscriptions.
+     * @param subscriptionType the subscription type.
+     * @return true if the player has the subscription, false if they do not.
+     */
     public boolean hasSubscription(String subscriptionType) {
         return subscriptions.containsKey(subscriptionType);
+    }
+
+    /**
+     * Get if a subscription is active.
+     * @param subscriptionType the subscription type.
+     * @return true if the subscription is active, false if it is not.
+     */
+    public boolean isSubscriptionActive(String subscriptionType) {
+        final var subscription = this.subscriptions.get(subscriptionType);
+        if (subscription == null) return false;
+        return subscription.isActive();
     }
 
     public void deleteSubscription(String subscriptionType) {
