@@ -14,10 +14,34 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Random;
 
 public enum TeamColor {
-    RED("Red", Color.fromRGB(153, 0, 0), ChatColor.RED, BarColor.RED, true),
-    BLUE("Blue", Color.fromRGB(0, 0, 153), ChatColor.BLUE, BarColor.BLUE, true),
-    RANDOM("Random", Color.PURPLE, ChatColor.DARK_PURPLE, BarColor.PURPLE, false),
-    NONE("None", Color.WHITE, ChatColor.WHITE, BarColor.WHITE, false);
+    RED(
+            "Red",
+            Color.fromRGB(153, 0, 0),
+            ChatColor.RED,
+            BarColor.RED,
+            true
+    ),
+    BLUE(
+            "Blue",
+            Color.fromRGB(0, 0, 153),
+            ChatColor.BLUE,
+            BarColor.BLUE,
+            true
+    ),
+    RANDOM(
+            "Random",
+            Color.PURPLE,
+            ChatColor.DARK_PURPLE,
+            BarColor.PURPLE,
+            false
+    ),
+    NONE(
+            "None",
+            Color.WHITE,
+            ChatColor.WHITE,
+            BarColor.WHITE,
+            false
+    );
 
     private final String friendlyName;
     private final Color color;

@@ -6,11 +6,11 @@ import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 
-public class PersistentDataProperty {
+public class PersistentDataValue {
 
     private Object value;
 
-    public PersistentDataProperty(Object value) {
+    public PersistentDataValue(Object value) {
         this.value = value;
     }
 
@@ -50,23 +50,34 @@ public class PersistentDataProperty {
     }
 
     /**
-     * Cast as an int
-     * @return value as an integer
+     * Cast as a byte
+     * @return value as a byte
      */
-    public int asInt() {
+    public byte asByte() {
         if (value instanceof Number number) {
-            return number.intValue();
+            return number.byteValue();
         }
         return 0;
     }
 
     /**
-     * Cast as a double
-     * @return value - double
+     * Cast as a short
+     * @return value as a short
      */
-    public double asDouble() {
+    public short asShort() {
         if (value instanceof Number number) {
-            return number.doubleValue();
+            return number.shortValue();
+        }
+        return 0;
+    }
+
+    /**
+     * Cast as an integer
+     * @return value as an integer
+     */
+    public int asInt() {
+        if (value instanceof Number number) {
+            return number.intValue();
         }
         return 0;
     }
@@ -89,6 +100,17 @@ public class PersistentDataProperty {
     public float asFloat() {
         if (value instanceof Number number) {
             return number.floatValue();
+        }
+        return 0;
+    }
+
+    /**
+     * Cast as a double
+     * @return value - double
+     */
+    public double asDouble() {
+        if (value instanceof Number number) {
+            return number.doubleValue();
         }
         return 0;
     }
@@ -150,5 +172,4 @@ public class PersistentDataProperty {
     public Date asDate() {
         return new Date(asLong());
     }
-
 }

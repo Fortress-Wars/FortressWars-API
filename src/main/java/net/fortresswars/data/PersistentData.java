@@ -1,17 +1,12 @@
 package net.fortresswars.data;
 
-import net.fortresswars.FortressWarsAPI;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataHolder;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class PersistentData {
 
@@ -22,26 +17,25 @@ public class PersistentData {
     }
 
     public static PersistentData fromFileConfiguration(ConfigurationSection configurationSection, PersistentData defaultConfig) {
-        final PersistentData persistentData = new PersistentData();
-        for (PersistentDataKey propertyKey : defaultConfig.properties.keySet()) {
+        final var persistentData = new PersistentData();
+        for (final var propertyKey : defaultConfig.properties.keySet()) {
             if (configurationSection != null) {
-                final Object propertyValue = configurationSection.get(propertyKey.getName().toLowerCase());
+                final var propertyValue = configurationSection.get(propertyKey.name());
                 if (propertyValue != null) {
                     persistentData.set(propertyKey, propertyValue);
                     continue;
                 }
             }
-
             persistentData.set(propertyKey, defaultConfig.properties.getOrDefault(propertyKey, null));
         }
         return persistentData;
     }
 
-    public static PersistentData fromHolder(PersistentDataHolder holder, Set<PersistentDataKey> properties, @Nullable NamespacedKey parentKey) {
-        final PersistentData persistentData = new PersistentData();
-        for (PersistentDataKey propertyKey : properties) {
-            final NamespacedKey key = getCombinedPropertyKey(parentKey, propertyKey);
-            final Object propertyValue = getPersistentData(holder, key, propertyKey.getPersistentDataType());
+    public static PersistentData fromHolder(PersistentDataHolder holder, Set<PersistentDataKey> propertyKeys, @Nullable NamespacedKey parentKey) {
+        final var persistentData = new PersistentData();
+        for (var propertyKey : propertyKeys) {
+            final var namespacedKey = propertyKey.getNamespacedKey(parentKey);
+            final var propertyValue = getPersistentData(holder, namespacedKey, propertyKey.type());
             if (propertyValue != null) {
                 persistentData.set(propertyKey, propertyValue);
             }
@@ -50,10 +44,10 @@ public class PersistentData {
     }
 
     public static PersistentData fromHolder(PersistentDataHolder holder, PersistentData defaultData, @Nullable NamespacedKey parentKey) {
-        final PersistentData persistentData = new PersistentData();
-        for (PersistentDataKey propertyKey : defaultData.properties.keySet()) {
-            final NamespacedKey key = getCombinedPropertyKey(parentKey, propertyKey);
-            final Object propertyValue = getPersistentData(holder, key, propertyKey.getPersistentDataType());
+        final var persistentData = new PersistentData();
+        for (final var propertyKey : defaultData.properties.keySet()) {
+            final var namespacedKey = propertyKey.getNamespacedKey(parentKey);
+            final var propertyValue = getPersistentData(holder, namespacedKey, propertyKey.type());
             if (propertyValue != null) {
                 persistentData.set(propertyKey, propertyValue);
             } else {
@@ -65,33 +59,26 @@ public class PersistentData {
 
     public static void removeData(PersistentDataHolder holder, Set<PersistentDataKey> properties, @Nullable NamespacedKey parentKey) {
         if (holder == null) return;
-        for (PersistentDataKey propertyKey : properties) {
-            final NamespacedKey key = getCombinedPropertyKey(parentKey, propertyKey);
-            holder.getPersistentDataContainer().remove(key);
+        for (final var propertyKey : properties) {
+            final var namespacedKey = propertyKey.getNamespacedKey(parentKey);
+            holder.getPersistentDataContainer().remove(namespacedKey);
         }
     }
 
-    public static NamespacedKey getCombinedPropertyKey(@Nullable NamespacedKey parentKey, PersistentDataKey property) {
-        if (parentKey == null) {
-            return new NamespacedKey(FortressWarsAPI.NAMESPACE, property.name().toLowerCase());
-        }
-        return new NamespacedKey(parentKey.getNamespace(), parentKey.getKey() + "." + property.name().toLowerCase());
-    }
-
-    public static PersistentDataProperty getProperty(PersistentDataHolder holder, PersistentDataKey property) {
+    public static PersistentDataValue getProperty(PersistentDataHolder holder, PersistentDataKey property) {
         return getProperty(holder, property, null);
     }
 
-    public static PersistentDataProperty getProperty(PersistentDataHolder holder, PersistentDataKey property, NamespacedKey parentKey) {
-        final NamespacedKey key = getCombinedPropertyKey(parentKey, property);
-        final Object value = getPersistentData(holder, key, property.getPersistentDataType());
-        return new PersistentDataProperty(value);
+    public static PersistentDataValue getProperty(PersistentDataHolder holder, PersistentDataKey propertyKey, NamespacedKey parentKey) {
+        final var namespacedKey = propertyKey.getNamespacedKey(parentKey);
+        final var value = getPersistentData(holder, namespacedKey, propertyKey.type());
+        return new PersistentDataValue(value);
     }
 
     private static Object getPersistentData(PersistentDataHolder holder, NamespacedKey key, PersistentDataType<?, ?> persistentDataType) {
         if (holder == null) return null;
         if (key == null) return null;
-        final PersistentDataContainer pdc = holder.getPersistentDataContainer();
+        final var pdc = holder.getPersistentDataContainer();
         return pdc.get(key, persistentDataType);
     }
 
@@ -104,16 +91,16 @@ public class PersistentData {
      * @return a new set of keys.
      */
     public Set<PersistentDataKey> getKeys() {
-        return new HashSet<>(properties.keySet());
+        return Collections.unmodifiableSet(properties.keySet());
     }
 
     /**
      * Set a property to this container
-     * @param property property key
-     * @param value - double
+     * @param key the key of the property
+     * @param value the value of the property
      */
-    public PersistentData set(PersistentDataKey property, Object value) {
-        properties.put(property, value);
+    public PersistentData set(PersistentDataKey key, Object value) {
+        properties.put(key, value);
         return this;
     }
 
@@ -132,42 +119,47 @@ public class PersistentData {
      * @param property property to request
      * @return value - object
      */
-    public PersistentDataProperty get(PersistentDataKey property) {
-        final Object value = this.properties.getOrDefault(property, null);
-        return new PersistentDataProperty(value);
+    public PersistentDataValue get(PersistentDataKey property) {
+        final var value = this.properties.getOrDefault(property, null);
+        return new PersistentDataValue(value);
     }
 
     public void applyTo(PersistentDataHolder holder, NamespacedKey parentKey) {
-        for (PersistentDataKey propertyKey : properties.keySet()) {
+        for (final var propertyKey : properties.keySet()) {
             setProperty(holder, propertyKey, get(propertyKey), parentKey);
         }
     }
 
     public static void setProperty(PersistentDataHolder holder, PersistentDataKey key, Object value, NamespacedKey parentKey) {
-        setProperty(holder, key, new PersistentDataProperty(value), parentKey);
+        setProperty(holder, key, new PersistentDataValue(value), parentKey);
     }
 
-    public static void setProperty(PersistentDataHolder holder, PersistentDataKey property, PersistentDataProperty value, NamespacedKey parentKey) {
-        final PersistentDataType<?, ?> persistentDataType = property.getPersistentDataType();
-        final NamespacedKey key = getCombinedPropertyKey(parentKey, property);
-        if (persistentDataType == PersistentDataType.INTEGER) {
-            setPersistentData(holder, value.asInt(), PersistentDataType.INTEGER, key);
-        } else if (persistentDataType == PersistentDataType.BOOLEAN) {
-            setPersistentData(holder, value.asBoolean(), PersistentDataType.BOOLEAN, key);
-        } else if (persistentDataType == PersistentDataType.DOUBLE) {
-            setPersistentData(holder, value.asDouble(), PersistentDataType.DOUBLE, key);
-        } else if (persistentDataType == PersistentDataType.FLOAT) {
-            setPersistentData(holder, value.asFloat(), PersistentDataType.FLOAT, key);
-        } else if (persistentDataType == PersistentDataType.LONG) {
-            setPersistentData(holder, value.asLong(), PersistentDataType.LONG, key);
+    public static void setProperty(PersistentDataHolder holder, PersistentDataKey propertyKey, PersistentDataValue value, NamespacedKey parentKey) {
+        final var namespacedKey = propertyKey.getNamespacedKey(parentKey);
+        final var propertyDataType = propertyKey.type();
+
+        if (propertyDataType == PersistentDataType.BYTE) {
+            setPersistentData(holder, value.asByte(), PersistentDataType.BYTE, namespacedKey);
+        } else if (propertyDataType == PersistentDataType.SHORT) {
+            setPersistentData(holder, value.asShort(), PersistentDataType.SHORT, namespacedKey);
+        } else if (propertyDataType == PersistentDataType.INTEGER) {
+            setPersistentData(holder, value.asInt(), PersistentDataType.INTEGER, namespacedKey);
+        } else if (propertyDataType == PersistentDataType.LONG) {
+            setPersistentData(holder, value.asLong(), PersistentDataType.LONG, namespacedKey);
+        } else if (propertyDataType == PersistentDataType.DOUBLE) {
+            setPersistentData(holder, value.asDouble(), PersistentDataType.DOUBLE, namespacedKey);
+        } else if (propertyDataType == PersistentDataType.FLOAT) {
+            setPersistentData(holder, value.asFloat(), PersistentDataType.FLOAT, namespacedKey);
+        } else if (propertyDataType == PersistentDataType.BOOLEAN) {
+            setPersistentData(holder, value.asBoolean(), PersistentDataType.BOOLEAN, namespacedKey);
         } else {
-            setPersistentData(holder, value.asString(), PersistentDataType.STRING, key);
+            setPersistentData(holder, value.asString(), PersistentDataType.STRING, namespacedKey);
         }
     }
 
     private static <P, C> void setPersistentData(PersistentDataHolder holder, C value, PersistentDataType<P, C> persistentDataType, NamespacedKey key) {
         if (value == null) return;
-        final PersistentDataContainer pdc = holder.getPersistentDataContainer();
+        final var pdc = holder.getPersistentDataContainer();
         pdc.set(key, persistentDataType, value);
     }
 }
