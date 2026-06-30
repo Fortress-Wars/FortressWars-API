@@ -105,6 +105,18 @@ public class PersistentData {
     }
 
     /**
+     * Set a property to this container.
+     * @param name the name of the property key
+     * @param type the type of the property key
+     * @param value the value of the property
+     */
+    public PersistentData set(String name, PersistentDataType<?, ?> type, Object value) {
+        final var key = PersistentDataKey.of(name, type);
+        properties.put(key, value);
+        return this;
+    }
+
+    /**
      * Check if the config has a property set.
      * @param property property key
      * @return true if the property exists and is not null, false otherwise.

@@ -5,13 +5,12 @@ import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.metadata.MetadataValue;
 import org.bukkit.util.BoundingBox;
 
 public class EntityHelper {
 
     public static boolean isVanished(Player player) {
-        for (MetadataValue meta : player.getMetadata("vanished")) {
+        for (final var meta : player.getMetadata("vanished")) {
             if (meta.asBoolean()) return true;
         }
         return false;
