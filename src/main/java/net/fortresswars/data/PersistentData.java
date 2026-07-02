@@ -65,6 +65,14 @@ public class PersistentData {
         }
     }
 
+    public static PersistentDataValue getProperty(PersistentDataHolder holder, String name, PersistentDataType<?,?> type) {
+        return getProperty(holder, new PersistentDataKey(name, type), null);
+    }
+
+    public static PersistentDataValue getProperty(PersistentDataHolder holder, String name, PersistentDataType<?,?> type, NamespacedKey parentKey) {
+        return getProperty(holder, new PersistentDataKey(name, type), parentKey);
+    }
+
     public static PersistentDataValue getProperty(PersistentDataHolder holder, PersistentDataKey property) {
         return getProperty(holder, property, null);
     }
