@@ -5,6 +5,7 @@ import io.papermc.paper.datacomponent.DataComponentType;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.Consumable;
 import net.fortresswars.FortressWarsAPI;
+import net.fortresswars.data.PersistentData;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.Style;
@@ -27,8 +28,10 @@ import org.bukkit.inventory.meta.trim.TrimPattern;
 import org.bukkit.map.MinecraftFont;
 import org.bukkit.potion.PotionEffect;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 public class ItemStackFactory {
 
@@ -62,6 +65,7 @@ public class ItemStackFactory {
     
     private ItemStack item;
     private ItemMeta itemMeta;
+    private PersistentData persistentData;
     private final BlockState blockState;
     private final Map<DataComponentType.Valued<Object>, Object> dataComponentMap;
 
@@ -257,6 +261,19 @@ public class ItemStackFactory {
     }
     public ItemStackFactory setUnbreakable() {
         itemMeta.setUnbreakable(true);
+        return this;
+    }
+
+    public ItemStackFactory withPersistentData(Consumer<PersistentData> persistentDataConsumer) {
+        persistentData = new PersistentData();
+        persistentDataConsumer.accept(persistentData);
+        return this;
+    }
+
+    public ItemStackFactory applyPersistentData(@Nullable NamespacedKey namespacedKey) {
+        if (persistentData != null) {
+            persistentData.applyTo(itemMeta, namespacedKey);
+        }
         return this;
     }
 
