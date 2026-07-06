@@ -50,16 +50,16 @@ public abstract class ItemHandler extends EventManager {
     }
 
     public void giveCooldown(Player player, ItemStack item) {
-        final var cooldown = getCooldown(player, item);
         final var uuid = PersistentData.getProperty(item.getItemMeta(), PersistentDataKey.UUID).asUUID();
         if (uuid == null) return;
 
         final var key = new NamespacedKey(plugin, this.key + "." + uuid);
-        player.setCooldown(key, cooldown);
-    }
 
-    protected int getCooldown(Player player, ItemStack item) {
-        return (int) (PersistentData.getProperty(item.getItemMeta(), PersistentDataKey.COOLDOWN).asDouble() * 20);
+        final var itemMeta = item.getItemMeta();
+        final var useCooldown = itemMeta.getUseCooldown();
+        final var cooldownSeconds = useCooldown.getCooldownSeconds();
+        final var cooldownTicks =  (int) cooldownSeconds * 20;
+        player.setCooldown(key, cooldownTicks);
     }
 
     protected abstract void onRightClick(PlayerInteractEvent e);
