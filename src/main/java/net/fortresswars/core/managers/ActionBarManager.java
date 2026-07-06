@@ -7,7 +7,6 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.persistence.PersistentDataType;
 
 import javax.annotation.Nullable;
 import java.util.Date;
@@ -17,8 +16,6 @@ public class ActionBarManager {
 
     private final static long ACTION_BAR_COOLDOWN_MS = 1500;
     private final static NamespacedKey ACTION_BAR_KEY = new NamespacedKey(FortressWarsAPI.NAMESPACE, "action_bar_cooldown");
-    private final static PersistentDataKey TIME_PROPERTY = PersistentDataKey.of(PersistentDataKey.TIME, PersistentDataType.LONG);
-    private final static PersistentDataKey WEIGHT_PROPERTY = PersistentDataKey.of(PersistentDataKey.WEIGHT, PersistentDataType.INTEGER);
 
     public enum MessageType {
         ALERT(0),
@@ -45,16 +42,16 @@ public class ActionBarManager {
 
         final PersistentData previousData = PersistentData.fromHolder(
                 player,
-                Set.of(TIME_PROPERTY, WEIGHT_PROPERTY),
+                Set.of(PersistentDataKey.TIME, PersistentDataKey.WEIGHT),
                 ACTION_BAR_KEY
         );
 
         // Message Weight
-        final int previousWeight = previousData.get(WEIGHT_PROPERTY).asInt();
+        final int previousWeight = previousData.get(PersistentDataKey.WEIGHT).asInt();
         final int currentWeight = msgType.weight;
 
         // Message Cooldown
-        final long previousTime = previousData.get(TIME_PROPERTY).asLong();
+        final long previousTime = previousData.get(PersistentDataKey.TIME).asLong();
         final long currentTime = new Date().getTime();
         final long elapsedTime = currentTime - previousTime;
         final boolean hasCooldown = ACTION_BAR_COOLDOWN_MS - elapsedTime > 0;
@@ -63,8 +60,8 @@ public class ActionBarManager {
         if (currentWeight < previousWeight && hasCooldown) return;
 
         // Set new data
-        PersistentData.setProperty(player, TIME_PROPERTY, currentTime, ACTION_BAR_KEY);
-        PersistentData.setProperty(player, WEIGHT_PROPERTY, currentWeight, ACTION_BAR_KEY);
+        PersistentData.setProperty(player, PersistentDataKey.TIME, currentTime, ACTION_BAR_KEY);
+        PersistentData.setProperty(player, PersistentDataKey.WEIGHT, currentWeight, ACTION_BAR_KEY);
 
         entity.sendActionBar(message);
     }

@@ -9,7 +9,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public abstract class ItemHandler extends EventManager {
@@ -28,7 +27,7 @@ public abstract class ItemHandler extends EventManager {
     }
 
     public boolean isHandlerItem(ItemStack item) {
-        final var maybeId = PersistentData.getProperty(item.getItemMeta(), PersistentDataKey.ID, PersistentDataType.STRING).asString();
+        final var maybeId = PersistentData.getProperty(item.getItemMeta(), PersistentDataKey.ID).asString();
         return this.id.equals(maybeId);
     }
 
@@ -52,7 +51,7 @@ public abstract class ItemHandler extends EventManager {
 
     public void giveCooldown(Player player, ItemStack item) {
         final var cooldown = getCooldown(player, item);
-        final var uuid = PersistentData.getProperty(item.getItemMeta(), PersistentDataKey.UUID, PersistentDataType.STRING).asUUID();
+        final var uuid = PersistentData.getProperty(item.getItemMeta(), PersistentDataKey.UUID).asUUID();
         if (uuid == null) return;
 
         final var key = new NamespacedKey(plugin, this.key + "." + uuid);
@@ -60,7 +59,7 @@ public abstract class ItemHandler extends EventManager {
     }
 
     protected int getCooldown(Player player, ItemStack item) {
-        return PersistentData.getProperty(item.getItemMeta(), PersistentDataKey.COOLDOWN, PersistentDataType.INTEGER).asInt();
+        return (int) (PersistentData.getProperty(item.getItemMeta(), PersistentDataKey.COOLDOWN).asDouble() * 20);
     }
 
     protected abstract void onRightClick(PlayerInteractEvent e);

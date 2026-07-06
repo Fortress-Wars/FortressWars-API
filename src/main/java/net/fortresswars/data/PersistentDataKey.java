@@ -5,7 +5,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.Nullable;
 
-public record PersistentDataKey(
+public record PersistentDataKey (
         String name,
         PersistentDataType<?,?> type
 ) {
@@ -27,47 +27,49 @@ public record PersistentDataKey(
     }
 
     // ids
-    public static String ID = "id";
-    public static String UUID = "uuid";
-    public static String OWNER = "owner";
-    public static String PARENT = "parent";
-    public static String CHILD = "child";
+    public static PersistentDataKey ID = new PersistentDataKey("id", PersistentDataType.STRING);
+    public static PersistentDataKey UUID = new PersistentDataKey("uuid", PersistentDataType.STRING);
+    public static PersistentDataKey OWNER = new PersistentDataKey("owner", PersistentDataType.STRING);
+    public static PersistentDataKey PARENT = new PersistentDataKey("parent", PersistentDataType.STRING);
+    public static PersistentDataKey CHILD = new PersistentDataKey("child", PersistentDataType.STRING);
 
     // Time
-    public static String TIME = "time";
-    public static String COOLDOWN = "cooldown";
-    public static String DURATION = "duration";
-    public static String DURATION_2 = "duration_2";
-    public static String START_DURATION = "start_duration";
-    public static String REMAINING_DURATION = "remaining_duration";
+    public static PersistentDataKey TIME = new PersistentDataKey("time", PersistentDataType.LONG);
+    public static PersistentDataKey COOLDOWN = new PersistentDataKey("cooldown", PersistentDataType.INTEGER);
+    public static PersistentDataKey DURATION = new PersistentDataKey("duration", PersistentDataType.INTEGER);
+    public static PersistentDataKey DURATION_2 = new PersistentDataKey("duration_2", PersistentDataType.INTEGER);
+    public static PersistentDataKey START_DURATION = new PersistentDataKey("start_duration", PersistentDataType.INTEGER);
+    public static PersistentDataKey REMAINING_DURATION = new PersistentDataKey("remaining_duration", PersistentDataType.INTEGER);
 
     // Attributes
-    public static String WEIGHT = "weight";
-    public static String DAMAGE = "damage";
-    public static String SPEED = "speed";
-    public static String RADIUS = "radius";
-    public static String REACH = "reach";
-    public static String RANGE = "range";
-    public static String IGNORE_NO_DAMAGE_TICKS = "ignore_no_damage_ticks";
-    public static String THRESHOLD = "threshold";
-    public static String NUTRITION = "nutrition";
-    public static String CAN_ALWAYS_EAT = "can_always_eat";
-    public static String COST = "cost";
-    public static String AMOUNT = "amount";
+    public static PersistentDataKey WEIGHT = new PersistentDataKey("weight", PersistentDataType.INTEGER);
+    public static PersistentDataKey DAMAGE = new PersistentDataKey("damage", PersistentDataType.DOUBLE);
+    public static PersistentDataKey MELEE_DAMAGE = new PersistentDataKey("melee_damage", PersistentDataType.DOUBLE);
+    public static PersistentDataKey SPEED = new PersistentDataKey("speed", PersistentDataType.DOUBLE);
+    public static PersistentDataKey MELEE_SPEED = new PersistentDataKey("melee_speed", PersistentDataType.DOUBLE);
+    public static PersistentDataKey RADIUS = new PersistentDataKey("radius", PersistentDataType.DOUBLE);
+    public static PersistentDataKey REACH = new PersistentDataKey("reach", PersistentDataType.DOUBLE);
+    public static PersistentDataKey RANGE = new PersistentDataKey("range", PersistentDataType.DOUBLE);
+    public static PersistentDataKey IGNORE_NO_DAMAGE_TICKS = new PersistentDataKey("ignore_no_damage_ticks", PersistentDataType.BOOLEAN);
+    public static PersistentDataKey THRESHOLD = new PersistentDataKey("threshold", PersistentDataType.DOUBLE);
+    public static PersistentDataKey NUTRITION = new PersistentDataKey("nutrition", PersistentDataType.DOUBLE);
+    public static PersistentDataKey CAN_ALWAYS_EAT = new PersistentDataKey("can_always_eat", PersistentDataType.BOOLEAN);
+    public static PersistentDataKey COST = new PersistentDataKey("cost", PersistentDataType.DOUBLE);
+    public static PersistentDataKey AMOUNT = new PersistentDataKey("amount", PersistentDataType.INTEGER);
 
     // State
-    public static String STATUS = "status";
-    public static String IS_ON_GROUND = "is_on_ground";
+    public static PersistentDataKey STATUS = new PersistentDataKey("status", PersistentDataType.STRING);
+    public static PersistentDataKey IS_ON_GROUND = new PersistentDataKey("is_on_ground", PersistentDataType.BOOLEAN);
 
     // Cosmetics
-    public static String DISABLE_COSMETICS = "disable_cosmetics";
+    public static PersistentDataKey DISABLE_COSMETICS = new PersistentDataKey("disable_cosmetics", PersistentDataType.BOOLEAN);
 
     // Space
-    public static String X = "x";
-    public static String Z = "z";
-    public static String Y = "y";
-    public static String HEIGHT = "height";
-    public static String LENGTH = "length";
-    public static String WIDTH = "width";
-    public static String DEPTH = "depth";
+    public static PersistentDataKey X = new PersistentDataKey("x", PersistentDataType.DOUBLE);
+    public static PersistentDataKey Z = new PersistentDataKey("z", PersistentDataType.DOUBLE);
+    public static PersistentDataKey Y = new PersistentDataKey("y", PersistentDataType.DOUBLE);
+    public static PersistentDataKey HEIGHT = new PersistentDataKey("height", PersistentDataType.DOUBLE);
+    public static PersistentDataKey LENGTH = new PersistentDataKey("length", PersistentDataType.DOUBLE);
+    public static PersistentDataKey WIDTH = new PersistentDataKey("width", PersistentDataType.DOUBLE);
+    public static PersistentDataKey DEPTH = new PersistentDataKey("depth", PersistentDataType.DOUBLE);
 }
