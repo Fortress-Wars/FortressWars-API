@@ -58,7 +58,7 @@ public abstract class ItemHandler extends EventManager {
         final var itemMeta = item.getItemMeta();
         final var useCooldown = itemMeta.getUseCooldown();
         final var cooldownSeconds = useCooldown.getCooldownSeconds();
-        final var cooldownTicks =  (int) cooldownSeconds * 20;
+        final var cooldownTicks =  (int) (cooldownSeconds * 20);
         player.setCooldown(key, cooldownTicks);
     }
 
