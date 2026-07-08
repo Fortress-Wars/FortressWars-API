@@ -6,6 +6,7 @@ import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.Consumable;
 import net.fortresswars.FortressWarsAPI;
 import net.fortresswars.data.PersistentData;
+import net.fortresswars.data.PersistentDataKey;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.Style;
@@ -273,6 +274,13 @@ public class ItemStackFactory {
     public ItemStackFactory applyPersistentData(@Nullable NamespacedKey namespacedKey) {
         if (persistentData != null) {
             persistentData.applyTo(itemMeta, namespacedKey);
+        }
+        return this;
+    }
+
+    public ItemStackFactory removePersistentData(Set<PersistentDataKey> persistentDataSet, NamespacedKey namespacedKey) {
+        if (persistentDataSet != null) {
+            PersistentData.removeData(itemMeta, persistentDataSet, namespacedKey);
         }
         return this;
     }
