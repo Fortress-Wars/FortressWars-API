@@ -8,6 +8,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.function.IntConsumer;
+import java.util.function.Predicate;
 
 public abstract class PauseableTask implements Runnable, Pauseable<PauseableTask> {
 
@@ -29,6 +31,31 @@ public abstract class PauseableTask implements Runnable, Pauseable<PauseableTask
         RUN_ASYNC,
         RUN_LATER_ASYNC,
         RUN_TIMER_ASYNC,
+    }
+
+    public static PauseableTask createConditionalTask(Predicate<Boolean> checkFunction, IntConsumer onProcess, IntConsumer onEnd, int maxRuns) {
+        return new PauseableTask() {
+            private int currentRuns = 0;
+
+            @Override
+            public void run() {
+                try {
+                    if (checkFunction.test(false)) {
+                        this.cancel();
+                        onEnd.accept(currentRuns);
+                        return;
+                    }
+                    if (currentRuns >= maxRuns) {
+                        currentRuns = 0;
+                    }
+                    onProcess.accept(currentRuns);
+                    currentRuns++;
+                } catch (Exception e) {
+                    this.cancel();
+                    onEnd.accept(currentRuns);
+                }
+            }
+        };
     }
 
     public static @NotNull PauseableTask createTask(Runnable runnable) {

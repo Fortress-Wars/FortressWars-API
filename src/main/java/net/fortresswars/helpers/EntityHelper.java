@@ -6,6 +6,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.BoundingBox;
+import org.jetbrains.annotations.NotNull;
 
 public class EntityHelper {
 
@@ -40,5 +41,15 @@ public class EntityHelper {
         final double centerX = boundingBox.getCenterX();
         final double centerZ = boundingBox.getCenterZ();
         return new Location(world, centerX, y, centerZ, location.getYaw(), location.getPitch());
+    }
+
+    /**
+     * Get an entities volume. This returns the volume of the entity's bounding box
+     * @param entity the entity
+     * @return the volume in m^3
+     */
+    public static double getEntityVolume(@NotNull Entity entity) {
+        final BoundingBox boundingBox = entity.getBoundingBox();
+        return boundingBox.getHeight() * boundingBox.getWidthX() * boundingBox.getWidthZ();
     }
 }

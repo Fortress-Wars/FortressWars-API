@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -27,6 +28,7 @@ public abstract class ItemHandler extends EventManager {
     }
 
     public boolean isHandlerItem(ItemStack item) {
+        if (item == null) return false;
         final var maybeId = PersistentData.getProperty(item.getItemMeta(), PersistentDataKey.ID).asString();
         return this.id.equals(maybeId);
     }
@@ -36,16 +38,36 @@ public abstract class ItemHandler extends EventManager {
         final Player player = e.getPlayer();
         final ItemStack item = e.getItem();
         if (item == null) return;
-        if (player.hasCooldown(item)) return;
+        if (player.hasCooldown(item)) {
+            e.setCancelled(true);
+            return;
+        }
         if (!(isHandlerItem(item))) return;
 
-        if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+        final var action = e.getAction();
+        if (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK) {
             this.onRightClick(e);
             return;
         }
 
-        if (e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK ){
+        if (action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK ){
             this.onLeftClick(e);
+        }
+    }
+
+    @EventHandler (ignoreCancelled = true)
+    public void onPlayerItemHeldEvent(PlayerItemHeldEvent e) {
+        final var player = e.getPlayer();
+
+        final var previousItem = PlayerInventoryContainer.getItemInSlot(player, e.getPreviousSlot());
+        if (isHandlerItem(previousItem)) {
+            onReleaseItem(player, previousItem);
+            return; // A player can't release and hold the item at the same time, therefore we return here
+        }
+
+        final var newItem = PlayerInventoryContainer.getItemInSlot(player, e.getNewSlot());
+        if (isHandlerItem(newItem)) {
+            onHoldItem(player, newItem);
         }
     }
 
@@ -65,5 +87,9 @@ public abstract class ItemHandler extends EventManager {
     protected abstract void onRightClick(PlayerInteractEvent e);
 
     protected abstract void onLeftClick(PlayerInteractEvent e);
+
+    protected abstract void onHoldItem(Player player, ItemStack item);
+
+    protected abstract void onReleaseItem(Player player, ItemStack item);
 }
 
