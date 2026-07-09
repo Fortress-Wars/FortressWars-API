@@ -17,6 +17,12 @@ public class EntityHelper {
         return false;
     }
 
+    public static Location getEntityTopLocation(Entity entity) {
+        final BoundingBox boundingBox = entity.getBoundingBox();
+        final double maxY = boundingBox.getMaxY();
+        return getEntityLocation(entity, maxY);
+    }
+
     public static Location getEntityCenterLocation(Entity entity) {
         final BoundingBox boundingBox = entity.getBoundingBox();
         final double centerY = boundingBox.getCenterY();
