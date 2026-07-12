@@ -1,5 +1,7 @@
 package net.fortresswars.util;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
 public enum FWNumberFormat {
@@ -62,6 +64,12 @@ public enum FWNumberFormat {
             case DURATION -> formatDuration(value);
             default -> String.format("%,.2f", value);
         };
+    }
+
+    public static double round(double value, int precision) {
+        var bd = new BigDecimal(value);
+        bd = bd.setScale(precision, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 
     public String formatValue(double value) {

@@ -72,4 +72,7 @@ public record PersistentDataKey (
     public static PersistentDataKey LENGTH = new PersistentDataKey("length", PersistentDataType.DOUBLE);
     public static PersistentDataKey WIDTH = new PersistentDataKey("width", PersistentDataType.DOUBLE);
     public static PersistentDataKey DEPTH = new PersistentDataKey("depth", PersistentDataType.DOUBLE);
+
+    // Team
+    public static PersistentDataKey TEAM =  new PersistentDataKey("team", PersistentDataType.STRING);
 }
