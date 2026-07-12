@@ -1,7 +1,9 @@
 package net.fortresswars.helpers;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -57,5 +59,33 @@ public class EntityHelper {
     public static double getEntityVolume(@NotNull Entity entity) {
         final BoundingBox boundingBox = entity.getBoundingBox();
         return boundingBox.getHeight() * boundingBox.getWidthX() * boundingBox.getWidthZ();
+    }
+
+    /**
+     * Teleport an entity to a destination. Also removes passengers if going across dimensions.
+     * @param entity the entity to teleport
+     * @param destination the location to teleport the entity to
+     * @return true if the teleportation was successful, false otherwise
+     */
+    public static boolean teleport(Entity entity, Location destination) {
+        if (entity == null) return false;
+        if (destination == null) return false;
+
+        // Only remove passengers of going across dimensions
+        final var entityWorld = destination.getWorld();
+        final var destinationWorld = destination.getWorld();
+        if (entityWorld != destinationWorld) {
+            for (Entity passenger : entity.getPassengers()) {
+                entity.removePassenger(passenger);
+            }
+        }
+        return entity.teleport(destination);
+    }
+
+    public static boolean isEntityInAir(Entity entity) {
+        final Location location = entity.getLocation();
+        final Block block = location.getBlock();
+        final Material material = block.getType();
+        return material.isAir();
     }
 }
