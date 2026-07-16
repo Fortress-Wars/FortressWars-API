@@ -1,8 +1,10 @@
 package net.fortresswars.items;
 
+import net.fortresswars.core.managers.ActionBarManager;
 import net.fortresswars.core.managers.EventManager;
 import net.fortresswars.data.PersistentData;
 import net.fortresswars.data.PersistentDataKey;
+import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -36,38 +38,45 @@ public abstract class ItemHandler extends EventManager {
     @EventHandler
     public void onPlayerInteractEvent(PlayerInteractEvent e) {
         final Player player = e.getPlayer();
-        final ItemStack item = e.getItem();
-        if (item == null) return;
-        if (player.hasCooldown(item)) {
-            e.setCancelled(true);
-            return;
-        }
-        if (!(isHandlerItem(item))) return;
+        try {
+            final ItemStack item = e.getItem();
+            if (item == null) return;
+            if (player.hasCooldown(item)) {
+                e.setCancelled(true);
+                return;
+            }
+            if (!(isHandlerItem(item))) return;
 
-        final var action = e.getAction();
-        if (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK) {
-            this.onRightClick(e);
-            return;
-        }
+            final var action = e.getAction();
+            if (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK) {
+                this.onRightClick(e);
+                return;
+            }
 
-        if (action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK ){
-            this.onLeftClick(e);
+            if (action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK ){
+                this.onLeftClick(e);
+            }
+        } catch (ItemException ex) {
+            ActionBarManager.sendMessage(player, ChatColor.RED + ex.getMessage());
         }
     }
 
     @EventHandler (ignoreCancelled = true)
     public void onPlayerItemHeldEvent(PlayerItemHeldEvent e) {
         final var player = e.getPlayer();
+        try {
+            final var previousItem = PlayerInventoryContainer.getItemInSlot(player, e.getPreviousSlot());
+            if (isHandlerItem(previousItem)) {
+                onReleaseItem(player, previousItem);
+                return; // A player can't release and hold the item at the same time, therefore we return here
+            }
 
-        final var previousItem = PlayerInventoryContainer.getItemInSlot(player, e.getPreviousSlot());
-        if (isHandlerItem(previousItem)) {
-            onReleaseItem(player, previousItem);
-            return; // A player can't release and hold the item at the same time, therefore we return here
-        }
-
-        final var newItem = PlayerInventoryContainer.getItemInSlot(player, e.getNewSlot());
-        if (isHandlerItem(newItem)) {
-            onHoldItem(player, newItem);
+            final var newItem = PlayerInventoryContainer.getItemInSlot(player, e.getNewSlot());
+            if (isHandlerItem(newItem)) {
+                onHoldItem(player, newItem);
+            }
+        } catch (ItemException ex) {
+            // Squash
         }
     }
 

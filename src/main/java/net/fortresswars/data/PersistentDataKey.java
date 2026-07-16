@@ -60,6 +60,7 @@ public record PersistentDataKey (
     // State
     public static PersistentDataKey STATUS = new PersistentDataKey("status", PersistentDataType.STRING);
     public static PersistentDataKey IS_ON_GROUND = new PersistentDataKey("is_on_ground", PersistentDataType.BOOLEAN);
+    public static PersistentDataKey MATERIAL = new PersistentDataKey("material", PersistentDataType.STRING);
 
     // Cosmetics
     public static PersistentDataKey DISABLE_COSMETICS = new PersistentDataKey("disable_cosmetics", PersistentDataType.BOOLEAN);
@@ -68,10 +69,17 @@ public record PersistentDataKey (
     public static PersistentDataKey X = new PersistentDataKey("x", PersistentDataType.DOUBLE);
     public static PersistentDataKey Z = new PersistentDataKey("z", PersistentDataType.DOUBLE);
     public static PersistentDataKey Y = new PersistentDataKey("y", PersistentDataType.DOUBLE);
+    public static PersistentDataKey X1 = new PersistentDataKey("x1", PersistentDataType.DOUBLE);
+    public static PersistentDataKey Z1 = new PersistentDataKey("z1", PersistentDataType.DOUBLE);
+    public static PersistentDataKey Y1 = new PersistentDataKey("y1", PersistentDataType.DOUBLE);
+    public static PersistentDataKey X2 = new PersistentDataKey("x2", PersistentDataType.DOUBLE);
+    public static PersistentDataKey Z2 = new PersistentDataKey("z2", PersistentDataType.DOUBLE);
+    public static PersistentDataKey Y2 = new PersistentDataKey("y2", PersistentDataType.DOUBLE);
     public static PersistentDataKey HEIGHT = new PersistentDataKey("height", PersistentDataType.DOUBLE);
     public static PersistentDataKey LENGTH = new PersistentDataKey("length", PersistentDataType.DOUBLE);
     public static PersistentDataKey WIDTH = new PersistentDataKey("width", PersistentDataType.DOUBLE);
     public static PersistentDataKey DEPTH = new PersistentDataKey("depth", PersistentDataType.DOUBLE);
+    public static PersistentDataKey DIRECTION = new PersistentDataKey("direction", PersistentDataType.STRING);
 
     // Team
     public static PersistentDataKey TEAM =  new PersistentDataKey("team", PersistentDataType.STRING);
