@@ -60,6 +60,7 @@ public record PersistentDataKey (
     // State
     public static PersistentDataKey STATUS = new PersistentDataKey("status", PersistentDataType.STRING);
     public static PersistentDataKey IS_ON_GROUND = new PersistentDataKey("is_on_ground", PersistentDataType.BOOLEAN);
+    public static PersistentDataKey IS_OPEN = new PersistentDataKey("is_open", PersistentDataType.BOOLEAN);
     public static PersistentDataKey MATERIAL = new PersistentDataKey("material", PersistentDataType.STRING);
 
     // Cosmetics

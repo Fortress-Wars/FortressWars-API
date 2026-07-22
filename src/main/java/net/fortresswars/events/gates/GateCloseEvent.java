@@ -1,9 +1,9 @@
 package net.fortresswars.events.gates;
 
-import org.bukkit.Location;
+import net.fortresswars.core.gates.GateData;
 
 public class GateCloseEvent extends GateEvent {
-    public GateCloseEvent(Location location) {
-        super(location);
+    public GateCloseEvent(GateData data) {
+        super(data);
     }
 }
