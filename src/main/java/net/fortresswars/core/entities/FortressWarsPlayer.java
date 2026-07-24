@@ -22,7 +22,7 @@ public interface FortressWarsPlayer extends FortressWarsLivingEntity {
 
     void resetGear();
 
-    void setKitToChangeTo();
+    void setKitToChangeTo(KitID kitID);
 
     KitID getKitToChangeTo();
 
@@ -34,7 +34,7 @@ public interface FortressWarsPlayer extends FortressWarsLivingEntity {
 
     void setUsingTeamChat(boolean usingTeamChat);
 
-    void setKitTransferPotions();
+    void setKitTransferPotions(int kitTransferPotions);
 
     int getKitTransferPotions();
 
