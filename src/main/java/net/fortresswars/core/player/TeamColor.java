@@ -6,7 +6,7 @@
 
 package net.fortresswars.core.player;
 
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Color;
 import org.bukkit.boss.BarColor;
 import org.jetbrains.annotations.NotNull;
@@ -17,46 +17,52 @@ public enum TeamColor {
     RED(
             "Red",
             Color.fromRGB(153, 0, 0),
-            ChatColor.RED,
+            NamedTextColor.RED,
             BarColor.RED,
             true
     ),
     BLUE(
             "Blue",
             Color.fromRGB(0, 0, 153),
-            ChatColor.BLUE,
+            NamedTextColor.BLUE,
             BarColor.BLUE,
             true
     ),
     RANDOM(
             "Random",
             Color.PURPLE,
-            ChatColor.DARK_PURPLE,
+            NamedTextColor.DARK_PURPLE,
             BarColor.PURPLE,
             false
     ),
     NONE(
             "None",
             Color.WHITE,
-            ChatColor.WHITE,
+            NamedTextColor.WHITE,
             BarColor.WHITE,
             false
     );
 
+    private final String id;
     private final String friendlyName;
     private final Color color;
-    private final ChatColor chatColor;
+    private final NamedTextColor chatColor;
     private final BarColor barColor;
     private final int colorInt;
     private final boolean hasTeamChat;
 
-    TeamColor(String friendlyName, Color color, ChatColor chatColor, BarColor barColor, boolean hasTeamChat) {
+    TeamColor(String friendlyName, Color color, NamedTextColor chatColor, BarColor barColor, boolean hasTeamChat) {
+        this.id = ordinal() + "_" + this.name();
         this.friendlyName = friendlyName;
         this.color = color;
         this.chatColor = chatColor;
         this.colorInt = color.asARGB();
         this.barColor = barColor;
         this.hasTeamChat = hasTeamChat;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getFriendlyName() {
@@ -71,7 +77,7 @@ public enum TeamColor {
         return colorInt;
     }
 
-    public ChatColor getChatColor() {
+    public NamedTextColor getChatColor() {
         return chatColor;
     }
 

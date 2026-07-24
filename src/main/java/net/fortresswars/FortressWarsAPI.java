@@ -5,9 +5,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class FortressWarsAPI extends JavaPlugin {
 
+    private static FortressWarsAPI instance;
     private static PlayerProfileManager playerProfileManager;
 
     public final static String NAMESPACE = "fwapi";
+
+    public static FortressWarsAPI getInstance() {
+        return instance;
+    }
 
     public static PlayerProfileManager getPlayerProfileManager() {
         return playerProfileManager;
@@ -15,6 +20,8 @@ public final class FortressWarsAPI extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        instance = this;
+
         // Plugin startup logic
         saveDefaultConfig();
         playerProfileManager = new PlayerProfileManager(this);
@@ -28,5 +35,6 @@ public final class FortressWarsAPI extends JavaPlugin {
             playerProfileManager.disable();
             playerProfileManager = null;
         }
+        instance = null;
     }
 }

@@ -6,14 +6,14 @@ import net.fortresswars.events.FortressWarsCancellableEvent;
 import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("unused")
-public class FortressWarsHealEvent extends FortressWarsCancellableEvent {
+public class FWHealEvent extends FortressWarsCancellableEvent {
 
     private final FortressWarsEntity entityHealed;
     private final @Nullable FortressWarsEntity healingSourceEntity;
     private final FWHealingSource healingSource;
     private final double healingAmount;
 
-    public FortressWarsHealEvent(FortressWarsEntity entityHealed, double healingAmount, @Nullable FortressWarsEntity healingSourceEntity, @Nullable FWHealingSource healingSource) {
+    public FWHealEvent(FortressWarsEntity entityHealed, double healingAmount, @Nullable FortressWarsEntity healingSourceEntity, @Nullable FWHealingSource healingSource) {
         this.entityHealed = entityHealed;
         this.healingSourceEntity = healingSourceEntity;
         this.healingSource = healingSource;
