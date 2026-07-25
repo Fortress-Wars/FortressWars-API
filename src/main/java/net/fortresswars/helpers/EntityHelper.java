@@ -4,6 +4,8 @@ import net.fortresswars.core.damage.FWDamageCause;
 import net.fortresswars.core.entities.FortressWarsEntity;
 import net.fortresswars.core.entities.Hackable;
 import net.fortresswars.core.entities.Stunnable;
+import net.fortresswars.data.PersistentData;
+import net.fortresswars.data.PersistentDataKey;
 import net.fortresswars.events.damage.FWDamageByEntityEvent;
 import net.fortresswars.util.PauseableTask;
 import net.kyori.adventure.util.TriState;
@@ -22,6 +24,8 @@ import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
+import java.util.Date;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class EntityHelper {
@@ -449,5 +453,40 @@ public class EntityHelper {
             if (entity == null) return;
             entity.remove();
         }).runTaskLater(plugin, delay);
+    }
+
+    /**
+     * Set an internal cooldown for an entity
+     * @param entity the entity to which the cooldown should be applied
+     * @param key the key of the internal cooldown
+     * @param cooldown the duration of the cooldown
+     */
+    public static void setInternalCooldown(Entity entity, NamespacedKey key, long cooldown) {
+        final long currentTime = new Date().getTime();
+        PersistentData.setProperty(entity, PersistentDataKey.TIME, currentTime, key);
+        PersistentData.setProperty(entity, PersistentDataKey.COOLDOWN, cooldown, key);
+    }
+
+    /**
+     * Get if an entity has an internal cooldown.
+     * @param entity the entity to check
+     * @param key the key of the internal cooldown
+     * @return true if the cooldown is active, false otherwise.
+     */
+    public static boolean hasInternalCooldown(Entity entity, NamespacedKey key) {
+        final long cooldownDuration = PersistentData.getProperty(entity, PersistentDataKey.COOLDOWN, key).asLong();
+        final long cooldownStartTime = PersistentData.getProperty(entity, PersistentDataKey.TIME, key).asLong();
+        final long currentTime = new Date().getTime();
+        final long elapsedTime = currentTime - cooldownStartTime;
+        return cooldownDuration - elapsedTime > 0;
+    }
+
+    /**
+     * Remove an internal cooldown from an entity
+     * @param entity the entity from which to remove the cooldown
+     * @param key the key of the internal cooldown
+     */
+    public static void removeInternalCooldown(Entity entity, NamespacedKey key) {
+        PersistentData.removeData(entity, Set.of(PersistentDataKey.TIME, PersistentDataKey.COOLDOWN), key);
     }
 }

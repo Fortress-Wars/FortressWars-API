@@ -128,4 +128,11 @@ public class LocationHelper {
         }
         return null;
     }
+
+    public static boolean isInWorld(Entity entity, World world) {
+        if (entity == null) return false;
+        if (world == null) return false;
+        final var entityWorld = entity.getWorld();
+        return world.getUID().equals(entityWorld.getUID());
+    }
 }

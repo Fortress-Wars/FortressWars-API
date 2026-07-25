@@ -3,14 +3,13 @@ package net.fortresswars.core.managers;
 import net.fortresswars.FortressWarsAPI;
 import net.fortresswars.data.PersistentData;
 import net.fortresswars.data.PersistentDataKey;
+import net.fortresswars.helpers.EntityHelper;
 import net.kyori.adventure.text.Component;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 import javax.annotation.Nullable;
-import java.util.Date;
-import java.util.Set;
 
 public class ActionBarManager {
 
@@ -40,27 +39,15 @@ public class ActionBarManager {
     public static void sendMessage(@Nullable Entity entity, Component message, MessageType msgType) {
         if (!(entity instanceof Player player)) return;
 
-        final PersistentData previousData = PersistentData.fromHolder(
-                player,
-                Set.of(PersistentDataKey.TIME, PersistentDataKey.WEIGHT),
-                ACTION_BAR_KEY
-        );
-
         // Message Weight
-        final int previousWeight = previousData.get(PersistentDataKey.WEIGHT).asInt();
+        final int previousWeight = PersistentData.getProperty(player, PersistentDataKey.WEIGHT, ACTION_BAR_KEY).asInt();
         final int currentWeight = msgType.weight;
 
-        // Message Cooldown
-        final long previousTime = previousData.get(PersistentDataKey.TIME).asLong();
-        final long currentTime = new Date().getTime();
-        final long elapsedTime = currentTime - previousTime;
-        final boolean hasCooldown = ACTION_BAR_COOLDOWN_MS - elapsedTime > 0;
-
         // Check if we should show a new message.
-        if (currentWeight < previousWeight && hasCooldown) return;
+        if (currentWeight < previousWeight && EntityHelper.hasInternalCooldown(entity, ACTION_BAR_KEY)) return;
 
         // Set new data
-        PersistentData.setProperty(player, PersistentDataKey.TIME, currentTime, ACTION_BAR_KEY);
+        EntityHelper.setInternalCooldown(player, ACTION_BAR_KEY, ACTION_BAR_COOLDOWN_MS);
         PersistentData.setProperty(player, PersistentDataKey.WEIGHT, currentWeight, ACTION_BAR_KEY);
 
         entity.sendActionBar(message);

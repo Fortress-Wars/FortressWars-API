@@ -1,6 +1,7 @@
 package net.fortresswars.helpers;
 
 import net.fortresswars.core.player.TeamColor;
+import net.fortresswars.core.teams.TeamException;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.scoreboard.Scoreboard;
@@ -57,7 +58,7 @@ public class TeamHelper {
         return team;
     }
 
-    public Team getTeam(Entity entity) {
+    public static Team getTeam(Entity entity) {
         final var scoreboard = getScoreboard();
         return scoreboard.getEntityTeam(entity);
     }
@@ -70,12 +71,14 @@ public class TeamHelper {
 
     public static void joinTeam(Entity entity, TeamColor teamColor) {
         final Team team = getTeam(teamColor);
-        if (team == null) return;
+        if (team == null) {
+            throw new TeamException("Team does not exist");
+        }
         team.addEntity(entity);
     }
 
-    public static void leaveTeam(Entity entity, TeamColor teamColor) {
-        final Team team = getTeam(teamColor);
+    public static void leaveTeam(Entity entity) {
+        final Team team = getTeam(entity);
         if (team == null) return;
         team.removeEntity(entity);
     }

@@ -87,6 +87,10 @@ public abstract class ProfileManager<Profile> extends EventManager {
         return CompletableFuture.allOf(futureList.toArray(new CompletableFuture[0]));
     }
 
+    public boolean isProfileLoaded(UUID uuid) {
+        return profileStore.containsKey(uuid);
+    }
+
     public Profile getProfile(UUID uuid) {
         return profileStore.get(uuid);
     }

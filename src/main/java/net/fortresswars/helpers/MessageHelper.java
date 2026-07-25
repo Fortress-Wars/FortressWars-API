@@ -4,7 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 
-public class ChatHelper {
+public class MessageHelper {
 
     /**
      * Broadcast a message to all players and senders.
