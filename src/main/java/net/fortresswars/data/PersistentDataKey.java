@@ -62,11 +62,13 @@ public record PersistentDataKey (
     public static PersistentDataKey IS_ON_GROUND = new PersistentDataKey("is_on_ground", PersistentDataType.BOOLEAN);
     public static PersistentDataKey IS_OPEN = new PersistentDataKey("is_open", PersistentDataType.BOOLEAN);
     public static PersistentDataKey MATERIAL = new PersistentDataKey("material", PersistentDataType.STRING);
+    public static PersistentDataKey VARIANT = new PersistentDataKey("variant", PersistentDataType.STRING);
 
     // Cosmetics
     public static PersistentDataKey DISABLE_COSMETICS = new PersistentDataKey("disable_cosmetics", PersistentDataType.BOOLEAN);
 
     // Space
+    public static PersistentDataKey INDEX = new PersistentDataKey("index", PersistentDataType.INTEGER);
     public static PersistentDataKey X = new PersistentDataKey("x", PersistentDataType.DOUBLE);
     public static PersistentDataKey Z = new PersistentDataKey("z", PersistentDataType.DOUBLE);
     public static PersistentDataKey Y = new PersistentDataKey("y", PersistentDataType.DOUBLE);

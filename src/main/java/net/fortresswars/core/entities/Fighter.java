@@ -10,6 +10,8 @@ public interface Fighter extends Attackable, Healable, Assistable {
 
     void setNoDamageTicks(int ticks);
 
+    void resetNoDamageTicks();
+
     boolean isTargetable();
 
     boolean canTarget(Fighter fighter);

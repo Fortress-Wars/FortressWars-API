@@ -1,4 +1,4 @@
-name: FortressWars-API
+name: '${name}'
 version: '${version}'
 
 main: net.fortresswars.FortressWarsAPI
