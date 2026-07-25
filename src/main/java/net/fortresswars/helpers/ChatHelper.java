@@ -12,7 +12,7 @@ public class ChatHelper {
      * @param msg message to broadcast
      */
     public static void broadcastServerMessage(String msg) {
-        Bukkit.broadcast(Component.text("§2[FW]", NamedTextColor.DARK_GREEN)
+        Bukkit.broadcast(Component.text("§2[FW] ", NamedTextColor.DARK_GREEN)
                 .append(Component.text(msg, NamedTextColor.GOLD)));
     }
 }
