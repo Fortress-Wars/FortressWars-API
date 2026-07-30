@@ -39,7 +39,21 @@ public class TeamHelper {
         };
     }
 
-    public Team createTeam(TeamColor teamColor) {
+    public static boolean isOnTeam(Entity entity, TeamColor teamColor) {
+        if (entity == null) return false;
+        if (teamColor == null) return false;
+        final var scoreboard = getScoreboard();
+        final var team = scoreboard.getTeam(teamColor.getId());
+        if (team == null) return false;
+        return team.hasEntity(entity);
+    }
+
+    public static Team recreateTeam(TeamColor teamColor) {
+        deleteTeam(teamColor);
+        return createTeam(teamColor);
+    }
+
+    public static Team createTeam(TeamColor teamColor) {
         if (teamColor == null) return null;
 
         final var scoreboard = getScoreboard();
@@ -77,9 +91,10 @@ public class TeamHelper {
         team.addEntity(entity);
     }
 
-    public static void leaveTeam(Entity entity) {
+    public static TeamColor leaveTeam(Entity entity) {
         final Team team = getTeam(entity);
-        if (team == null) return;
+        if (team == null) return null;
         team.removeEntity(entity);
+        return TeamColor.fromId(team.getName());
     }
 }

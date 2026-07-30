@@ -11,6 +11,8 @@ import org.bukkit.Color;
 import org.bukkit.boss.BarColor;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public enum TeamColor {
@@ -43,6 +45,7 @@ public enum TeamColor {
             false
     );
 
+    private static Map<String, TeamColor> teamIdMap;
     private final String id;
     private final String friendlyName;
     private final Color color;
@@ -59,6 +62,16 @@ public enum TeamColor {
         this.colorInt = color.asARGB();
         this.barColor = barColor;
         this.hasTeamChat = hasTeamChat;
+    }
+
+    public static TeamColor fromId(@NotNull String name) {
+        if (teamIdMap == null) {
+            teamIdMap = new HashMap<>();
+            for (TeamColor teamColor : TeamColor.values()) {
+                teamIdMap.put(teamColor.id, teamColor);
+            }
+        }
+        return teamIdMap.get(name);
     }
 
     public String getId() {

@@ -2,7 +2,6 @@ package net.fortresswars.core.kits.abilities;
 
 import net.fortresswars.core.entities.Pauseable;
 import net.fortresswars.core.entities.Resettable;
-import net.fortresswars.core.game.Game;
 import net.fortresswars.core.kits.Refreshable;
 import net.fortresswars.core.managers.Enableable;
 import org.bukkit.event.Listener;
@@ -16,12 +15,6 @@ public interface Ability extends Enableable, Refreshable, Listener, Resettable, 
      * @return UUID instance
      */
     UUID getID();
-
-    /**
-     * Get the game this ability is a part of.
-     * @return the game.
-     */
-    Game getGame();
 
     /**
      * Get the ability ID for this ability

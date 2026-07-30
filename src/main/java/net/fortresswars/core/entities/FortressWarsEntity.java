@@ -1,11 +1,15 @@
 package net.fortresswars.core.entities;
 
-import net.fortresswars.core.game.Game;
 import net.fortresswars.core.player.TeamColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 
 public interface FortressWarsEntity extends Fighter, Hackable, Zappable, Dataable, Taskable, Pauseable<Boolean> {
+
+    /**
+     * Delete the entity
+     */
+    void delete();
 
     void setEntity(LivingEntity entity);
 
@@ -18,8 +22,6 @@ public interface FortressWarsEntity extends Fighter, Hackable, Zappable, Dataabl
     String getTeamColorCode();
 
     Entity getEntity();
-
-    Game getGame();
 
     boolean isInGame();
 }
