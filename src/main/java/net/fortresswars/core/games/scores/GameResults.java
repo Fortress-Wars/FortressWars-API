@@ -1,6 +1,7 @@
-package net.fortresswars.core.game;
+package net.fortresswars.core.games.scores;
 
 import com.google.gson.JsonObject;
+import net.fortresswars.core.games.states.EndReason;
 import net.fortresswars.core.statistics.StatisticsPack;
 
 import java.util.Date;

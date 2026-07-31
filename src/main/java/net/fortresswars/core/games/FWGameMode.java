@@ -1,4 +1,4 @@
-package net.fortresswars.core.game;
+package net.fortresswars.core.games;
 
 public enum FWGameMode {
     CLASSIC("Classic"),

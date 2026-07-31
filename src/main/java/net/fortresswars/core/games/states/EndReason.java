@@ -1,4 +1,4 @@
-package net.fortresswars.core.game;
+package net.fortresswars.core.games.states;
 
 public enum EndReason {
     PLAYERS_ELIMINATED("Players Eliminated"),

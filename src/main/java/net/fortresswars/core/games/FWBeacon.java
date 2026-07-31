@@ -4,7 +4,7 @@
  * Description: Class Representing a beacon
  */
 
-package net.fortresswars.core.game;
+package net.fortresswars.core.games;
 
 import net.fortresswars.core.player.TeamColor;
 import org.bukkit.Location;

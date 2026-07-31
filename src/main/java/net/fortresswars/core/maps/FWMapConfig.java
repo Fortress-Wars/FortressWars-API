@@ -1,6 +1,6 @@
 package net.fortresswars.core.maps;
 
-import net.fortresswars.core.game.FWGameMode;
+import net.fortresswars.core.games.FWGameMode;
 import net.fortresswars.respawn.RespawnTimes;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;

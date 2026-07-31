@@ -1,4 +1,4 @@
-package net.fortresswars.core.game;
+package net.fortresswars.core.games.scores;
 
 import com.google.gson.JsonObject;
 import net.fortresswars.core.player.TeamColor;

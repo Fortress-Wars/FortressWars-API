@@ -1,4 +1,4 @@
-package net.fortresswars.core.game;
+package net.fortresswars.core.games.states;
 
 public enum FWGameState {
     LOBBY,
@@ -20,4 +20,5 @@ public enum FWGameState {
     AD_BETWEEN_ROUNDS,
     AD_PRE_ROUND_2,
     AD_ROUND_2
+
 }

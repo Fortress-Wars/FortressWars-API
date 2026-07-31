@@ -1,6 +1,6 @@
 package net.fortresswars.core.maps;
 
-import net.fortresswars.core.game.FWGameMode;
+import net.fortresswars.core.games.FWGameMode;
 import org.bukkit.Material;
 
 public record MapDisplayData (
