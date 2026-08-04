@@ -79,12 +79,14 @@ public class ServerTimer implements Timer {
 
     @Override
     public boolean isInSecond(long second) {
-        return second <= this.elapsedTime && this.elapsedTime < second + 1;
+        return isBetweenSeconds(second, second + 1);
     }
 
     @Override
     public boolean isBetweenSeconds(long low, long high) {
-        return low <= this.elapsedTime && this.elapsedTime < high;
+        final var timeLeft = getTimeLeft();
+        final var secondsLeft = timeLeft.toSeconds();
+        return low <= secondsLeft && secondsLeft < high;
     }
 
     @Override
