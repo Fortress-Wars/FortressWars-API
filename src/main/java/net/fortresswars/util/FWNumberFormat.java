@@ -16,17 +16,14 @@ public enum FWNumberFormat {
     DURATION;
 
     private static String formatTime(double timeInSeconds) {
-        String timeString;
         if (timeInSeconds / 3600 > 1) {
             timeInSeconds = Math.round((timeInSeconds / 3600.0) * 100.0) / 100.0;
-            timeString = String.format("%,.2f", timeInSeconds) + "h";
+            return String.format("%,.2f", timeInSeconds) + "h";
         } else if (timeInSeconds / 60 > 1) {
             timeInSeconds = Math.round((timeInSeconds / 60.0) * 100.0) / 100.0;
-            timeString = String.format("%,.2f", timeInSeconds) + "m";
-        } else {
-            timeString = String.format("%,.2f", timeInSeconds) + "s";
+            return String.format("%,.2f", timeInSeconds) + "m";
         }
-        return timeString;
+        return String.format("%,.2f", timeInSeconds) + "s";
     }
 
     private static String formatFullTime(double timeInSeconds) {
@@ -44,13 +41,19 @@ public enum FWNumberFormat {
         return String.format("%,.2f", timeInSeconds) + "s";
     }
 
-    private static String formatDuration(double timeInSeconds) {
-        final long MINUTE = 60;
-        final long HOUR = MINUTE * 60;
-        final long DAY = HOUR * 24;
-        final long timeInMS = ((long) timeInSeconds % DAY) * 1000;
-        final long days = ((long)  timeInSeconds) / DAY;
-        return String.format("%dd %tH:%<tM:%<tS", days, timeInMS);
+    private static String formatDuration(long totalSeconds) {
+        long days = totalSeconds / 86400;
+        long hours = (totalSeconds % 86400) / 3600;
+        long minutes = (totalSeconds % 3600) / 60;
+        long seconds = totalSeconds % 60;
+
+        if (days > 0) {
+            return String.format("%dd %02d:%02d:%02d", days, hours, minutes, seconds);
+        } else if (hours > 0) {
+            return String.format("%02d:%02d:%02d", hours, minutes, seconds);
+        } else {
+            return String.format("%02d:%02d", minutes, seconds);
+        }
     }
 
     private static String formatValue(FWNumberFormat statType, double value) {
@@ -61,7 +64,7 @@ public enum FWNumberFormat {
             case TIME -> formatTime(value);
             case FULL_TIME -> formatFullTime(value);
             case TICK -> formatTime(value / 20.0);
-            case DURATION -> formatDuration(value);
+            case DURATION -> formatDuration((long) value);
             default -> String.format("%,.2f", value);
         };
     }
