@@ -30,4 +30,6 @@ public enum FWGameState {
 
     // Game End
     GAME_END,
+    RESET,
+    ERROR,
 }
