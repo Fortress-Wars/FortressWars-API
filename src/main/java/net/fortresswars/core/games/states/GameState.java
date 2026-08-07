@@ -4,8 +4,6 @@ import net.fortresswars.core.entities.Pauseable;
 import net.fortresswars.core.managers.Enableable;
 import org.bukkit.event.Listener;
 
-import java.awt.*;
-
 public interface GameState extends Enableable, Pauseable<Void>, Listener {
     /*
      * Returns the friendly name of the Game State
@@ -26,9 +24,4 @@ public interface GameState extends Enableable, Pauseable<Void>, Listener {
      * Skip to the next game state.
      */
     void skip();
-
-    /*
-     * The component that should be displayed over the boss bar overlay
-     */
-    Component getOverlayDisplayComponent();
 }
