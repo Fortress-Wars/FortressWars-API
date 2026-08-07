@@ -1,12 +1,12 @@
-package net.fortresswars.items;
+package net.fortresswars.core.items;
 
 import com.destroystokyo.paper.profile.PlayerProfile;
 import io.papermc.paper.datacomponent.DataComponentType;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.Consumable;
 import net.fortresswars.FortressWarsAPI;
-import net.fortresswars.data.PersistentData;
-import net.fortresswars.data.PersistentDataKey;
+import net.fortresswars.core.data.PersistentData;
+import net.fortresswars.core.data.PersistentDataKey;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.Style;

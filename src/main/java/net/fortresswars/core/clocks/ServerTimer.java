@@ -1,7 +1,7 @@
 package net.fortresswars.core.clocks;
 
 import net.fortresswars.util.FWNumberFormat;
-import net.fortresswars.util.PauseableTask;
+import net.fortresswars.core.tasks.PauseableTask;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 

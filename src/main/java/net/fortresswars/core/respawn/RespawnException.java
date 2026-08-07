@@ -1,4 +1,4 @@
-package net.fortresswars.respawn;
+package net.fortresswars.core.respawn;
 
 public class RespawnException extends Exception {
 

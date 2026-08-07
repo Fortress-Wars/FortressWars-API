@@ -1,4 +1,4 @@
-package net.fortresswars.respawn;
+package net.fortresswars.core.respawn;
 
 public record RespawnTimes(int low, int medium, int high) {
 

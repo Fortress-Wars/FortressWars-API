@@ -7,7 +7,7 @@
 package net.fortresswars.core.maps;
 
 import net.fortresswars.core.player.TeamColor;
-import net.fortresswars.respawn.RespawnTimes;
+import net.fortresswars.core.respawn.RespawnTimes;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;

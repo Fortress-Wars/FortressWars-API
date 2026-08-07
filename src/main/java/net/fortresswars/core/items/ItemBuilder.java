@@ -1,7 +1,7 @@
-package net.fortresswars.items;
+package net.fortresswars.core.items;
 
-import net.fortresswars.data.PersistentData;
-import net.fortresswars.data.PersistentDataKey;
+import net.fortresswars.core.data.PersistentData;
+import net.fortresswars.core.data.PersistentDataKey;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;

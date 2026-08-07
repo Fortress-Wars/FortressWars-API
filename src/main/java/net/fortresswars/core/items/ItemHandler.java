@@ -1,9 +1,9 @@
-package net.fortresswars.items;
+package net.fortresswars.core.items;
 
 import net.fortresswars.core.managers.ActionBarManager;
 import net.fortresswars.core.managers.EventManager;
-import net.fortresswars.data.PersistentData;
-import net.fortresswars.data.PersistentDataKey;
+import net.fortresswars.core.data.PersistentData;
+import net.fortresswars.core.data.PersistentDataKey;
 import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;

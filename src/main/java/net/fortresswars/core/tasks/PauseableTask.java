@@ -1,4 +1,4 @@
-package net.fortresswars.util;
+package net.fortresswars.core.tasks;
 
 import net.fortresswars.core.entities.Pauseable;
 import org.bukkit.Bukkit;

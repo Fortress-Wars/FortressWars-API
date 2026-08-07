@@ -5,7 +5,7 @@ import com.samjakob.spigui.buttons.SGButton;
 import com.samjakob.spigui.buttons.SGButtonListener;
 import com.samjakob.spigui.menu.SGMenu;
 import com.samjakob.spigui.toolbar.SGToolbarButtonType;
-import net.fortresswars.items.ItemStackFactory;
+import net.fortresswars.core.items.ItemStackFactory;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;

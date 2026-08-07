@@ -1,8 +1,8 @@
 package net.fortresswars.core.managers;
 
 import net.fortresswars.FortressWarsAPI;
-import net.fortresswars.data.PersistentData;
-import net.fortresswars.data.PersistentDataKey;
+import net.fortresswars.core.data.PersistentData;
+import net.fortresswars.core.data.PersistentDataKey;
 import net.fortresswars.helpers.EntityHelper;
 import net.kyori.adventure.text.Component;
 import org.bukkit.NamespacedKey;

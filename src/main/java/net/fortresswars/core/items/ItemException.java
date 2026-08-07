@@ -1,4 +1,4 @@
-package net.fortresswars.items;
+package net.fortresswars.core.items;
 
 public class ItemException extends RuntimeException {
 

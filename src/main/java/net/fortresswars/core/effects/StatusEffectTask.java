@@ -3,7 +3,7 @@ package net.fortresswars.core.effects;
 import net.fortresswars.core.entities.Pauseable;
 import net.fortresswars.core.managers.Enableable;
 import net.fortresswars.events.effects.StatusEffectRemoveEvent;
-import net.fortresswars.util.PauseableTask;
+import net.fortresswars.core.tasks.PauseableTask;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;

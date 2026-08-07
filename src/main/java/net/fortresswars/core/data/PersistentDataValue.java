@@ -1,4 +1,4 @@
-package net.fortresswars.data;
+package net.fortresswars.core.data;
 
 import org.jetbrains.annotations.Nullable;
 

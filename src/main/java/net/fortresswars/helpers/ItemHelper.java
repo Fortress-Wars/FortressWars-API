@@ -1,6 +1,6 @@
 package net.fortresswars.helpers;
 
-import net.fortresswars.items.ItemException;
+import net.fortresswars.core.items.ItemException;
 import org.bukkit.command.CommandException;
 import org.bukkit.permissions.Permissible;
 

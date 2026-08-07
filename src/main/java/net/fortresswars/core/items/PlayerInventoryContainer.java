@@ -1,7 +1,7 @@
-package net.fortresswars.items;
+package net.fortresswars.core.items;
 
-import net.fortresswars.data.PersistentData;
-import net.fortresswars.data.PersistentDataKey;
+import net.fortresswars.core.data.PersistentData;
+import net.fortresswars.core.data.PersistentDataKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
