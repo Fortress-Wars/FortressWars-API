@@ -20,6 +20,7 @@ public class TeamHelper {
     }
 
     public boolean isOnSameTeam(Entity entity1, Entity entity2) {
+        if (entity1 == null || entity2 == null) return false;
         final var scoreboard = getScoreboard();
         final var team1 = scoreboard.getEntityTeam(entity1);
         if (team1 == null) return false;
@@ -29,7 +30,7 @@ public class TeamHelper {
     }
 
     public static boolean isOnTeam(Entity entity, String teamName, MatchType matchType) {
-        if (teamName == null) return false;
+        if (entity == null || teamName == null) return false;
         final var scoreboard = getScoreboard();
         final var team = scoreboard.getEntityTeam(entity);
         if (team == null) return false;
@@ -73,6 +74,7 @@ public class TeamHelper {
     }
 
     public static Team getTeam(Entity entity) {
+        if (entity == null) return null;
         final var scoreboard = getScoreboard();
         return scoreboard.getEntityTeam(entity);
     }

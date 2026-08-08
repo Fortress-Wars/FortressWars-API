@@ -10,8 +10,6 @@ public interface FortressWarsPlayer extends FortressWarsLivingEntity {
 
     Player getPlayer();
 
-    void setPlayer(Player player);
-
     Kit getKit();
 
     void setKit(Kit kit);
