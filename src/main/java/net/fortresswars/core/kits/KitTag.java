@@ -1,22 +1,22 @@
 package net.fortresswars.core.kits;
 
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 public enum KitTag {
 
-    FREE("Free", ChatColor.GRAY),
-    PREMIUM("Premium", ChatColor.DARK_AQUA),
-    SPECIAL("Special", ChatColor.AQUA),
-    EXCLUSIVE("Exclusive", ChatColor.LIGHT_PURPLE);
+    FREE("Free", NamedTextColor.GRAY),
+    PREMIUM("Premium", NamedTextColor.DARK_AQUA),
+    SPECIAL("Special", NamedTextColor.AQUA),
+    EXCLUSIVE("Exclusive", NamedTextColor.LIGHT_PURPLE);
 
     private final String displayText;
-    private final ChatColor color;
+    private final NamedTextColor color;
 
     public static int getPremiumCost() {
         return 500;
     }
 
-    KitTag(String displayText, ChatColor color) {
+    KitTag(String displayText, NamedTextColor color) {
         this.displayText = displayText;
         this.color = color;
     }
@@ -25,7 +25,7 @@ public enum KitTag {
         return displayText;
     }
 
-    public ChatColor getColor() {
+    public NamedTextColor getColor() {
         return color;
     }
 }

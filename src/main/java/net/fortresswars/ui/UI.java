@@ -35,7 +35,7 @@ public abstract class UI {
         this.spigui = spigui;
     }
 
-    protected abstract String getTitle();
+    protected abstract String getTitle(Player player);
 
     protected abstract int getRows();
 
@@ -53,7 +53,7 @@ public abstract class UI {
         player.openInventory(menu.getInventory());
         final CompletableFuture<Void> buildFuture = this.build(menu, player);
         buildFuture.thenAccept((unused) -> {
-            final String title = this.getTitle();
+            final String title = this.getTitle(player);
             menu.setName(title);
 
             // Refresh Synchronously

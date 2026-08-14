@@ -1,18 +1,18 @@
 package net.fortresswars.core.kits;
 
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 public enum KitRole {
-    DAMAGE("Damage", "\uD83D\uDDE1", ChatColor.RED),
-    SUPPORT("Support", "❤", ChatColor.LIGHT_PURPLE),
-    TANK("Tank", "\uD83D\uDEE1", ChatColor.GRAY),
-    UTILITY("Utility", "\uD83D\uDD27", ChatColor.WHITE);
+    DAMAGE("Damage", "\uD83D\uDDE1", NamedTextColor.RED),
+    SUPPORT("Support", "❤", NamedTextColor.LIGHT_PURPLE),
+    TANK("Tank", "\uD83D\uDEE1", NamedTextColor.GRAY),
+    UTILITY("Utility", "\uD83D\uDD27", NamedTextColor.WHITE);
 
     private final String name;
     private final String icon;
-    private final ChatColor color;
+    private final NamedTextColor color;
 
-    KitRole(String name,  String icon, ChatColor color) {
+    KitRole(String name,  String icon, NamedTextColor color) {
         this.name = name;
         this.icon = icon;
         this.color = color;
@@ -26,7 +26,7 @@ public enum KitRole {
         return icon;
     }
 
-    public ChatColor getColor() {
+    public NamedTextColor getColor() {
         return color;
     }
 
