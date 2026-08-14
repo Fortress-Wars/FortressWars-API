@@ -32,6 +32,7 @@ public record PersistentDataKey (
     public static PersistentDataKey OWNER = new PersistentDataKey("owner", PersistentDataType.STRING);
     public static PersistentDataKey PARENT = new PersistentDataKey("parent", PersistentDataType.STRING);
     public static PersistentDataKey CHILD = new PersistentDataKey("child", PersistentDataType.STRING);
+    public static PersistentDataKey TYPE = new PersistentDataKey("type", PersistentDataType.STRING);
 
     // Time
     public static PersistentDataKey TIME = new PersistentDataKey("time", PersistentDataType.LONG);
