@@ -3,7 +3,6 @@ package net.fortresswars.core.clocks;
 import net.fortresswars.util.FWNumberFormat;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.jspecify.annotations.NonNull;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -43,14 +42,14 @@ public class RealTimer implements Timer {
         return duration;
     }
 
-    public @NonNull Duration getElapsedTime() {
+    public @NotNull Duration getElapsedTime() {
         if (startInstant == null) return Duration.ZERO;
         final var now = Instant.now();
         final var pausedDuration = getPausedDuration();
         return Duration.between(startInstant, now).minus(pausedDuration);
     }
 
-    public @NonNull Duration getTimeLeft() {
+    public @NotNull Duration getTimeLeft() {
         if (startInstant == null) return Duration.ZERO;
         final var now = Instant.now();
         final var end = startInstant.plus(duration);
