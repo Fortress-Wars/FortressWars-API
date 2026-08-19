@@ -31,7 +31,7 @@ public abstract class InventoryMenu implements InventoryHolder {
     private @NotNull final NamespacedKey key;
     private @NotNull final InventoryGUI inventoryGUI;
     private @NotNull final List<Button> items;
-    private @Nullable List<Button> filteredItems;
+    private @Nullable List<Button> viewedItems;
     private final int rowsPerPage;
 
     private Component name;
@@ -53,7 +53,7 @@ public abstract class InventoryMenu implements InventoryHolder {
         this.name = Component.text("Loading...", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false);
         this.rowsPerPage = Math.clamp(rowsPerPage, 1, 4);
         this.items = new LinkedList<>();
-        this.filteredItems = new LinkedList<>();
+        this.viewedItems = new LinkedList<>();
         this.currentPage = 0;
         this.frameBuilder = new DefaultFrameBuilder();
         this.key = new NamespacedKey(inventoryGUI.getOwner(), "menu_" + UUID.randomUUID());
@@ -242,7 +242,7 @@ public abstract class InventoryMenu implements InventoryHolder {
      */
     public Button getButton(int slot) {
         if (slot < 0 || slot > getHighestFilledSlot()) return null;
-        return items.get(slot);
+        return Objects.requireNonNullElse(this.viewedItems, this.items).get(slot);
     }
 
     /**
@@ -386,7 +386,7 @@ public abstract class InventoryMenu implements InventoryHolder {
      * @return The highest filled slot's number.
      */
     public int getHighestFilledSlot() {
-        return Objects.requireNonNullElse(this.filteredItems, this.items).size() - 1;
+        return Objects.requireNonNullElse(this.viewedItems, this.items).size() - 1;
     }
 
     /**
@@ -541,7 +541,7 @@ public abstract class InventoryMenu implements InventoryHolder {
         }
 
         // Consume the stream and assign to the filtered items (used for dynamic max page)
-        this.filteredItems = itemStream.toList();
+        this.viewedItems = itemStream.toList();
 
         // Ensure we are not on a page with no items!
         final var maxPage = this.getMaxPage();
@@ -559,7 +559,7 @@ public abstract class InventoryMenu implements InventoryHolder {
 
         // Stream for the inventory view
         final var pageSize = getPageSize();
-        this.filteredItems.stream()
+        this.viewedItems.stream()
                 .skip((long) this.currentPage * pageSize)
                 .limit(pageSize)
                 .map(Button::getIcon)
