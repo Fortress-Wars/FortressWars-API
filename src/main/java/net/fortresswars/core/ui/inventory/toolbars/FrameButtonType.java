@@ -1,4 +1,4 @@
-package net.fortresswars.ui.inventory.toolbars;
+package net.fortresswars.core.ui.inventory.toolbars;
 
 import org.jetbrains.annotations.NotNull;
 

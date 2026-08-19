@@ -6,7 +6,7 @@
 
     <groupId>net.fortresswars</groupId>
     <artifactId>fw-api</artifactId>
-    <version>1.0.8-SNAPSHOT</version>
+    <version>1.0.9-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>FortressWars-API</name>
@@ -111,11 +111,6 @@
             <artifactId>paper-api</artifactId>
             <version>1.21.11-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.samjakob</groupId>
-            <artifactId>SpiGUI</artifactId>
-            <version>v1.3.1</version>
         </dependency>
         <dependency>
             <groupId>net.kyori</groupId>

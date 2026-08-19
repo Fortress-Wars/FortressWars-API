@@ -1,4 +1,4 @@
-package net.fortresswars.ui.inventory.buttons;
+package net.fortresswars.core.ui.inventory.buttons;
 
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.jetbrains.annotations.NotNull;

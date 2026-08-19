@@ -1,4 +1,4 @@
-package net.fortresswars.ui;
+package net.fortresswars.core.ui;
 
 public class MenuException extends RuntimeException {
 

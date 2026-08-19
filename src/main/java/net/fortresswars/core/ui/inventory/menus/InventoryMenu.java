@@ -1,11 +1,10 @@
-package net.fortresswars.ui.inventory.menus;
+package net.fortresswars.core.ui.inventory.menus;
 
-import com.samjakob.spigui.menu.SGMenu;
-import net.fortresswars.ui.inventory.MenuUI;
-import net.fortresswars.ui.inventory.buttons.Button;
-import net.fortresswars.ui.inventory.toolbars.DefaultFrameBuilder;
-import net.fortresswars.ui.inventory.toolbars.FrameBuilder;
-import net.fortresswars.ui.inventory.toolbars.FrameButtonType;
+import net.fortresswars.core.ui.inventory.InventoryGUI;
+import net.fortresswars.core.ui.inventory.buttons.Button;
+import net.fortresswars.core.ui.inventory.toolbars.DefaultFrameBuilder;
+import net.fortresswars.core.ui.inventory.toolbars.FrameBuilder;
+import net.fortresswars.core.ui.inventory.toolbars.FrameButtonType;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -19,19 +18,20 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
 
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-public class Menu implements InventoryHolder {
-
-    private final Component LOADING_COMPONENT = Component.text("Loading...", NamedTextColor.GRAY)
-            .decoration(TextDecoration.ITALIC, false);
+public abstract class InventoryMenu implements InventoryHolder {
 
     private @NotNull final NamespacedKey key;
-    private @NotNull final MenuUI menuUI;
+    private @NotNull final InventoryGUI inventoryGUI;
     private @NotNull final List<Button> items;
+    private @Nullable List<Button> filteredItems;
     private final int rowsPerPage;
 
     private Component name;
@@ -40,23 +40,38 @@ public class Menu implements InventoryHolder {
     private Predicate<Button> filter;
     private Comparator<Button> sorter;
     private Consumer<InventoryCloseEvent> onClose;
-    private Consumer<Menu> onPageChange;
+    private Consumer<InventoryMenu> onPageChange;
 
     /**
      * Menu is used to implement the library's GUIs.
      * This class is based on SGMenu.java from <a href="https://github.com/SamJakob/SpiGUI">...</a>
      */
-    public Menu(@NotNull MenuUI menuUI, @NotNull Component name, int rowsPerPage) {
-        this.menuUI = menuUI;
-        this.name = name;
+    public InventoryMenu(@NotNull InventoryGUI inventoryGUI, int rowsPerPage) {
+        this.inventoryGUI = inventoryGUI;
+        this.name = Component.text("Loading...", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false);
         this.rowsPerPage = Math.clamp(rowsPerPage, 1, 4);
         this.items = new LinkedList<>();
+        this.filteredItems = new LinkedList<>();
         this.currentPage = 0;
         this.frameBuilder = new DefaultFrameBuilder();
-        this.key = new NamespacedKey(menuUI.getOwner(), "menu_" + UUID.randomUUID());
+        this.key = new NamespacedKey(inventoryGUI.getOwner(), "menu_" + UUID.randomUUID());
     }
 
-    public void setFrameBuilder(FrameBuilder frameBuilder) {
+    /**
+     * Called to build the menu for a player
+     * @param player the player opening the menu
+     * @return a completable future for the task to build the inventory.
+     */
+    public abstract CompletableFuture<Void> build(Player player);
+
+    /**
+     * Get the name of the menu after it has been loaded.
+     * @param player the player opening the menu.
+     * @return the name as a component.
+     */
+    public abstract Component getPostLoadedName(Player player);
+
+    public void setFrameBuilder(@NonNull FrameBuilder frameBuilder) {
         this.frameBuilder = frameBuilder;
     }
 
@@ -73,7 +88,7 @@ public class Menu implements InventoryHolder {
      * @return The plugin the inventory is associated with.
      */
     public @NotNull JavaPlugin getOwner() {
-        return menuUI.getOwner();
+        return inventoryGUI.getOwner();
     }
 
     /**
@@ -141,17 +156,7 @@ public class Menu implements InventoryHolder {
      * @param button The button to add.
      */
     public void addButton(Button button) {
-        // If slot 0 is empty, but it's the 'highest filled slot', then set slot 0 to contain button.
-        // (This is an edge case for when the whole inventory is empty).
-        if (getHighestFilledSlot() == 0 && getButton(0) == null) {
-            setButton(0, button);
-            return;
-        }
-
         this.items.add(button);
-
-        // Otherwise, add one to the highest filled slot, then use that slot for the new button.
-        setButton(getHighestFilledSlot() + 1, button);
     }
 
     /**
@@ -294,7 +299,7 @@ public class Menu implements InventoryHolder {
      * @return The action to be performed on page change.
      * @see #setOnPageChange(Consumer)
      */
-    public Consumer<Menu> getOnPageChange() {
+    public Consumer<InventoryMenu> getOnPageChange() {
         return this.onPageChange;
     }
 
@@ -303,7 +308,7 @@ public class Menu implements InventoryHolder {
      *
      * @param onPageChange The action to be performed on page change.
      */
-    public void setOnPageChange(Consumer<Menu> onPageChange) {
+    public void setOnPageChange(Consumer<InventoryMenu> onPageChange) {
         this.onPageChange = onPageChange;
     }
 
@@ -372,25 +377,12 @@ public class Menu implements InventoryHolder {
     }
 
     /**
-     * Returns the slot number of the highest filled slot. This is mainly used to calculate the number of pages there
-     * needs to be to display the GUI's contents in the rendered inventory.
+     * Returns the slot number of the highest filled slot post filtering. This is mainly used to calculate the number of
+     * pages there  needs to be to display the GUI's contents in the rendered inventory.
      * @return The highest filled slot's number.
      */
     public int getHighestFilledSlot() {
-        return this.items.size() - 1;
-    }
-
-    /**
-     * Returns the first slot number of no item.
-     * @return the slot number.
-     */
-    public int getNextEmptySlot(SGMenu menu) {
-        int slot = 0;
-        for (final var item : this.items) {
-            if (item == null) break;
-            slot ++;
-        }
-        return slot;
+        return Objects.requireNonNullElse(this.filteredItems, this.items).size() - 1;
     }
 
     /**
@@ -471,7 +463,7 @@ public class Menu implements InventoryHolder {
     /**
      * Refresh an inventory that is currently open for a given viewer.
      *
-     * <p>This method checks if the specified viewer is looking at an {@link Menu} and, if they are, it refreshes the
+     * <p>This method checks if the specified viewer is looking at an {@link InventoryMenu} and, if they are, it refreshes the
      * inventory for them.
      *
      * @param viewer The viewer of the open inventory.
@@ -483,22 +475,46 @@ public class Menu implements InventoryHolder {
         final var inventoryHolder = openTopInventory.getHolder();
         if (inventoryHolder != this) return;
 
+        // Get new inventory
+        final var newInventory = getInventory();
+
         // If the name has changed, we'll need to open a new inventory.
         if (!openInventory.title().equals(name)) {
-            viewer.openInventory(getInventory());
+            viewer.openInventory(newInventory);
             return;
         }
 
         // Otherwise, we can refresh the contents without re-opening the inventory.
-        final var newInventory = getInventory();
         final var newContents = newInventory.getContents();
         openTopInventory.setContents(newContents);
     }
 
     @Override
     public @NotNull Inventory getInventory() {
-        final var pageSize = getPageSize();
-        final var inventory = Bukkit.createInventory(this, pageSize, name);
+        final var bukkitPageSize = (this.rowsPerPage + 2) * 9;
+        final var inventory = Bukkit.createInventory(this, bukkitPageSize, name);
+
+        // Process the items
+        final var filter = this.getFilter();
+        var itemStream = this.items.stream()
+                .filter((item) -> {
+                    if (item == null) return false;
+                    return filter == null || filter.test(item);
+                });
+
+        // Sort
+        if (sorter != null) {
+            itemStream = itemStream.sorted(sorter);
+        }
+
+        // Consume the stream and assign to the filtered items (used for dynamic max page)
+        this.filteredItems = itemStream.toList();
+
+        // Ensure we are not on a page with no items!
+        final var maxPage = this.getMaxPage();
+        if (this.currentPage > maxPage) {
+            this.currentPage = maxPage;
+        }
 
         // Set the frame
         final var frameBuilder = getFrameBuilder();
@@ -507,26 +523,15 @@ public class Menu implements InventoryHolder {
             if (frameButton == null) continue;
             inventory.setItem(slot, frameButton.getIcon());
         }
-        
-        // Create and Filter
-        final var filter = this.getFilter();
-        var itemStream = this.items.stream()
-                .filter((item) -> {
-                    if (item == null) return false;
-                    return filter == null || filter.test(item);
-                });
-        
-        // Sort
-        if (sorter != null) {
-            itemStream = itemStream.sorted(sorter);
-        }
 
-        // Add Items
-        itemStream.skip(this.currentPage * 7L)
+        // Stream for the inventory view
+        final var pageSize = getPageSize();
+        this.filteredItems.stream()
+                .skip((long) this.currentPage * pageSize)
                 .limit(pageSize)
                 .map(Button::getIcon)
                 .forEach(inventory::addItem);
-        
+
         return inventory;
     }
 }

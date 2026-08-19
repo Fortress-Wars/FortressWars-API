@@ -1,9 +1,9 @@
-package net.fortresswars.ui.inventory.menus;
+package net.fortresswars.core.ui.inventory.menus;
 
 import net.fortresswars.helpers.EntityHelper;
-import net.fortresswars.ui.inventory.MenuUI;
-import net.fortresswars.ui.inventory.buttons.Button;
-import net.fortresswars.ui.inventory.buttons.ButtonListener;
+import net.fortresswars.core.ui.inventory.InventoryGUI;
+import net.fortresswars.core.ui.inventory.buttons.Button;
+import net.fortresswars.core.ui.inventory.buttons.ButtonListener;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -22,35 +22,35 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 /**
- * The {@link MenuListener} provides reusable core logic for version-specific MenuUI inventory listeners.
+ * The {@link InventoryMenuListener} provides reusable core logic for version-specific MenuUI inventory listeners.
  * This class is based on SGMenuListenerBase.java from <a href="https://github.com/SamJakob/SpiGUI">...</a>
  */
-public class MenuListener implements Listener {
+public class InventoryMenuListener implements Listener {
 
-    private @NotNull final MenuUI menuUI;
+    private @NotNull final InventoryGUI inventoryGUI;
 
     /**
-     * Initialize an BaseMenuListener for the specified {@link MenuUI} instance.
-     * @param menuUI that this listener is registered for.
+     * Initialize an BaseMenuListener for the specified {@link InventoryGUI} instance.
+     * @param inventoryGUI that this listener is registered for.
      */
-    public MenuListener(@NotNull MenuUI menuUI) {
-        this.menuUI = menuUI;
+    public InventoryMenuListener(@NotNull InventoryGUI inventoryGUI) {
+        this.inventoryGUI = inventoryGUI;
     }
 
     /**
      * Returns true if the specified inventory exists and is a Menu, as that implies the inventory event should be
-     * handled by this {@link MenuListener} class.
+     * handled by this {@link InventoryMenuListener} class.
      * @param inventory to check.
-     * @return true if inventory event should be handled by {@link MenuListener}, false if not.
+     * @return true if inventory event should be handled by {@link InventoryMenuListener}, false if not.
      */
     protected boolean isMenu(@Nullable Inventory inventory) {
-        return inventory != null && inventory.getHolder() != null && inventory.getHolder() instanceof Menu;
+        return inventory != null && inventory.getHolder() != null && inventory.getHolder() instanceof InventoryMenu;
     }
 
     /**
      * In addition to the tests done by {@link #isMenu(Inventory)}, this method checks whether the instance of
-     * {@link MenuUI} that this listener is listening on behalf of, holds a different plugin to the plugin that the
-     * inventory is for. If the {@code inventory} is not an {@link Menu}, or it is held by a different plugin, the
+     * {@link InventoryGUI} that this listener is listening on behalf of, holds a different plugin to the plugin that the
+     * inventory is for. If the {@code inventory} is not an {@link InventoryMenu}, or it is held by a different plugin, the
      * event should be ignored by this listener instance.
      *
      * @param inventory to check.
@@ -60,16 +60,16 @@ public class MenuListener implements Listener {
         if (inventory == null) return true;
         if (inventory.getHolder() == null) return true;
         if (!isMenu(inventory)) return true;
-        return !Objects.equals(((Menu) inventory.getHolder()).getOwner(), menuUI.getOwner());
+        return !Objects.equals(((InventoryMenu) inventory.getHolder()).getOwner(), inventoryGUI.getOwner());
     }
 
     /**
-     * Handles the main click event for an {@link Menu}.
+     * Handles the main click event for an {@link InventoryMenu}.
      *
      * <p>This is a protected method, intended to be delegated to by subclasses of this class and {@link Listener}, to
      * re-use common logic across versions whilst providing an avenue for version-specific overrides.
      *
-     * <p>The respective inventory is first checked to ensure that it is a SpiGUI {@link Menu} and, if it is, whether
+     * <p>The respective inventory is first checked to ensure that it is a SpiGUI {@link InventoryMenu} and, if it is, whether
      * a pagination button was clicked, finally (if not a pagination button) the event is delegated to the inventory the
      * click occurred in.
      *
@@ -81,9 +81,12 @@ public class MenuListener implements Listener {
         final var inventory = event.getClickedInventory();
         if (shouldIgnoreGUI(inventory)) return;
 
-        final var menu = (Menu) inventory.getHolder();
+        final var menu = (InventoryMenu) inventory.getHolder();
         final var whoClicked = event.getWhoClicked();
-        if (EntityHelper.hasInternalCooldown(whoClicked, menu.getKey())) return;
+        if (EntityHelper.hasInternalCooldown(whoClicked, menu.getKey())) {
+            event.setResult(Event.Result.DENY);
+            return;
+        }
 
         // Snapshot information like the page as soon as possible to ensure it is correct by the time the event is
         // handled.
@@ -96,7 +99,10 @@ public class MenuListener implements Listener {
 
         // Handle Frame Buttons
         final var frameButton = menu.getFrameButton(page, bukkitSlot);
-        if (handleClickButton(event, menu, frameButton)) return;
+        if (handleClickButton(event, menu, frameButton)) {
+            event.setResult(Event.Result.DENY);
+            return;
+        }
 
         // Finally, handle the button normally.
         final var menuSlot = menu.toMenuSlot(bukkitSlot);
@@ -110,17 +116,17 @@ public class MenuListener implements Listener {
     /**
      * Handle the click event for a button
      * @param event the inventory click event
-     * @param menu the menu
+     * @param inventoryMenu the menu
      * @param button the button
      * @return true if the button was successfully clicked, false otherwise.
      */
-    private boolean handleClickButton(@NotNull InventoryClickEvent event, @NotNull Menu menu, @Nullable Button button) {
+    private boolean handleClickButton(@NotNull InventoryClickEvent event, @NotNull InventoryMenu inventoryMenu, @Nullable Button button) {
         if (button == null) return false;
         final var listener = button.getListener();
         if (listener == null) return false;
         listener.onClick(event);
         final var whoClicked = event.getWhoClicked();
-        EntityHelper.setInternalCooldown(whoClicked, menu.getKey(), 250);
+        EntityHelper.setInternalCooldown(whoClicked, inventoryMenu.getKey(), 250);
         return true;
     }
 
@@ -142,12 +148,12 @@ public class MenuListener implements Listener {
     }
 
     /**
-     * Blocks drag events in an {@link Menu} and between an {@link Menu} and an adjacent inventory.
+     * Blocks drag events in an {@link InventoryMenu} and between an {@link InventoryMenu} and an adjacent inventory.
      * @param event to handle.
      */
     protected void handleDrag(@NotNull InventoryDragEvent event) {
         if (shouldIgnoreGUI(event.getInventory())) return;
-        final Menu menu = (Menu) event.getInventory().getHolder();
+        final InventoryMenu inventoryMenu = (InventoryMenu) event.getInventory().getHolder();
 
         // Cancel the drag event if any of the affected slots are in the
         // SpiGUI menu (the top inventory).
@@ -157,21 +163,21 @@ public class MenuListener implements Listener {
     }
 
     /**
-     * Overrides the close event for a Menu, ensuring the {@link Menu#getOnClose()} handler is invoked when the
+     * Overrides the close event for a Menu, ensuring the {@link InventoryMenu#getOnClose()} handler is invoked when the
      * inventory is closed.
      * @param event to handle.
      */
     protected void handleClose(@NotNull InventoryCloseEvent event) {
         if (shouldIgnoreGUI(event.getInventory())) return;
-        final Menu menu = (Menu) event.getInventory().getHolder();
-        if (menu == null) return;
+        final InventoryMenu inventoryMenu = (InventoryMenu) event.getInventory().getHolder();
+        if (inventoryMenu == null) return;
 
         // Invoke the inventory's onClose if there is one.
-        Optional.ofNullable(menu.getOnClose()).ifPresent(onClose -> onClose.accept(event));
+        Optional.ofNullable(inventoryMenu.getOnClose()).ifPresent(onClose -> onClose.accept(event));
     }
 
     /**
-     * Handles the main click event for an {@link Menu}.
+     * Handles the main click event for an {@link InventoryMenu}.
      *
      * @param event to handle.
      * @see #handleClick(InventoryClickEvent)
@@ -198,7 +204,7 @@ public class MenuListener implements Listener {
     }
 
     /**
-     * Blocks drag events in an {@link Menu} and between an {@link Menu} and an adjacent inventory.
+     * Blocks drag events in an {@link InventoryMenu} and between an {@link InventoryMenu} and an adjacent inventory.
      *
      * <p>It is recommended that the event listener that invokes this method be defined with
      * {@link org.bukkit.event.EventPriority#LOWEST}, meaning that the event handler will be invoked first (allowing

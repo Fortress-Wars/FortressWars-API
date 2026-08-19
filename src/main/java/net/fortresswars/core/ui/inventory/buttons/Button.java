@@ -1,5 +1,6 @@
-package net.fortresswars.ui.inventory.buttons;
+package net.fortresswars.core.ui.inventory.buttons;
 
+import net.fortresswars.core.ui.inventory.InventoryGUI;
 import net.fortresswars.core.items.ItemStackFactory;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -62,7 +63,7 @@ public class Button {
     /**
      * Returns the {@link ButtonListener} that is to be executed when the button is clicked.
      *
-     * <p>This is typically intended for internal use by the main {@link com.samjakob.spigui.SpiGUI} API.
+     * <p>This is typically intended for internal use by the main {@link InventoryGUI} API.
      *
      * @return The listener to be called when the button is clicked.
      */
