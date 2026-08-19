@@ -37,8 +37,10 @@ public abstract class InventoryMenu implements InventoryHolder {
     private Component name;
     private int currentPage;
     private @NotNull FrameBuilder frameBuilder;
+    private int filterIndex;
     private Predicate<Button> filter;
-    private Comparator<Button> sorter;
+    private int sortIndex;
+    private Comparator<Button> sort;
     private Consumer<InventoryCloseEvent> onClose;
     private Consumer<InventoryMenu> onPageChange;
 
@@ -55,6 +57,8 @@ public abstract class InventoryMenu implements InventoryHolder {
         this.currentPage = 0;
         this.frameBuilder = new DefaultFrameBuilder();
         this.key = new NamespacedKey(inventoryGUI.getOwner(), "menu_" + UUID.randomUUID());
+        this.filterIndex = -1;
+        this.sortIndex = -1;
     }
 
     /**
@@ -440,22 +444,50 @@ public abstract class InventoryMenu implements InventoryHolder {
 
     // -- Filter -- //
 
-    public void setFilter(Predicate<Button> filter) {
+    public void setFilter(int filterIndex, Predicate<Button> filter) {
+        this.filterIndex = filterIndex;
         this.filter = filter;
+    }
+    
+    public void removeFilter() {
+        this.filterIndex = -1;
+        this.filter = null;
+    }
+    
+    public boolean hasFilter() {
+        return this.filter != null;
     }
 
     public Predicate<Button> getFilter() {
         return this.filter;
     }
+    
+    public int getFilterIndex() {
+        return this.filterIndex;
+    }
 
     // -- Sort -- //
 
-    public void setSorter(Comparator<Button> sorter) {
-        this.sorter = sorter;
+    public void setSort(int sortIndex, Comparator<Button> sort) {
+        this.sortIndex = sortIndex;
+        this.sort = sort;
+    }
+    
+    public void removeSort() {
+        this.sortIndex = -1;
+        this.sort = null;
     }
 
-    public Comparator<Button> getSorter() {
-        return this.sorter;
+    public boolean hasSort() {
+        return this.sort != null;
+    }
+
+    public Comparator<Button> getSort() {
+        return this.sort;
+    }
+
+    public int getSortIndex() {
+        return this.sortIndex;
     }
 
     // -- INVENTORY API -- //
@@ -503,8 +535,9 @@ public abstract class InventoryMenu implements InventoryHolder {
                 });
 
         // Sort
-        if (sorter != null) {
-            itemStream = itemStream.sorted(sorter);
+        if (sort != null) {
+            final var sort = this.getSort();
+            itemStream = itemStream.sorted(sort);
         }
 
         // Consume the stream and assign to the filtered items (used for dynamic max page)

@@ -107,7 +107,7 @@ public class InventoryMenuListener implements Listener {
         // Finally, handle the button normally.
         final var menuSlot = menu.toMenuSlot(bukkitSlot);
         final var button = menu.getButton(page, menuSlot);
-        if (handleClickButton(event, menu, frameButton)) return;
+        if (handleClickButton(event, menu, button)) return;
 
         // If the button wasn't clicked deny the click event
         event.setResult(Event.Result.DENY);
