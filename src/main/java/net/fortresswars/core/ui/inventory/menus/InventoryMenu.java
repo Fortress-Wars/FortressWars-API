@@ -31,15 +31,17 @@ public abstract class InventoryMenu implements InventoryHolder {
     private @NotNull final NamespacedKey key;
     private @NotNull final InventoryGUI inventoryGUI;
     private @NotNull final List<Button> items;
-    private @Nullable List<Button> viewedItems;
     private final int rowsPerPage;
+    private final Set<Integer> frameSlots;
 
     private Component name;
-    private int currentPage;
+    private @Nullable List<Button> viewedItems;
     private @NotNull FrameBuilder frameBuilder;
+    private int currentPage;
     private int filterIndex;
-    private Predicate<Button> filter;
     private int sortIndex;
+
+    private Predicate<Button> filter;
     private Comparator<Button> sort;
     private Consumer<InventoryCloseEvent> onClose;
     private Consumer<InventoryMenu> onPageChange;
@@ -49,14 +51,16 @@ public abstract class InventoryMenu implements InventoryHolder {
      * This class is based on SGMenu.java from <a href="https://github.com/SamJakob/SpiGUI">...</a>
      */
     public InventoryMenu(@NotNull InventoryGUI inventoryGUI, int rowsPerPage) {
-        this.inventoryGUI = inventoryGUI;
-        this.name = Component.text("Loading...", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false);
-        this.rowsPerPage = Math.clamp(rowsPerPage, 1, 4);
-        this.items = new LinkedList<>();
-        this.viewedItems = new LinkedList<>();
-        this.currentPage = 0;
-        this.frameBuilder = new DefaultFrameBuilder();
         this.key = new NamespacedKey(inventoryGUI.getOwner(), "menu_" + UUID.randomUUID());
+        this.inventoryGUI = inventoryGUI;
+        this.items = new LinkedList<>();
+        this.rowsPerPage = Math.clamp(rowsPerPage, 1, 4);
+        this.frameSlots = FrameButtonType.getFrameSlots(this.rowsPerPage + 2, 9);
+
+        this.name = Component.text("Loading...", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false);
+        this.viewedItems = new LinkedList<>();
+        this.frameBuilder = new DefaultFrameBuilder();
+        this.currentPage = 0;
         this.filterIndex = -1;
         this.sortIndex = -1;
     }
@@ -267,9 +271,9 @@ public abstract class InventoryMenu implements InventoryHolder {
      * @return The frame {@link Button} that was in that slot or null if it is not a frame button.
      */
     public Button getFrameButton(int page, int slot) {
-        if (!DefaultFrameBuilder.VALID_FRAME_SLOTS.contains(slot)) return null;
+        if (!frameSlots.contains(slot)) return null;
         final var frameBuilder = this.getFrameBuilder();
-        final var frameType = FrameButtonType.getDefaultForSlot(slot);
+        final var frameType = FrameButtonType.getDefaultForSlot(this.rowsPerPage, slot);
         final var button = frameBuilder.buildFrameButton(slot, page, frameType, this);
         if (button != null) return button;
         return Button.getEmptyButton();
@@ -551,7 +555,8 @@ public abstract class InventoryMenu implements InventoryHolder {
 
         // Set the frame
         final var frameBuilder = getFrameBuilder();
-        for (final int slot : DefaultFrameBuilder.VALID_FRAME_SLOTS) {
+        for (final int slot : frameSlots) {
+            if (slot >= bukkitPageSize) continue;
             final var frameButton = this.getFrameButton(currentPage, slot);
             if (frameButton == null) continue;
             inventory.setItem(slot, frameButton.getIcon());
