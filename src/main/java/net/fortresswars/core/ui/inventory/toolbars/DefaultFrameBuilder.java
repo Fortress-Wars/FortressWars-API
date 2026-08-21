@@ -41,7 +41,8 @@ public class DefaultFrameBuilder implements FrameBuilder {
             return buildSortButton(inventoryMenu);
         }
 
-        return null;
+        // Unassigned
+        return buildUnassignedButton(slot, page, inventoryMenu);
     }
 
     public @Nullable Button buildPreviousButton(@NotNull InventoryMenu inventoryMenu) {
@@ -89,6 +90,10 @@ public class DefaultFrameBuilder implements FrameBuilder {
     }
 
     public @Nullable Button buildSortButton(@NotNull InventoryMenu inventoryMenu) {
+        return null;
+    }
+
+    public @Nullable Button buildUnassignedButton(int slot, int page, @NotNull InventoryMenu inventoryMenu) {
         return null;
     }
 }
