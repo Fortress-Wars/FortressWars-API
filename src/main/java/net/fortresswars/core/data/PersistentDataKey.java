@@ -28,6 +28,7 @@ public record PersistentDataKey (
 
     // ids
     public static PersistentDataKey ID = new PersistentDataKey("id", PersistentDataType.STRING);
+    public static PersistentDataKey NAME = new PersistentDataKey("name", PersistentDataType.STRING);
     public static PersistentDataKey UUID = new PersistentDataKey("uuid", PersistentDataType.STRING);
     public static PersistentDataKey OWNER = new PersistentDataKey("owner", PersistentDataType.STRING);
     public static PersistentDataKey PARENT = new PersistentDataKey("parent", PersistentDataType.STRING);
