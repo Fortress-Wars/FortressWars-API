@@ -251,6 +251,17 @@ public class ItemStackFactory {
         return this;
     }
 
+    public ItemStackFactory appendLore(List<Component> lore) {
+        final List<Component> existingLore = itemMeta.lore();
+        if (existingLore == null) {
+            return setLore(lore);
+        }
+        final List<Component> newLore = new ArrayList<>(existingLore);
+        newLore.addAll(lore);
+        itemMeta.lore(newLore);
+        return this;
+    }
+
     public ItemStackFactory setLore(List<Component> lore) {
         itemMeta.lore(lore);
         return this;
