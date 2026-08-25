@@ -23,6 +23,7 @@ import org.jspecify.annotations.NonNull;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
@@ -44,7 +45,7 @@ public abstract class InventoryMenu implements InventoryHolder {
     private Predicate<Button> filter;
     private Comparator<Button> sort;
     private Consumer<InventoryCloseEvent> onClose;
-    private Consumer<InventoryMenu> onPageChange;
+    private BiConsumer<HumanEntity, InventoryMenu> onPageChange;
 
     /**
      * Menu is used to implement the library's GUIs.
@@ -74,10 +75,10 @@ public abstract class InventoryMenu implements InventoryHolder {
 
     /**
      * Get the name of the menu after it has been loaded.
-     * @param player the player opening the menu.
+     * @param humanEntity the human entity opening the menu.
      * @return the name as a component.
      */
-    public abstract Component getPostLoadedName(Player player);
+    public abstract Component getPostLoadedName(HumanEntity humanEntity);
 
     public void setFrameBuilder(@NonNull FrameBuilder frameBuilder) {
         this.frameBuilder = frameBuilder;
@@ -305,9 +306,9 @@ public abstract class InventoryMenu implements InventoryHolder {
      * The action to be performed on page change.
      *
      * @return The action to be performed on page change.
-     * @see #setOnPageChange(Consumer)
+     * @see #setOnPageChange(BiConsumer)
      */
-    public Consumer<InventoryMenu> getOnPageChange() {
+    public BiConsumer<HumanEntity, InventoryMenu> getOnPageChange() {
         return this.onPageChange;
     }
 
@@ -316,7 +317,7 @@ public abstract class InventoryMenu implements InventoryHolder {
      *
      * @param onPageChange The action to be performed on page change.
      */
-    public void setOnPageChange(Consumer<InventoryMenu> onPageChange) {
+    public void setOnPageChange(BiConsumer<HumanEntity, InventoryMenu> onPageChange) {
         this.onPageChange = onPageChange;
     }
 
@@ -404,7 +405,7 @@ public abstract class InventoryMenu implements InventoryHolder {
         if (currentPage < getMaxPage()) {
             currentPage++;
             refreshInventory(viewer);
-            if (this.onPageChange != null) this.onPageChange.accept(this);
+            if (this.onPageChange != null) this.onPageChange.accept(viewer, this);
             return true;
         } else {
             return false;
@@ -422,7 +423,7 @@ public abstract class InventoryMenu implements InventoryHolder {
         if (currentPage > 0) {
             currentPage--;
             refreshInventory(viewer);
-            if (this.onPageChange != null) this.onPageChange.accept(this);
+            if (this.onPageChange != null) this.onPageChange.accept(viewer, this);
             return true;
         } else {
             return false;
@@ -511,6 +512,13 @@ public abstract class InventoryMenu implements InventoryHolder {
         final var inventoryHolder = openTopInventory.getHolder();
         if (inventoryHolder != this) return;
 
+        // refresh the items
+        this.refreshViewedItems();
+
+        // Update the name
+        final var name = getPostLoadedName(viewer);
+        setName(name);
+
         // Get new inventory
         final var newInventory = getInventory();
 
@@ -525,11 +533,7 @@ public abstract class InventoryMenu implements InventoryHolder {
         openTopInventory.setContents(newContents);
     }
 
-    @Override
-    public @NotNull Inventory getInventory() {
-        final var bukkitPageSize = (this.rowsPerPage + 2) * 9;
-        final var inventory = Bukkit.createInventory(this, bukkitPageSize, name);
-
+    private void refreshViewedItems() {
         // Process the items
         final var filter = this.getFilter();
         var itemStream = this.items.stream()
@@ -552,6 +556,12 @@ public abstract class InventoryMenu implements InventoryHolder {
         if (this.currentPage > maxPage) {
             this.currentPage = maxPage;
         }
+    }
+
+    @Override
+    public @NotNull Inventory getInventory() {
+        final var bukkitPageSize = (this.rowsPerPage + 2) * 9;
+        final var inventory = Bukkit.createInventory(this, bukkitPageSize, name);
 
         // Set the frame
         final var frameBuilder = getFrameBuilder();
@@ -563,12 +573,14 @@ public abstract class InventoryMenu implements InventoryHolder {
         }
 
         // Stream for the inventory view
-        final var pageSize = getPageSize();
-        this.viewedItems.stream()
-                .skip((long) this.currentPage * pageSize)
-                .limit(pageSize)
-                .map(Button::getIcon)
-                .forEach(inventory::addItem);
+        if (this.viewedItems != null) {
+            final var pageSize = getPageSize();
+            this.viewedItems.stream()
+                    .skip((long) this.currentPage * pageSize)
+                    .limit(pageSize)
+                    .map(Button::getIcon)
+                    .forEach(inventory::addItem);
+        }
 
         return inventory;
     }

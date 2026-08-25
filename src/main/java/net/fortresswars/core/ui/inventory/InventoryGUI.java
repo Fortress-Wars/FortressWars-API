@@ -41,12 +41,10 @@ public class InventoryGUI {
         final CompletableFuture<Void> buildFuture = menu.build(player);
         buildFuture.thenAccept((unused) -> {
             // Refresh Synchronously
-            final var name = menu.getPostLoadedName(player);
-            menu.setName(name);
             Bukkit.getScheduler().runTask(plugin, () -> menu.refreshInventory(player));
         }).exceptionally((e) -> {
             plugin.getLogger().warning("Error opening menu: " +  e.getMessage());
-            Bukkit.getScheduler().runTask(plugin, () -> menu.refreshInventory(player));
+            Bukkit.getScheduler().runTask(plugin, () -> player.closeInventory());
             return null;
         });
     }
