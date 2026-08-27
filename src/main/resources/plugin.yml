@@ -1,6 +1,0 @@
-name: '${name}'
-version: '${version}'
-
-main: net.fortresswars.FortressWarsAPI
-api-version: '1.21.11'
-load: POSTWORLD

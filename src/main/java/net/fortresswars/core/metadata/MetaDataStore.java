@@ -1,6 +1,5 @@
 package net.fortresswars.core.metadata;
 
-import net.fortresswars.FortressWarsAPI;
 import net.fortresswars.core.damage.FWDamageCause;
 import net.fortresswars.core.entities.FortressWarsPlayer;
 import net.fortresswars.core.kits.abilities.AbilityID;
@@ -11,7 +10,6 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Entity;
-import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.metadata.Metadatable;
 
@@ -44,13 +42,13 @@ public class MetaDataStore {
     }
 
     public static void removeMetaData(Metadatable m, MetaDataKey key) {
-        m.removeMetadata(META_DATA_KEY_PREFIX + key, FortressWarsAPI.getInstance());
+//        m.removeMetadata(META_DATA_KEY_PREFIX + key, FortressWarsAPI.getInstance());
     }
 
     public static <T> void setMetaData(Metadatable m, MetaDataKey key, T value) {
         if (m == null) return;
         if (key == null) return;
-        m.setMetadata(META_DATA_KEY_PREFIX + key, new FixedMetadataValue(FortressWarsAPI.getInstance(), value));
+//        m.setMetadata(META_DATA_KEY_PREFIX + key, new FixedMetadataValue(FortressWarsAPI.getInstance(), value));
     }
 
     public static boolean hasMetaData(Metadatable m, MetaDataKey key) {
