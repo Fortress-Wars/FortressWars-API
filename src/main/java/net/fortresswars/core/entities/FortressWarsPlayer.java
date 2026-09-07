@@ -20,10 +20,6 @@ public interface FortressWarsPlayer extends FortressWarsLivingEntity {
 
     void resetGear();
 
-    void setKitToChangeTo(KitID kitID);
-
-    KitID getKitToChangeTo();
-
     void stopQuitTimer();
 
     void setQuitTimer(BukkitTask quitTimer);
