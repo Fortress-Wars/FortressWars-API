@@ -16,15 +16,11 @@ public class GameEvent extends FortressWarsEvent {
     }
 
     public String getMapID() {
-        final var map = game.getMap();
-        final var mapDisplayData = map.getMapDisplayData();
-        return mapDisplayData.id();
+        return game.getMapDisplayData().id();
     }
 
     public String getMapName() {
-        final var map = game.getMap();
-        final var mapDisplayData = map.getMapDisplayData();
-        return mapDisplayData.displayName();
+        return game.getMapDisplayData().displayName();
     }
 
     public String getGameruleName() {
