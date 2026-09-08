@@ -180,7 +180,7 @@ public class VotingContainer {
         }
 
         final List<VotingEntry> sortedVotingEntry = new ArrayList<>(entryMap.values());
-        sortedVotingEntry.sort(Comparator.comparingInt(VotingEntry::getVotes));
+        sortedVotingEntry.sort((a, b) -> b.getVotes() - a.getVotes());
         return VotingEntry.copy(sortedVotingEntry.getFirst());
     }
 
