@@ -7,6 +7,7 @@ import io.papermc.paper.datacomponent.item.Consumable;
 import net.fortresswars.FortressWarsAPI;
 import net.fortresswars.core.data.PersistentData;
 import net.fortresswars.core.data.PersistentDataKey;
+import net.fortresswars.core.data.PersistentDataValue;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.Style;
@@ -276,8 +277,23 @@ public class ItemStackFactory {
         return this;
     }
 
+    public ItemStackFactory setProperty(PersistentDataKey property, Object object) {
+        PersistentData.setProperty(itemMeta, property, object, null);
+        return this;
+    }
+
+    public PersistentDataValue getProperty(PersistentDataKey property) {
+        return PersistentData.getProperty(itemMeta, property);
+    }
+
+    public static PersistentDataValue getProperty(ItemStack item, PersistentDataKey property) {
+        return PersistentData.getProperty(item.getItemMeta(), property);
+    }
+
     public ItemStackFactory withPersistentData(Consumer<PersistentData> persistentDataConsumer) {
-        persistentData = new PersistentData();
+        if (persistentData == null) {
+            persistentData = new PersistentData();
+        }
         persistentDataConsumer.accept(persistentData);
         return this;
     }
@@ -292,6 +308,7 @@ public class ItemStackFactory {
     public ItemStackFactory removePersistentData(Set<PersistentDataKey> persistentDataSet, NamespacedKey namespacedKey) {
         if (persistentDataSet != null) {
             PersistentData.removeData(itemMeta, persistentDataSet, namespacedKey);
+            persistentData = null;
         }
         return this;
     }
