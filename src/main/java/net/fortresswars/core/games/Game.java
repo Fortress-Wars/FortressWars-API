@@ -3,6 +3,7 @@ package net.fortresswars.core.games;
 import net.fortresswars.core.entities.FortressWarsEntity;
 import net.fortresswars.core.gamerules.Gamerule;
 import net.fortresswars.core.games.scores.Score;
+import net.fortresswars.core.managers.Enableable;
 import net.fortresswars.core.maps.MapDisplayData;
 import net.fortresswars.core.player.TeamColor;
 import org.bukkit.Location;
@@ -10,7 +11,7 @@ import org.bukkit.block.Block;
 
 import java.util.List;
 
-public interface Game {
+public interface Game extends Enableable {
 
     Gamerule getGamerule();
 
