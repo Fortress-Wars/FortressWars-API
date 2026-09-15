@@ -23,4 +23,6 @@ public interface FortressWarsEntity extends Fighter, Hackable, Zappable, Dataabl
     Entity getEntity();
 
     boolean isInGame();
+
+    void saveEntityPauseState(boolean hasQuit);
 }

@@ -314,7 +314,7 @@ public class ItemStackFactory {
     }
 
     public ItemStackFactory hideAttributes() {
-        final NamespacedKey namespacedKey = new NamespacedKey(FortressWarsAPI.NAMESPACE, "dummy.attribute");
+        final NamespacedKey namespacedKey = createNormalizedKey("dummy.attribute");
         itemMeta.addAttributeModifier(
                 Attribute.LUCK,
                 new AttributeModifier(
@@ -328,8 +328,13 @@ public class ItemStackFactory {
         return this;
     }
 
+    private static NamespacedKey createNormalizedKey(@NotNull String key) {
+        final var normalizedKey = key.toLowerCase().replace("-", "_");
+        return new NamespacedKey(FortressWarsAPI.NAMESPACE, normalizedKey);
+    }
+
     public ItemStackFactory addMeleeDamage(double damage) {
-        final NamespacedKey namespacedKey = new NamespacedKey(FortressWarsAPI.NAMESPACE, "generic.attack_damage." + UUID.randomUUID());
+        final NamespacedKey namespacedKey = createNormalizedKey("generic.attack_damage." + UUID.randomUUID());
         itemMeta.addAttributeModifier(
                 Attribute.ATTACK_DAMAGE,
                 new AttributeModifier(
@@ -343,7 +348,7 @@ public class ItemStackFactory {
     }
 
     public ItemStackFactory addMeleeSpeed(double speed) {
-        final NamespacedKey namespacedKey = new NamespacedKey(FortressWarsAPI.NAMESPACE, "generic.attack_speed." + UUID.randomUUID());
+        final NamespacedKey namespacedKey = createNormalizedKey("generic.attack_speed." + UUID.randomUUID());
         itemMeta.addAttributeModifier(
                 Attribute.ATTACK_SPEED,
                 new AttributeModifier(
@@ -356,8 +361,8 @@ public class ItemStackFactory {
         return this;
     }
 
-    public ItemStackFactory setArmorToughness(double armorToughness, EquipmentSlotGroup slot) {
-        final NamespacedKey namespacedKey = new NamespacedKey(FortressWarsAPI.NAMESPACE, "generic.armorToughness." + UUID.randomUUID());
+    public ItemStackFactory addArmorToughness(double armorToughness, EquipmentSlotGroup slot) {
+        final NamespacedKey namespacedKey = createNormalizedKey("generic.armorToughness." + UUID.randomUUID());
         itemMeta.removeAttributeModifier(Attribute.ARMOR_TOUGHNESS);
         itemMeta.addAttributeModifier(
                 Attribute.ARMOR_TOUGHNESS,
@@ -371,8 +376,8 @@ public class ItemStackFactory {
         return this;
     }
 
-    public ItemStackFactory setKnockbackResistance(double armorKnockbackResistance, EquipmentSlotGroup slot) {
-        final NamespacedKey namespacedKey = new NamespacedKey(FortressWarsAPI.NAMESPACE, "generic.armorKnockbackResistance." + UUID.randomUUID());
+    public ItemStackFactory addKnockbackResistance(double armorKnockbackResistance, EquipmentSlotGroup slot) {
+        final NamespacedKey namespacedKey = createNormalizedKey("generic.armorKnockbackResistance." + UUID.randomUUID());
         itemMeta.removeAttributeModifier(Attribute.KNOCKBACK_RESISTANCE);
         itemMeta.addAttributeModifier(
                 Attribute.KNOCKBACK_RESISTANCE,
@@ -386,8 +391,8 @@ public class ItemStackFactory {
         return this;
     }
 
-    public ItemStackFactory setArmorPoints(double armorPoints, EquipmentSlotGroup slot) {
-        final NamespacedKey namespacedKey = new NamespacedKey(FortressWarsAPI.NAMESPACE, "generic.armor." + UUID.randomUUID());
+    public ItemStackFactory addArmorPoints(double armorPoints, EquipmentSlotGroup slot) {
+        final NamespacedKey namespacedKey = createNormalizedKey("generic.armor." + UUID.randomUUID());
         itemMeta.removeAttributeModifier(Attribute.ARMOR);
         itemMeta.addAttributeModifier(
                 Attribute.ARMOR,
