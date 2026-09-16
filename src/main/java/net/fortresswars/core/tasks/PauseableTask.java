@@ -171,7 +171,6 @@ public abstract class PauseableTask implements Runnable, Pauseable<PauseableTask
 
         // Calculate new period and delay
         final var pauseInstant = Instant.now();
-        this.period = getNewRemainingTicks(this.period, this.runInstant, pauseInstant);
         this.delay = getNewRemainingTicks(this.delay, this.runInstant, pauseInstant);
         Bukkit.getScheduler().cancelTask(taskId);
         this.task = null;

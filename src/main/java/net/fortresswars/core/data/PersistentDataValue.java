@@ -31,10 +31,8 @@ public class PersistentDataValue {
      * @return value - string
      */
     public @Nullable String asString() {
-        if (value instanceof String stringValue) {
-            return stringValue;
-        }
-        return null;
+        if (value == null) return null;
+        return value.toString();
     }
 
     /**
