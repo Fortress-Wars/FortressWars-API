@@ -45,6 +45,8 @@ public record PersistentDataKey (
 
     // Attributes
     public static PersistentDataKey WEIGHT = new PersistentDataKey("weight", PersistentDataType.INTEGER);
+    public static PersistentDataKey CAUSE = new PersistentDataKey("cause", PersistentDataType.STRING);
+    public static PersistentDataKey DAMAGE_CAUSE = new PersistentDataKey("damage_cause", PersistentDataType.STRING);
     public static PersistentDataKey DAMAGE = new PersistentDataKey("damage", PersistentDataType.DOUBLE);
     public static PersistentDataKey MELEE_DAMAGE = new PersistentDataKey("melee_damage", PersistentDataType.DOUBLE);
     public static PersistentDataKey SPEED = new PersistentDataKey("speed", PersistentDataType.DOUBLE);

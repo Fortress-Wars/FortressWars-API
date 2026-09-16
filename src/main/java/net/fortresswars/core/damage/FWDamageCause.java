@@ -318,6 +318,14 @@ public enum FWDamageCause {
         return shieldDamageType;
     }
 
+    public static FWDamageCause fromString(String string) {
+        try {
+            return FWDamageCause.valueOf(string.toUpperCase());
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     private static Map<EntityDamageEvent.DamageCause, Set<DamageType>> getSpigotDamageTypeMap() {
         if (spigotDamageTypeMap == null) {
             spigotDamageTypeMap = Map.ofEntries(
