@@ -1,16 +1,9 @@
 package net.fortresswars.core.entities;
 
 import net.fortresswars.core.damage.FWDamageCause;
-import org.bukkit.Location;
 import org.bukkit.util.BoundingBox;
 
-public interface Zappable extends Stunnable {
-
-    /**
-     * Get the minecraft location of this class.
-     * @return The location
-     */
-    Location getLocation();
+public interface Zappable extends Stunnable, Locatable {
 
     /**
      * Get the bounding box of the zappable
