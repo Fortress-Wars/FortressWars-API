@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
+import org.jetbrains.annotations.NotNull;
 
 public class TeamHelper {
 
@@ -62,8 +63,14 @@ public class TeamHelper {
         team.setAllowFriendlyFire(true);
         team.setCanSeeFriendlyInvisibles(false);
         team.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
-        team.color(teamColor.getChatColor());
+        team.color(teamColor.getNamedTextColor());
         return team;
+    }
+
+    public static void setOption(TeamColor teamColor, @NotNull Team.Option option, @NotNull Team.OptionStatus optionStatus) {
+        final var team = getTeam(teamColor);
+        if (team == null) return;
+        team.setOption(option, optionStatus);
     }
 
     public static Team deleteTeam(TeamColor teamColor) {

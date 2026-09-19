@@ -7,6 +7,7 @@
 package net.fortresswars.core.player;
 
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.boss.BarColor;
 import org.jetbrains.annotations.NotNull;
@@ -20,6 +21,7 @@ public enum TeamColor {
             "Red",
             Color.fromRGB(153, 0, 0),
             NamedTextColor.RED,
+            ChatColor.RED,
             BarColor.RED,
             true
     ),
@@ -27,6 +29,7 @@ public enum TeamColor {
             "Blue",
             Color.fromRGB(0, 0, 153),
             NamedTextColor.BLUE,
+            ChatColor.BLUE,
             BarColor.BLUE,
             true
     ),
@@ -34,6 +37,7 @@ public enum TeamColor {
             "Random",
             Color.PURPLE,
             NamedTextColor.DARK_PURPLE,
+            ChatColor.DARK_PURPLE,
             BarColor.PURPLE,
             false
     ),
@@ -41,6 +45,7 @@ public enum TeamColor {
             "None",
             Color.WHITE,
             NamedTextColor.WHITE,
+            ChatColor.WHITE,
             BarColor.WHITE,
             false
     );
@@ -49,19 +54,28 @@ public enum TeamColor {
     private final String id;
     private final String friendlyName;
     private final Color color;
-    private final NamedTextColor chatColor;
+    private final NamedTextColor namedTextColor;
+    private final ChatColor chatColor;
     private final BarColor barColor;
     private final int colorInt;
-    private final boolean hasTeamChat;
+    private final boolean isGameTeam;
 
-    TeamColor(String friendlyName, Color color, NamedTextColor chatColor, BarColor barColor, boolean hasTeamChat) {
+    TeamColor(
+            String friendlyName,
+            Color color,
+            NamedTextColor namedTextColor,
+            ChatColor chatColor,
+            BarColor barColor,
+            boolean isGameTeam
+    ) {
         this.id = ordinal() + "_" + this.name();
         this.friendlyName = friendlyName;
         this.color = color;
+        this.namedTextColor = namedTextColor;
         this.chatColor = chatColor;
         this.colorInt = color.asARGB();
         this.barColor = barColor;
-        this.hasTeamChat = hasTeamChat;
+        this.isGameTeam = isGameTeam;
     }
 
     public static TeamColor fromId(@NotNull String name) {
@@ -90,16 +104,24 @@ public enum TeamColor {
         return colorInt;
     }
 
-    public NamedTextColor getChatColor() {
-        return chatColor;
+    public NamedTextColor getNamedTextColor() {
+        return namedTextColor;
+    }
+
+    public ChatColor getChatColor() {
+        return this.chatColor;
     }
 
     public @NotNull BarColor getBarColor() {
         return barColor;
     }
 
-    public boolean hasTeamChat() {
-        return hasTeamChat;
+    /**
+     * If the team is an actual team that is played in a game.
+     * @return true if is, false if it is not.
+     */
+    public boolean isGameTeam() {
+        return isGameTeam;
     }
 
     public static TeamColor getRandomTeam() {

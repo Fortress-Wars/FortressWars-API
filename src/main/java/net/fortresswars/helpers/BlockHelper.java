@@ -381,14 +381,14 @@ public class BlockHelper {
         return false;
     }
 
-    public void setWaterLogged(Block block) {
+    public static void setWaterLogged(Block block) {
         final BlockData blockData = block.getBlockData();
         if (!(blockData instanceof Waterlogged waterlogged)) return;
         waterlogged.setWaterlogged(true);
         block.setBlockData(blockData);
     }
 
-    private static BlockData isRestorableBlockData(BlockData blockData) {
+    public static BlockData isRestorableBlockData(BlockData blockData) {
         final Material material = blockData.getMaterial();
         if (material == Material.STRUCTURE_VOID) return blockData;
 
