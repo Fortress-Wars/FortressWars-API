@@ -1,14 +1,11 @@
 package net.fortresswars.core.entities;
 
+import net.fortresswars.core.games.Game;
 import net.fortresswars.core.player.TeamColor;
 import org.bukkit.entity.Entity;
+import org.jetbrains.annotations.NotNull;
 
 public interface FortressWarsEntity extends Fighter, Hackable, Zappable, Dataable, Taskable, Pauseable<Boolean> {
-
-    /**
-     * Delete the entity
-     */
-    void delete();
 
     void setEntity(Entity entity);
 
@@ -22,7 +19,12 @@ public interface FortressWarsEntity extends Fighter, Hackable, Zappable, Dataabl
 
     Entity getEntity();
 
-    boolean isInGame();
+    @NotNull Game getGame();
 
     void saveEntityPauseState(boolean hasQuit);
+
+    /**
+     * Delete the entity
+     */
+    void delete();
 }
