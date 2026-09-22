@@ -1,5 +1,7 @@
 package net.fortresswars.core.statistics;
 
+import net.fortresswars.core.entities.StatisticsContainer;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,13 +9,13 @@ import java.util.UUID;
 
 public abstract class RecordStat {
 
-    protected final HashMap<UUID, StatisticsPack> statisticsEntries;
+    protected final HashMap<UUID, StatisticsContainer> statisticsEntries;
     protected final List<UUID> entries;
     protected double recordValue;
     protected final boolean includeZero;
     protected final FWStat stat;
 
-    public RecordStat(HashMap<UUID, StatisticsPack> statisticsEntries, FWStat stat, boolean includeZero) {
+    public RecordStat(HashMap<UUID, StatisticsContainer> statisticsEntries, FWStat stat, boolean includeZero) {
         this.statisticsEntries = statisticsEntries;
         this.stat = stat;
         this.includeZero = includeZero;

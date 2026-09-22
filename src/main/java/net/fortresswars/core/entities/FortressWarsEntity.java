@@ -5,7 +5,7 @@ import net.fortresswars.core.player.TeamColor;
 import org.bukkit.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 
-public interface FortressWarsEntity extends Fighter, Hackable, Zappable, Dataable, Taskable, Pauseable<Boolean> {
+public interface FortressWarsEntity extends Fighter, Hackable, Zappable, Dataable, Taskable, StatisticsContainer, Pauseable<Boolean> {
 
     void setEntity(Entity entity);
 

@@ -1,11 +1,13 @@
 package net.fortresswars.core.statistics;
 
+import net.fortresswars.core.entities.StatisticsContainer;
+
 import java.util.HashMap;
 import java.util.UUID;
 
 public class LowRecordStat extends RecordStat {
 
-    public LowRecordStat(HashMap<UUID, StatisticsPack> statisticsEntries, FWStat stat, boolean includeZero) {
+    public LowRecordStat(HashMap<UUID, StatisticsContainer> statisticsEntries, FWStat stat, boolean includeZero) {
         super(statisticsEntries, stat, includeZero);
     }
 
@@ -15,8 +17,8 @@ public class LowRecordStat extends RecordStat {
         boolean firstValue = true;
 
         for (UUID uuid : statisticsEntries.keySet()) {
-            StatisticsPack sp = statisticsEntries.get(uuid);
-            double statValue = sp.getStat(stat);
+            StatisticsContainer sp = statisticsEntries.get(uuid);
+            double statValue = sp.getStatistic(stat);
             if (statValue == 0 && !includeZero) continue;
             else if (firstValue) {
                 recordValue = statValue;

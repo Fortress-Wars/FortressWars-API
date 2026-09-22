@@ -1,8 +1,8 @@
 package net.fortresswars.core.games.scores;
 
 import com.google.gson.JsonObject;
+import net.fortresswars.core.entities.StatisticsContainer;
 import net.fortresswars.core.games.states.EndReason;
-import net.fortresswars.core.statistics.StatisticsPack;
 
 import java.util.Date;
 import java.util.Set;
@@ -16,7 +16,7 @@ public record GameResults(
         Date startDate,
         Date endDate,
         EndReason endReason,
-        Set<StatisticsPack> statisticsPacks
+        Set<StatisticsContainer> statisticsPacks
 ) {
 
 }
