@@ -2,6 +2,7 @@ package net.fortresswars.core.entities;
 
 import net.fortresswars.core.games.Game;
 import net.fortresswars.core.player.TeamColor;
+import net.fortresswars.core.statistics.StatisticsContainer;
 import org.bukkit.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 

@@ -1,7 +1,5 @@
 package net.fortresswars.core.statistics;
 
-import net.fortresswars.core.entities.StatisticsContainer;
-
 import java.util.HashMap;
 import java.util.UUID;
 
