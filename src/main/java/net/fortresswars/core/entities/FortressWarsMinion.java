@@ -2,6 +2,7 @@ package net.fortresswars.core.entities;
 
 import net.fortresswars.events.damage.FWMinionDeathEvent;
 import org.bukkit.entity.Mob;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public interface FortressWarsMinion extends FortressWarsLivingEntity, Memorious {
@@ -27,7 +28,7 @@ public interface FortressWarsMinion extends FortressWarsLivingEntity, Memorious 
      * Get the underlying mob
      * @return the mob
      */
-    Mob getMob();
+    @NotNull Mob getMob();
 
     /**
      * Does this minion have a target

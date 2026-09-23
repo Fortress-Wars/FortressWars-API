@@ -5,10 +5,11 @@ import net.fortresswars.core.kits.KitDataContainer;
 import net.fortresswars.core.kits.KitID;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
+import org.jetbrains.annotations.NotNull;
 
 public interface FortressWarsPlayer extends FortressWarsLivingEntity {
 
-    Player getPlayer();
+    @NotNull Player getPlayer();
 
     Kit getKit();
 

@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 public interface FortressWarsEntity extends Fighter, Hackable, Zappable, Dataable, Taskable, StatisticsContainer, Pauseable<Boolean> {
 
-    void setEntity(Entity entity);
+    void setEntity(@NotNull Entity entity);
 
     TeamColor getTeam();
 
@@ -18,7 +18,7 @@ public interface FortressWarsEntity extends Fighter, Hackable, Zappable, Dataabl
 
     String getTeamColorCode();
 
-    Entity getEntity();
+    @NotNull Entity getEntity();
 
     @NotNull Game getGame();
 
