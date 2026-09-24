@@ -25,6 +25,14 @@ public enum FWRank {
         this.hasFWPlus = hasFWPlus;
     }
 
+    public static FWRank from(String string) {
+        try {
+            return FWRank.valueOf(string);
+        } catch (IllegalArgumentException | NullPointerException e) {
+            return null;
+        }
+    }
+
     public String getName() {
         return name;
     }
