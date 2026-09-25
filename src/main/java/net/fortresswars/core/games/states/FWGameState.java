@@ -9,7 +9,7 @@ public enum FWGameState {
 
     // Classic
     CLASSIC_PREPARE_GAME(FWGameStateType.START),
-    CLASSIC_BUILDING(FWGameStateType.IN_GAME),
+    CLASSIC_BUILDING(FWGameStateType.BUILDING),
     CLASSIC_IN_GAME(FWGameStateType.IN_GAME),
     CLASSIC_SUDDEN_DEATH(FWGameStateType.IN_GAME),
 
@@ -21,7 +21,7 @@ public enum FWGameState {
 
     // AD
     AD_PREPARE_GAME(FWGameStateType.START),
-    AD_BUILDING(FWGameStateType.IN_GAME),
+    AD_BUILDING(FWGameStateType.BUILDING),
     AD_PRE_ROUND_1(FWGameStateType.IN_GAME),
     AD_ROUND_1(FWGameStateType.IN_GAME),
     AD_BETWEEN_ROUNDS(FWGameStateType.IN_GAME),
