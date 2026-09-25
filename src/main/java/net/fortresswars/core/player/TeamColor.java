@@ -12,9 +12,7 @@ import org.bukkit.Color;
 import org.bukkit.boss.BarColor;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 public enum TeamColor {
     RED(
@@ -50,6 +48,7 @@ public enum TeamColor {
             false
     );
 
+    private static List<TeamColor> gameTeams;
     private static Map<String, TeamColor> teamIdMap;
     private final String id;
     private final String friendlyName;
@@ -86,6 +85,13 @@ public enum TeamColor {
             }
         }
         return teamIdMap.get(name);
+    }
+
+    public static List<TeamColor> getGameTeams() {
+        if (gameTeams == null) {
+            gameTeams = Arrays.stream(TeamColor.values()).filter(TeamColor::isGameTeam).toList();
+        }
+        return gameTeams;
     }
 
     public String getId() {
@@ -126,10 +132,8 @@ public enum TeamColor {
 
     public static TeamColor getRandomTeam() {
         final var rand = new Random();
-        final var value = rand.nextInt(0, 2);
-        if (value == 0) {
-            return TeamColor.BLUE;
-        }
-        return TeamColor.RED;
+        final var gameTeams = getGameTeams();
+        final var value = rand.nextInt(0, gameTeams.size());
+        return gameTeams.get(value);
     }
 }

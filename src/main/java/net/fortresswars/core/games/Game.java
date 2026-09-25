@@ -1,7 +1,6 @@
 package net.fortresswars.core.games;
 
 import net.fortresswars.core.entities.FortressWarsEntity;
-import net.fortresswars.core.entities.FortressWarsPlayer;
 import net.fortresswars.core.gamerules.Gamerule;
 import net.fortresswars.core.games.scores.Score;
 import net.fortresswars.core.managers.Enableable;
@@ -12,6 +11,7 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -23,7 +23,9 @@ public interface Game extends Enableable {
 
     FWGameMode getGameMode();
 
-    @NotNull FortressWarsPlayer newPlayer(@NotNull Player player);
+    void addPlayer(@NotNull Player player);
+
+    void removePlayer(@Nullable Player player);
 
     TeamColor getWinningTeam();
 
