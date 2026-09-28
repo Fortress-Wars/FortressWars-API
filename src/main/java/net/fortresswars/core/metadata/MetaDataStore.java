@@ -10,8 +10,10 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Entity;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.metadata.Metadatable;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
 import java.util.UUID;
@@ -19,36 +21,36 @@ import java.util.logging.Logger;
 
 public class MetaDataStore {
 
-    private static final String META_DATA_KEY_PREFIX = "FW_META_DATA_";
+    private final static String META_DATA_KEY_PREFIX = "FW_META_DATA_";
 
-    public static void reset(Metadatable m) {
+    public static void reset(JavaPlugin plugin, Metadatable m) {
         // We want to retain the original!
         final Object originalValue = getObject(m, MetaDataKey.ORIGINAL);
 
         for (MetaDataKey key : MetaDataKey.values()) {
-            removeMetaData(m, key);
+            removeMetaData(plugin, m, key);
         }
 
         // Set the original back!
-        setMetaData(m, MetaDataKey.ORIGINAL, originalValue);
+        setMetaData(plugin, m, MetaDataKey.ORIGINAL, originalValue);
     }
 
-    public static void setAir(Block block) {
+    public static void setAir(JavaPlugin plugin, Block block) {
         // Reset MetaData
-        reset(block);
+        reset(plugin, block);
 
         // Break the block
         block.setBlockData(Material.AIR.createBlockData());
     }
 
-    public static void removeMetaData(Metadatable m, MetaDataKey key) {
-//        m.removeMetadata(META_DATA_KEY_PREFIX + key, FortressWarsAPI.getInstance());
+    public static void removeMetaData(JavaPlugin plugin, Metadatable m, MetaDataKey key) {
+        m.removeMetadata(META_DATA_KEY_PREFIX + key, plugin);
     }
 
-    public static <T> void setMetaData(Metadatable m, MetaDataKey key, T value) {
+    public static <T> void setMetaData(JavaPlugin plugin, Metadatable m, MetaDataKey key, T value) {
         if (m == null) return;
         if (key == null) return;
-//        m.setMetadata(META_DATA_KEY_PREFIX + key, new FixedMetadataValue(FortressWarsAPI.getInstance(), value));
+        m.setMetadata(META_DATA_KEY_PREFIX + key, new FixedMetadataValue(plugin, value));
     }
 
     public static boolean hasMetaData(Metadatable m, MetaDataKey key) {
@@ -68,7 +70,7 @@ public class MetaDataStore {
         if (key == null) return null;
         List<MetadataValue> values = m.getMetadata(META_DATA_KEY_PREFIX + key);
         if (values.isEmpty()) return null;
-        return values.get(0).value();
+        return values.getFirst().value();
     }
 
     public static String getString(Metadatable m, MetaDataKey key) {

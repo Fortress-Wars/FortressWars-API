@@ -105,4 +105,39 @@ public class BoundingBoxHelper {
 
         return outlineLocations;
     }
+
+    /**
+     * Checks if the BoundingBox contains the given coordinates, inclusive of the boundaries.
+     */
+    public static boolean containsInclusive(BoundingBox box, double x, double y, double z) {
+        return x >= box.getMinX() && x <= box.getMaxX() &&
+                y >= box.getMinY() && y <= box.getMaxY() &&
+                z >= box.getMinZ() && z <= box.getMaxZ();
+    }
+
+    /**
+     * Checks if the BoundingBox contains the given Vector, inclusive of the boundaries.
+     */
+    public static boolean containsInclusive(BoundingBox box, Vector vector) {
+        if (vector == null) return false;
+        return containsInclusive(box, vector.getX(), vector.getY(), vector.getZ());
+    }
+
+    /**
+     * Checks if the BoundingBox contains the given Location, inclusive of the boundaries.
+     */
+    public static boolean containsInclusive(BoundingBox box, Location location) {
+        if (location == null) return false;
+        return containsInclusive(box, location.getX(), location.getY(), location.getZ());
+    }
+
+    /**
+     * Checks if a BoundingBox fully contains another BoundingBox inclusively.
+     */
+    public static boolean containsInclusive(BoundingBox container, BoundingBox target) {
+        if (target == null) return false;
+        return target.getMinX() >= container.getMinX() && target.getMaxX() <= container.getMaxX() &&
+                target.getMinY() >= container.getMinY() && target.getMaxY() <= container.getMaxY() &&
+                target.getMinZ() >= container.getMinZ() && target.getMaxZ() <= container.getMaxZ();
+    }
 }

@@ -1,28 +1,31 @@
 package net.fortresswars.core.metadata;
 
 import org.bukkit.metadata.Metadatable;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class MetaDataContainer {
 
+    protected final JavaPlugin plugin;
     private final Map<MetaDataKey, Object> metaDataMap;
 
-    public void applyMetaData(Metadatable m) {
-        MetaDataStore.reset(m);
-        for (MetaDataKey key : MetaDataKey.values()) {
-            Object value = get(key);
-            MetaDataStore.setMetaData(m, key, value);
-        }
-    }
-
-    public MetaDataContainer(Metadatable m) {
+    public MetaDataContainer(JavaPlugin plugin, Metadatable m) {
+        this.plugin = plugin;
         metaDataMap = new HashMap<>();
         for (MetaDataKey key : MetaDataKey.values()) {
             Object value = MetaDataStore.getObject(m, key);
             if (value == null) continue;
             metaDataMap.put(key, value);
+        }
+    }
+
+    public void applyMetaData(Metadatable m) {
+        MetaDataStore.reset(plugin, m);
+        for (MetaDataKey key : MetaDataKey.values()) {
+            Object value = get(key);
+            MetaDataStore.setMetaData(plugin, m, key, value);
         }
     }
 
