@@ -3,6 +3,7 @@ package net.fortresswars.core.games;
 import net.fortresswars.core.entities.FortressWarsEntity;
 import net.fortresswars.core.gamerules.Gamerule;
 import net.fortresswars.core.games.scores.Score;
+import net.fortresswars.core.games.states.EndReason;
 import net.fortresswars.core.managers.Enableable;
 import net.fortresswars.core.maps.MapDisplayData;
 import net.fortresswars.core.player.TeamColor;
@@ -26,6 +27,8 @@ public interface Game extends Enableable {
     void addPlayer(@NotNull Player player);
 
     void removePlayer(@Nullable Player player);
+
+    void end(@NotNull EndReason reason);
 
     TeamColor getWinningTeam();
 
