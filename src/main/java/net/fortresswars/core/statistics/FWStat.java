@@ -4,11 +4,6 @@ import net.fortresswars.util.FWNumberFormat;
 
 public enum FWStat {
 
-    // TODO remove multi stats from here
-    WIN_RATE("Win Rate", FWNumberFormat.PERCENT, FWStatAggregationType.SUM, false),
-    EDR("EDR", FWNumberFormat.DOUBLE, FWStatAggregationType.SUM, false),
-    DAMAGE_RATIO("Damage Ratio", FWNumberFormat.DOUBLE, FWStatAggregationType.SUM, false),
-
     TIME_PLAYED("Time Played", FWNumberFormat.TIME, FWStatAggregationType.SUM, false),
     GAMES_PLAYED("Games Played", FWNumberFormat.INT, FWStatAggregationType.SUM, false),
     TOTAL_WINS("Wins", FWNumberFormat.INT, FWStatAggregationType.SUM, false),

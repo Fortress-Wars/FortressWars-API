@@ -1,35 +1,50 @@
 package net.fortresswars.core.statistics;
 
-import java.util.HashMap;
-import java.util.UUID;
+import net.fortresswars.core.entities.FortressWarsPlayer;
+
+import java.util.List;
 
 public class LowRecordStat extends RecordStat {
 
-    public LowRecordStat(HashMap<UUID, StatisticsContainer> statisticsEntries, FWStat stat, boolean includeZero) {
-        super(statisticsEntries, stat, includeZero);
+    public LowRecordStat(List<FortressWarsPlayer> players, FWStat stat, boolean includeZero) {
+        super(players, stat, includeZero);
     }
 
     public void doWork() {
-        if (statisticsEntries.isEmpty()) return;
+        if (players.isEmpty()) return;
+        boolean isFirstValue = true;
+        for (final var player : players) {
+            final double value = fetchRecordValue(player);
 
-        boolean firstValue = true;
-
-        for (UUID uuid : statisticsEntries.keySet()) {
-            StatisticsContainer sp = statisticsEntries.get(uuid);
-            double statValue = sp.getStatistic(stat);
-            if (statValue == 0 && !includeZero) continue;
-            else if (firstValue) {
-                recordValue = statValue;
-                entries.add(uuid);
-                firstValue = false;
+            // Skip zero values if includeZero is false
+            if (value == 0 && !includeZero) {
                 continue;
-            } else if (statValue > recordValue) {
-                continue;
-            } else if (statValue < recordValue) {
-                entries.clear();
-                recordValue = statValue;
             }
-            entries.add(uuid);
+
+            // If this is the first value, set it as the record and add the player to the entries list
+            if (isFirstValue) {
+                recordValue = value;
+                entries.add(player);
+                isFirstValue = false;
+                continue;
+            }
+
+            // If the value is greater than the current record, skip this player
+            if (value > recordValue) continue;
+
+            // If the value is less than the current record, clear the entries list and set the new record value
+            if (value < recordValue) {
+                entries.clear();
+                recordValue = value;
+            }
+
+            // Add the player to the entries list
+            entries.add(player);
         }
+    }
+
+    @Override
+    protected double fetchRecordValue(FortressWarsPlayer player) {
+        return player.getStatistic(stat);
     }
 }
