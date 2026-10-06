@@ -8,7 +8,7 @@ import org.bukkit.event.Listener;
 
 import java.util.UUID;
 
-public interface Ability extends Enableable, Refreshable, Listener, Resettable, Pauseable<Void> {
+public interface Ability extends Enableable, Refreshable, Listener, Resettable, Pauseable<Boolean> {
 
     /**
      * Get the ID for this Ability

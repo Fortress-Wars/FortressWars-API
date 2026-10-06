@@ -1,5 +1,6 @@
 package net.fortresswars.core.kits;
 
+import net.fortresswars.core.entities.Pauseable;
 import net.fortresswars.core.entities.Resettable;
 import net.fortresswars.core.kits.abilities.Ability;
 import net.fortresswars.core.kits.abilities.AbilityID;
@@ -15,7 +16,7 @@ import java.util.UUID;
  * Interface for Fortress Wars Kits
  * Author: Peter Cesmegi
  */
-public interface Kit extends Enableable, Refreshable, Listener, Resettable {
+public interface Kit extends Enableable, Refreshable, Listener, Resettable, Pauseable<Boolean> {
     /**
      * Get the id of the kit class
      * @return UUID
