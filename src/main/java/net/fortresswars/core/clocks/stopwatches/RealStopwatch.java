@@ -101,6 +101,7 @@ public class RealStopwatch implements Stopwatch {
     @Override
     public Boolean unpause() {
         if (!this.isPaused()) return false;
+        this.updateDuration();
         this.pausedInstant = null;
         return true;
     }
