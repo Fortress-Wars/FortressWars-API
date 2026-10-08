@@ -7,19 +7,15 @@ import org.jetbrains.annotations.NotNull;
 import java.time.Duration;
 import java.time.Instant;
 
-public interface Timer extends Pauseable<Boolean>, Resettable {
+public interface Clock extends Pauseable<Boolean>, Resettable {
 
     void start();
 
     void stop();
 
+    boolean isStarted();
+
     Instant getStartTime();
-
-    @NotNull Duration getDuration();
-
-    @NotNull Duration getElapsedTime();
-
-    @NotNull Duration getTimeLeft();
 
     @NotNull Duration getPausedDuration();
 
@@ -29,7 +25,7 @@ public interface Timer extends Pauseable<Boolean>, Resettable {
 
     boolean isBetweenSeconds(long low, long high);
 
-    void setDuration(@NotNull Duration duration);
+    @NotNull Duration getDuration();
 
-    void setEndTime(@NotNull Instant end);
+    void setDuration(@NotNull Duration duration);
 }

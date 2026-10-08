@@ -1,4 +1,4 @@
-package net.fortresswars.core.clocks;
+package net.fortresswars.core.clocks.timers;
 
 import net.fortresswars.util.FWNumberFormat;
 import net.fortresswars.core.tasks.PauseableTask;
@@ -42,6 +42,12 @@ public class ServerTimer implements Timer {
         if (this.timerTask == null) return;
         this.timerTask.cancel();
         this.timerTask = null;
+        this.startInstant = null;
+    }
+
+    @Override
+    public boolean isStarted() {
+        return this.startInstant != null;
     }
 
     @Override

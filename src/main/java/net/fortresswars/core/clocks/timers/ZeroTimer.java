@@ -1,4 +1,4 @@
-package net.fortresswars.core.clocks;
+package net.fortresswars.core.clocks.timers;
 
 import net.fortresswars.util.FWNumberFormat;
 import org.jetbrains.annotations.NotNull;
@@ -16,6 +16,11 @@ public class ZeroTimer implements Timer {
     @Override
     public void stop() {
         // Do Nothing
+    }
+
+    @Override
+    public boolean isStarted() {
+        return false;
     }
 
     @Override

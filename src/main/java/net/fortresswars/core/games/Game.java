@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.time.Duration;
 import java.util.List;
 
 public interface Game extends Enableable {
@@ -67,6 +68,8 @@ public interface Game extends Enableable {
     double getObjectiveRadius();
 
     double getObjectiveCeiling();
+
+    Duration getGameDuration();
 
 //    void createObjectiveHolograms();
 //

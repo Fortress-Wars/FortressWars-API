@@ -1,4 +1,4 @@
-package net.fortresswars.core.clocks;
+package net.fortresswars.core.clocks.timers;
 
 import net.fortresswars.util.FWNumberFormat;
 import org.jetbrains.annotations.NotNull;
@@ -26,6 +26,11 @@ public class RealTimer implements Timer {
     public void stop() {
         this.pause();
         this.startInstant = null;
+    }
+
+    @Override
+    public boolean isStarted() {
+        return startInstant != null;
     }
 
     @Override
