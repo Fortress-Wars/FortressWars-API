@@ -3,10 +3,7 @@ package net.fortresswars.core.achievements;
 import net.fortresswars.core.kits.KitID;
 import org.bukkit.Material;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public enum FWAchievement {
 
@@ -395,22 +392,22 @@ public enum FWAchievement {
     private final FWAchievementSubCategory subcategory;
     private final FWAchievementReward rewardType;
 
-    private static HashMap<FWAchievementSubCategory, List<FWAchievement>> achievementSubcategoryMap;
-    private static HashMap<FWAchievementCategory, List<FWAchievement>> achievementCategoryMap;
+    private static Map<FWAchievementSubCategory, List<FWAchievement>> achievementSubcategoryMap;
+    private static Map<FWAchievementCategory, List<FWAchievement>> achievementCategoryMap;
 
 
     private static void populateAchievementLists() {
         FWAchievement[] achievements = FWAchievement.values();
 
-        achievementSubcategoryMap = new HashMap<>();
-        achievementCategoryMap = new HashMap<>();
+        achievementSubcategoryMap = new LinkedHashMap<>();
+        achievementCategoryMap = new LinkedHashMap<>();
 
         for (FWAchievement achievement : achievements) {
 
             // Populate subcategory list
             FWAchievementSubCategory subcategory = achievement.getSubCategory();
             if (!achievementSubcategoryMap.containsKey(subcategory)) {
-                achievementSubcategoryMap.put(subcategory, new ArrayList<>());
+                achievementSubcategoryMap.put(subcategory, new LinkedList<>());
             }
             List<FWAchievement> subcategoryAchievementList = achievementSubcategoryMap.get(subcategory);
             subcategoryAchievementList.add(achievement);
@@ -418,7 +415,7 @@ public enum FWAchievement {
             // Populate category list
             FWAchievementCategory category = achievement.getCategory();
             if (!achievementCategoryMap.containsKey(category)) {
-                achievementCategoryMap.put(category, new ArrayList<>());
+                achievementCategoryMap.put(category, new LinkedList<>());
             }
             List<FWAchievement> categoryAchievementList = achievementCategoryMap.get(category);
             categoryAchievementList.add(achievement);

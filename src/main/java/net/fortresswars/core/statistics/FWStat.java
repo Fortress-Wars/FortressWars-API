@@ -1061,6 +1061,14 @@ public enum FWStat {
         this.isHidden = isHidden;
     }
 
+    public static FWStat from(String string) {
+        try {
+            return FWStat.valueOf(string);
+        } catch (IllegalArgumentException | NullPointerException e) {
+            return null;
+        }
+    }
+
     public String getFriendlyName() {
         return friendlyName;
     }

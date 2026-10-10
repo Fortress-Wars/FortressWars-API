@@ -160,6 +160,14 @@ public abstract class InventoryMenu implements InventoryHolder {
     // -- BUTTONS -- //
 
     /**
+     * Get the list of buttons.
+     * @return the list of buttons.
+     */
+    public List<Button> getButtons() {
+        return new LinkedList<>(this.items);
+    }
+
+    /**
      * Adds the provided {@link Button}.
      *
      * @param button The button to add.
