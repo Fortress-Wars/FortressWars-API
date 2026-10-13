@@ -53,6 +53,8 @@ public interface Game extends Enableable {
 
     Location getObjectiveLocation(TeamColor team);
 
+    boolean isEntityNearObjective(TeamColor team, boolean isAlly);
+
     Location getSpawnLocation(TeamColor team);
 
     Location getRespawnLocation(TeamColor team);
