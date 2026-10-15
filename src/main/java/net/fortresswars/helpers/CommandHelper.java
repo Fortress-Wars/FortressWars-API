@@ -1,9 +1,12 @@
 package net.fortresswars.helpers;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandException;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permissible;
+
+import java.util.List;
 
 public class CommandHelper {
 
@@ -24,5 +27,9 @@ public class CommandHelper {
         if (!permissible.hasPermission(permission)) {
             throw new CommandException("You don't have permission to use this command");
         }
+    }
+
+    public static List<String> getOnlinePlayerNames() {
+        return Bukkit.getOnlinePlayers().stream().map(Player::getName).toList();
     }
 }

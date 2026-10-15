@@ -23,6 +23,7 @@ import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nullable;
 import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.Set;
@@ -58,7 +59,8 @@ public class EntityHelper {
         }
     }
 
-    public static boolean isVanished(Player player) {
+    public static boolean isVanished(@Nullable Player player) {
+        if (player == null) return false;
         for (final var meta : player.getMetadata("vanished")) {
             if (meta.asBoolean()) return true;
         }
