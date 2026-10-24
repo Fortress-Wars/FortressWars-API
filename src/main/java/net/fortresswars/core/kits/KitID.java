@@ -9,7 +9,7 @@ import java.util.*;
 public enum KitID {
 
 
-    AQUAMAN("Aquaman", KitRole.DAMAGE, KitTag.PREMIUM, Material.TRIDENT, FWAchievementSubCategory.ACHIEVEMENTS_AQUAMAN,
+    AQUAMAN("Aquaman", KitRole.DAMAGE, KitTag.FREE, Material.TRIDENT, FWAchievementSubCategory.ACHIEVEMENTS_AQUAMAN,
             List.of(
                     FWStat.AQUAMAN_TIME_PLAYED,
                     FWStat.AQUAMAN_GAMES_PLAYED,
@@ -33,7 +33,7 @@ public enum KitID {
             )
     ),
 
-    AQUARIUS("Aquarius", KitRole.SUPPORT, KitTag.PREMIUM, Material.HEART_OF_THE_SEA, FWAchievementSubCategory.ACHIEVEMENTS_AQUARIUS,
+    AQUARIUS("Aquarius", KitRole.SUPPORT, KitTag.FREE, Material.HEART_OF_THE_SEA, FWAchievementSubCategory.ACHIEVEMENTS_AQUARIUS,
             List.of(
                 FWStat.AQUARIUS_TIME_PLAYED,
                 FWStat.AQUARIUS_GAMES_PLAYED,
@@ -78,7 +78,7 @@ public enum KitID {
             )
     ),
 
-    BOMBER("Bomber", KitRole.DAMAGE, KitTag.PREMIUM, Material.TNT, FWAchievementSubCategory.ACHIEVEMENTS_BOMBER,
+    BOMBER("Bomber", KitRole.DAMAGE, KitTag.FREE, Material.TNT, FWAchievementSubCategory.ACHIEVEMENTS_BOMBER,
             List.of(
                     FWStat.BOMBER_TIME_PLAYED,
                     FWStat.BOMBER_GAMES_PLAYED,
@@ -104,7 +104,7 @@ public enum KitID {
             )
     ),
 
-    BRUTE("Brute", KitRole.DAMAGE, KitTag.PREMIUM, Material.IRON_AXE, FWAchievementSubCategory.ACHIEVEMENTS_BRUTE,
+    BRUTE("Brute", KitRole.DAMAGE, KitTag.FREE, Material.IRON_AXE, FWAchievementSubCategory.ACHIEVEMENTS_BRUTE,
             List.of(
                 FWStat.BRUTE_TIME_PLAYED,
                 FWStat.BRUTE_GAMES_PLAYED,
@@ -128,7 +128,7 @@ public enum KitID {
             )
     ),
 
-    BUFF_MASTER("Buff Master", KitRole.SUPPORT, KitTag.PREMIUM, Material.EMERALD, FWAchievementSubCategory.ACHIEVEMENTS_BUFF_MASTER,
+    BUFF_MASTER("Buff Master", KitRole.SUPPORT, KitTag.FREE, Material.EMERALD, FWAchievementSubCategory.ACHIEVEMENTS_BUFF_MASTER,
             List.of(
                 FWStat.BUFF_MASTER_TIME_PLAYED,
                 FWStat.BUFF_MASTER_GAMES_PLAYED,
@@ -201,7 +201,7 @@ public enum KitID {
             )
     ),
 
-    CRUSHER("Crusher", KitRole.DAMAGE, KitTag.PREMIUM, Material.ANVIL, FWAchievementSubCategory.ACHIEVEMENTS_CRUSHER,
+    CRUSHER("Crusher", KitRole.DAMAGE, KitTag.FREE, Material.ANVIL, FWAchievementSubCategory.ACHIEVEMENTS_CRUSHER,
             List.of(
                 FWStat.CRUSHER_TIME_PLAYED,
                 FWStat.CRUSHER_GAMES_PLAYED,
@@ -250,7 +250,7 @@ public enum KitID {
             )
     ),
 
-    DEMOLITIONIST("Demolitionist", KitRole.TANK, KitTag.PREMIUM, Material.FLINT_AND_STEEL, FWAchievementSubCategory.ACHIEVEMENTS_DEMOLITIONIST,
+    DEMOLITIONIST("Demolitionist", KitRole.TANK, KitTag.FREE, Material.FLINT_AND_STEEL, FWAchievementSubCategory.ACHIEVEMENTS_DEMOLITIONIST,
             List.of(
                 FWStat.DEMOLITIONIST_TIME_PLAYED,
                 FWStat.DEMOLITIONIST_GAMES_PLAYED,
@@ -276,7 +276,7 @@ public enum KitID {
             )
     ),
 
-    DEMON("Demon", KitRole.SUPPORT, KitTag.PREMIUM, Material.BEETROOT, FWAchievementSubCategory.ACHIEVEMENTS_DEMON,
+    DEMON("Demon", KitRole.SUPPORT, KitTag.FREE, Material.BEETROOT, FWAchievementSubCategory.ACHIEVEMENTS_DEMON,
             List.of(
                     FWStat.DEMON_TIME_PLAYED,
                     FWStat.DEMON_TOTAL_WINS_WEIGHTED,
@@ -307,7 +307,7 @@ public enum KitID {
             )
     ),
 
-    ENGINEER("Engineer", KitRole.UTILITY, KitTag.PREMIUM, Material.BREWING_STAND, FWAchievementSubCategory.ACHIEVEMENTS_ENGINEER,
+    ENGINEER("Engineer", KitRole.UTILITY, KitTag.FREE, Material.BREWING_STAND, FWAchievementSubCategory.ACHIEVEMENTS_ENGINEER,
             List.of(
                 FWStat.ENGINEER_TIME_PLAYED,
                 FWStat.ENGINEER_GAMES_PLAYED,
@@ -361,7 +361,7 @@ public enum KitID {
             )
     ),
 
-    GLACIER("Glacier", KitRole.DAMAGE, KitTag.PREMIUM, Material.PACKED_ICE, FWAchievementSubCategory.ACHIEVEMENTS_GLACIER,
+    GLACIER("Glacier", KitRole.DAMAGE, KitTag.FREE, Material.PACKED_ICE, FWAchievementSubCategory.ACHIEVEMENTS_GLACIER,
             List.of(
                     FWStat.GLACIER_TIME_PLAYED,
                     FWStat.GLACIER_GAMES_PLAYED,
@@ -385,7 +385,7 @@ public enum KitID {
 
     ),
 
-    GOLEM("Golem", KitRole.TANK, KitTag.PREMIUM, Material.MUD, FWAchievementSubCategory.ACHIEVEMENTS_GOLEM,
+    GOLEM("Golem", KitRole.TANK, KitTag.FREE, Material.MUD, FWAchievementSubCategory.ACHIEVEMENTS_GOLEM,
             List.of(
                 FWStat.GOLEM_TIME_PLAYED,
                 FWStat.GOLEM_GAMES_PLAYED,
@@ -410,7 +410,7 @@ public enum KitID {
             )
     ),
 
-    GRAPPLER("Grappler", KitRole.DAMAGE, KitTag.PREMIUM, Material.LEAD, FWAchievementSubCategory.ACHIEVEMENTS_GRAPPLER,
+    GRAPPLER("Grappler", KitRole.DAMAGE, KitTag.FREE, Material.LEAD, FWAchievementSubCategory.ACHIEVEMENTS_GRAPPLER,
             List.of(
                 FWStat.GRAPPLER_TIME_PLAYED,
                 FWStat.GRAPPLER_GAMES_PLAYED,
@@ -436,7 +436,7 @@ public enum KitID {
             )
     ),
 
-    GUNNER("Gunner", KitRole.DAMAGE, KitTag.PREMIUM, Material.BONE, FWAchievementSubCategory.ACHIEVEMENTS_GUNNER,
+    GUNNER("Gunner", KitRole.DAMAGE, KitTag.FREE, Material.BONE, FWAchievementSubCategory.ACHIEVEMENTS_GUNNER,
             List.of(
                 FWStat.GUNNER_TIME_PLAYED,
                 FWStat.GUNNER_GAMES_PLAYED,
@@ -457,7 +457,7 @@ public enum KitID {
             )
     ),
 
-    HITMAN("Hitman", KitRole.UTILITY, KitTag.PREMIUM, Material.TIPPED_ARROW, FWAchievementSubCategory.ACHIEVEMENTS_HITMAN,
+    HITMAN("Hitman", KitRole.UTILITY, KitTag.FREE, Material.TIPPED_ARROW, FWAchievementSubCategory.ACHIEVEMENTS_HITMAN,
             List.of(
                 FWStat.HITMAN_TIME_PLAYED,
                 FWStat.HITMAN_GAMES_PLAYED,
@@ -484,7 +484,7 @@ public enum KitID {
             )
     ),
 
-    HULK("Hulk", KitRole.DAMAGE, KitTag.PREMIUM, Material.CREEPER_HEAD, FWAchievementSubCategory.ACHIEVEMENTS_HULK,
+    HULK("Hulk", KitRole.DAMAGE, KitTag.FREE, Material.CREEPER_HEAD, FWAchievementSubCategory.ACHIEVEMENTS_HULK,
             List.of(
                 FWStat.HULK_TIME_PLAYED,
                 FWStat.HULK_GAMES_PLAYED,
@@ -508,7 +508,7 @@ public enum KitID {
             )
     ),
 
-    ILLUSIONIST("Illusionist", KitRole.DAMAGE, KitTag.PREMIUM, Material.LINGERING_POTION, FWAchievementSubCategory.ACHIEVEMENTS_ILLUSIONIST,
+    ILLUSIONIST("Illusionist", KitRole.DAMAGE, KitTag.FREE, Material.LINGERING_POTION, FWAchievementSubCategory.ACHIEVEMENTS_ILLUSIONIST,
             List.of(
                 FWStat.ILLUSIONIST_TIME_PLAYED,
                 FWStat.ILLUSIONIST_GAMES_PLAYED,
@@ -531,7 +531,7 @@ public enum KitID {
             )
     ),
 
-    JUMPER("Jumper", KitRole.DAMAGE, KitTag.PREMIUM, Material.ENDER_EYE, FWAchievementSubCategory.ACHIEVEMENTS_JUMPER,
+    JUMPER("Jumper", KitRole.DAMAGE, KitTag.FREE, Material.ENDER_EYE, FWAchievementSubCategory.ACHIEVEMENTS_JUMPER,
             List.of(
                 FWStat.JUMPER_TIME_PLAYED,
                 FWStat.JUMPER_GAMES_PLAYED,
@@ -555,7 +555,7 @@ public enum KitID {
             )
     ),
 
-    KANGAROO("Kangaroo", KitRole.DAMAGE, KitTag.PREMIUM, Material.DIAMOND_BOOTS, FWAchievementSubCategory.ACHIEVEMENTS_KANGAROO,
+    KANGAROO("Kangaroo", KitRole.DAMAGE, KitTag.FREE, Material.DIAMOND_BOOTS, FWAchievementSubCategory.ACHIEVEMENTS_KANGAROO,
             List.of(
                 FWStat.KANGAROO_TIME_PLAYED,
                 FWStat.KANGAROO_GAMES_PLAYED,
@@ -576,7 +576,7 @@ public enum KitID {
             )
     ),
 
-    KNIGHT("Knight", KitRole.TANK, KitTag.PREMIUM, Material.NAUTILUS_SHELL, FWAchievementSubCategory.ACHIEVEMENTS_KNIGHT,
+    KNIGHT("Knight", KitRole.TANK, KitTag.FREE, Material.NAUTILUS_SHELL, FWAchievementSubCategory.ACHIEVEMENTS_KNIGHT,
             List.of(
                 FWStat.KNIGHT_TIME_PLAYED,
                 FWStat.KNIGHT_GAMES_PLAYED,
@@ -597,7 +597,7 @@ public enum KitID {
             )
     ),
 
-    MASTER("Master", KitRole.DAMAGE, KitTag.PREMIUM, Material.CREEPER_SPAWN_EGG, FWAchievementSubCategory.ACHIEVEMENTS_MASTER,
+    MASTER("Master", KitRole.DAMAGE, KitTag.FREE, Material.CREEPER_SPAWN_EGG, FWAchievementSubCategory.ACHIEVEMENTS_MASTER,
             List.of(
                 FWStat.MASTER_TIME_PLAYED,
                 FWStat.MASTER_GAMES_PLAYED,
@@ -674,7 +674,7 @@ public enum KitID {
             )
     ),
 
-    MERCY("Mercy", KitRole.SUPPORT, KitTag.PREMIUM, Material.FISHING_ROD, FWAchievementSubCategory.ACHIEVEMENTS_MERCY,
+    MERCY("Mercy", KitRole.SUPPORT, KitTag.FREE, Material.FISHING_ROD, FWAchievementSubCategory.ACHIEVEMENTS_MERCY,
             List.of(
                 FWStat.MERCY_TIME_PLAYED,
                 FWStat.MERCY_GAMES_PLAYED,
@@ -726,7 +726,7 @@ public enum KitID {
             )
     ),
 
-    MUSKETEER("Musketeer", KitRole.DAMAGE, KitTag.PREMIUM, Material.SPYGLASS, FWAchievementSubCategory.ACHIEVEMENTS_MUSKETEER,
+    MUSKETEER("Musketeer", KitRole.DAMAGE, KitTag.FREE, Material.SPYGLASS, FWAchievementSubCategory.ACHIEVEMENTS_MUSKETEER,
             List.of(
                 FWStat.MUSKETEER_TIME_PLAYED,
                 FWStat.MUSKETEER_GAMES_PLAYED,
@@ -748,7 +748,7 @@ public enum KitID {
             )
     ),
 
-    NECROMANCER("Necromancer", KitRole.TANK, KitTag.PREMIUM, Material.CHARCOAL, FWAchievementSubCategory.ACHIEVEMENTS_NECROMANCER,
+    NECROMANCER("Necromancer", KitRole.TANK, KitTag.FREE, Material.CHARCOAL, FWAchievementSubCategory.ACHIEVEMENTS_NECROMANCER,
             List.of(
                 FWStat.NECROMANCER_TIME_PLAYED,
                 FWStat.NECROMANCER_GAMES_PLAYED,
@@ -771,7 +771,7 @@ public enum KitID {
             )
     ),
 
-    NINJA("Ninja", KitRole.DAMAGE, KitTag.PREMIUM, Material.BLACK_DYE, FWAchievementSubCategory.ACHIEVEMENTS_NINJA,
+    NINJA("Ninja", KitRole.DAMAGE, KitTag.FREE, Material.BLACK_DYE, FWAchievementSubCategory.ACHIEVEMENTS_NINJA,
             List.of(
                     FWStat.NINJA_TIME_PLAYED,
                     FWStat.NINJA_GAMES_PLAYED,
@@ -816,7 +816,7 @@ public enum KitID {
             )
     ),
 
-    PORCUPINE("Porcupine", KitRole.DAMAGE, KitTag.PREMIUM, Material.NETHER_STAR, FWAchievementSubCategory.ACHIEVEMENTS_PORCUPINE,
+    PORCUPINE("Porcupine", KitRole.DAMAGE, KitTag.FREE, Material.NETHER_STAR, FWAchievementSubCategory.ACHIEVEMENTS_PORCUPINE,
             List.of(
                 FWStat.PORCUPINE_TIME_PLAYED,
                 FWStat.PORCUPINE_GAMES_PLAYED,
@@ -839,7 +839,7 @@ public enum KitID {
             )
     ),
 
-    POTION_MASTER("Potion Master", KitRole.DAMAGE, KitTag.PREMIUM, Material.POTION, FWAchievementSubCategory.ACHIEVEMENTS_POTION_MASTER,
+    POTION_MASTER("Potion Master", KitRole.DAMAGE, KitTag.FREE, Material.POTION, FWAchievementSubCategory.ACHIEVEMENTS_POTION_MASTER,
             List.of(
                 FWStat.POTION_MASTER_TIME_PLAYED,
                 FWStat.POTION_MASTER_GAMES_PLAYED,
@@ -866,7 +866,7 @@ public enum KitID {
             )
     ),
 
-    PRIEST("Priest", KitRole.SUPPORT, KitTag.PREMIUM, Material.EXPERIENCE_BOTTLE, FWAchievementSubCategory.ACHIEVEMENTS_PRIEST,
+    PRIEST("Priest", KitRole.SUPPORT, KitTag.FREE, Material.EXPERIENCE_BOTTLE, FWAchievementSubCategory.ACHIEVEMENTS_PRIEST,
             List.of(
                 FWStat.PRIEST_TIME_PLAYED,
                 FWStat.PRIEST_GAMES_PLAYED,
@@ -901,7 +901,7 @@ public enum KitID {
             )
     ),
 
-    PROMETHEUS("Prometheus", KitRole.DAMAGE, KitTag.PREMIUM, Material.BLAZE_ROD, FWAchievementSubCategory.ACHIEVEMENTS_PROMETHEUS,
+    PROMETHEUS("Prometheus", KitRole.DAMAGE, KitTag.FREE, Material.BLAZE_ROD, FWAchievementSubCategory.ACHIEVEMENTS_PROMETHEUS,
             List.of(
                 FWStat.PROMETHEUS_TIME_PLAYED,
                 FWStat.PROMETHEUS_GAMES_PLAYED,
@@ -930,7 +930,7 @@ public enum KitID {
             )
     ),
 
-    PYROTECHNIC("Pyrotechnic", KitRole.DAMAGE, KitTag.PREMIUM, Material.FIREWORK_ROCKET, FWAchievementSubCategory.ACHIEVEMENTS_PYROTECHNIC,
+    PYROTECHNIC("Pyrotechnic", KitRole.DAMAGE, KitTag.FREE, Material.FIREWORK_ROCKET, FWAchievementSubCategory.ACHIEVEMENTS_PYROTECHNIC,
             List.of(
                 FWStat.PYROTECHNIC_TIME_PLAYED,
                 FWStat.PYROTECHNIC_GAMES_PLAYED,
@@ -953,7 +953,7 @@ public enum KitID {
             )
     ),
 
-    RAVEN("Raven", KitRole.DAMAGE, KitTag.PREMIUM, Material.FEATHER, FWAchievementSubCategory.ACHIEVEMENTS_RAVEN,
+    RAVEN("Raven", KitRole.DAMAGE, KitTag.FREE, Material.FEATHER, FWAchievementSubCategory.ACHIEVEMENTS_RAVEN,
             List.of(
                 FWStat.RAVEN_TIME_PLAYED,
                 FWStat.RAVEN_GAMES_PLAYED,
@@ -978,7 +978,7 @@ public enum KitID {
             )
     ),
 
-    SLIME("Slime", KitRole.TANK, KitTag.PREMIUM, Material.SLIME_BALL, FWAchievementSubCategory.ACHIEVEMENTS_SLIME,
+    SLIME("Slime", KitRole.TANK, KitTag.FREE, Material.SLIME_BALL, FWAchievementSubCategory.ACHIEVEMENTS_SLIME,
             List.of(
                 FWStat.SLIME_TIME_PLAYED,
                 FWStat.SLIME_GAMES_PLAYED,
@@ -1003,7 +1003,7 @@ public enum KitID {
             )
     ),
 
-    SNIPER("Sniper", KitRole.DAMAGE, KitTag.PREMIUM, Material.BOW, FWAchievementSubCategory.ACHIEVEMENTS_SNIPER,
+    SNIPER("Sniper", KitRole.DAMAGE, KitTag.FREE, Material.BOW, FWAchievementSubCategory.ACHIEVEMENTS_SNIPER,
             List.of(
                 FWStat.SNIPER_TIME_PLAYED,
                 FWStat.SNIPER_GAMES_PLAYED,
@@ -1030,7 +1030,7 @@ public enum KitID {
     SNOW_GOLEM(
             "Snow Golem",
             KitRole.SUPPORT,
-            KitTag.PREMIUM,
+            KitTag.FREE,
             Material.SNOW_GOLEM_SPAWN_EGG,
             FWAchievementSubCategory.ACHIEVEMENTS_SNOW_GOLEM,
             List.of(
@@ -1060,7 +1060,7 @@ public enum KitID {
             )
         ),
 
-    SNOWMAN("Snowman", KitRole.TANK, KitTag.PREMIUM, Material.SNOWBALL, FWAchievementSubCategory.ACHIEVEMENTS_SNOWMAN,
+    SNOWMAN("Snowman", KitRole.TANK, KitTag.FREE, Material.SNOWBALL, FWAchievementSubCategory.ACHIEVEMENTS_SNOWMAN,
             List.of(
                 FWStat.SNOWMAN_TIME_PLAYED,
                 FWStat.SNOWMAN_GAMES_PLAYED,
@@ -1107,7 +1107,7 @@ public enum KitID {
             )
     ),
 
-    SONIC("Sonic", KitRole.DAMAGE, KitTag.PREMIUM, Material.GOLDEN_BOOTS, FWAchievementSubCategory.ACHIEVEMENTS_SONIC,
+    SONIC("Sonic", KitRole.DAMAGE, KitTag.FREE, Material.GOLDEN_BOOTS, FWAchievementSubCategory.ACHIEVEMENTS_SONIC,
             List.of(
                 FWStat.SONIC_TIME_PLAYED,
                 FWStat.SONIC_GAMES_PLAYED,
@@ -1132,7 +1132,7 @@ public enum KitID {
             )
     ),
 
-    SPIDER("Spider", KitRole.TANK, KitTag.PREMIUM, Material.COBWEB, FWAchievementSubCategory.ACHIEVEMENTS_SPIDER,
+    SPIDER("Spider", KitRole.TANK, KitTag.FREE, Material.COBWEB, FWAchievementSubCategory.ACHIEVEMENTS_SPIDER,
             List.of(
                 FWStat.SPIDER_TIME_PLAYED,
                 FWStat.SPIDER_GAMES_PLAYED,
@@ -1155,7 +1155,7 @@ public enum KitID {
             )
     ),
 
-    SPY("Spy", KitRole.DAMAGE, KitTag.PREMIUM, Material.GOLDEN_CARROT, FWAchievementSubCategory.ACHIEVEMENTS_SPY,
+    SPY("Spy", KitRole.DAMAGE, KitTag.FREE, Material.GOLDEN_CARROT, FWAchievementSubCategory.ACHIEVEMENTS_SPY,
             List.of(
                 FWStat.SPY_TIME_PLAYED,
                 FWStat.SPY_GAMES_PLAYED,
@@ -1178,7 +1178,7 @@ public enum KitID {
             )
     ),
 
-    VITALIST("Vitalist", KitRole.SUPPORT, KitTag.PREMIUM, Material.CROSSBOW, FWAchievementSubCategory.ACHIEVEMENTS_VITALIST,
+    VITALIST("Vitalist", KitRole.SUPPORT, KitTag.FREE, Material.CROSSBOW, FWAchievementSubCategory.ACHIEVEMENTS_VITALIST,
             List.of(
                 FWStat.VITALIST_TIME_PLAYED,
                 FWStat.VITALIST_GAMES_PLAYED,
@@ -1200,7 +1200,7 @@ public enum KitID {
             )
     ),
 
-    WIZARD("Wizard", KitRole.DAMAGE, KitTag.PREMIUM, Material.AMETHYST_SHARD, FWAchievementSubCategory.ACHIEVEMENTS_WIZARD,
+    WIZARD("Wizard", KitRole.DAMAGE, KitTag.FREE, Material.AMETHYST_SHARD, FWAchievementSubCategory.ACHIEVEMENTS_WIZARD,
             List.of(
                     FWStat.WIZARD_TIME_PLAYED,
                     FWStat.WIZARD_GAMES_PLAYED,

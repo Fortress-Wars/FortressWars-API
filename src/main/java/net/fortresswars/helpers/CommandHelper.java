@@ -21,6 +21,20 @@ public class CommandHelper {
     }
 
     /**
+     * Ensure the player is online and return the Player instance, or throw a CommandException.
+     */
+    public static Player requirePlayer(String playerName) throws CommandException {
+        if (playerName == null) {
+            throw new CommandException("Missing player argument");
+        }
+        final var player = Bukkit.getPlayer(playerName);
+        if (EntityHelper.isVanished(player)) {
+            throw new CommandException("Player is not online");
+        }
+        return player;
+    }
+
+    /**
      * Ensure the permissible has the given permission or throw a CommandException.
      */
     public static void requirePermission(Permissible permissible, String permission) throws CommandException {

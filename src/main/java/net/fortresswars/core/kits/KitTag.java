@@ -5,7 +5,6 @@ import net.kyori.adventure.text.format.NamedTextColor;
 public enum KitTag {
 
     FREE("Free", NamedTextColor.GRAY),
-    PREMIUM("Premium", NamedTextColor.DARK_AQUA),
     SPECIAL("Special", NamedTextColor.AQUA),
     EXCLUSIVE("Exclusive", NamedTextColor.LIGHT_PURPLE);
 
