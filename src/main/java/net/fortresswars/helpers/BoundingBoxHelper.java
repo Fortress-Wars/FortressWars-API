@@ -140,4 +140,31 @@ public class BoundingBoxHelper {
                 target.getMinY() >= container.getMinY() && target.getMaxY() <= container.getMaxY() &&
                 target.getMinZ() >= container.getMinZ() && target.getMaxZ() <= container.getMaxZ();
     }
+
+        public static Location getFacingBoundingBoxSideCenterLocation(Location sourceLocation, BoundingBox boundingBox, boolean otherSide) {
+        final Vector sourceV = sourceLocation.toVector();
+        final World world = sourceLocation.getWorld();
+
+        // Here we want to get the perpendicular line to difference vector
+        final Location targetLocation = new Location(world, boundingBox.getCenterX(), boundingBox.getCenterY(), boundingBox.getCenterZ());
+        final Vector targetV = targetLocation.toVector();
+        final Vector diffV = targetV.clone().subtract(sourceV);
+
+        final double diffVX = diffV.getX();
+
+        // Get a perpendicular vector of the difference vector (otherSide will change the direction)
+        final Vector perpendicularDiffV = diffV.clone().setX(diffVX * -1);
+        if (otherSide) perpendicularDiffV.multiply(-1);
+
+        // Get the X and Z out of it
+        final double perpendicularDiffVX = perpendicularDiffV.getX();
+        final double perpendicularDiffVZ = perpendicularDiffV.getZ();
+
+        // Get the location in the box (minecraft x and z are inverted)
+        final double x = perpendicularDiffVX > 0 ? boundingBox.getMaxX() : boundingBox.getMinX();
+        final double z = perpendicularDiffVZ > 0 ? boundingBox.getMaxZ() : boundingBox.getMinZ();
+        final double y = boundingBox.getCenterY();
+
+        return new Location(world, x, y, z);
+    }
 }
