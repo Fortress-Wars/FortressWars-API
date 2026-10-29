@@ -339,7 +339,7 @@ public class ItemStackFactory {
         return this;
     }
 
-    private static NamespacedKey createNormalizedKey(@NotNull String key) {
+    public static NamespacedKey createNormalizedKey(@NotNull String key) {
         final var normalizedKey = key.toLowerCase().replace("-", "_");
         return new NamespacedKey(FortressWarsAPI.NAMESPACE, normalizedKey);
     }
@@ -683,8 +683,11 @@ public class ItemStackFactory {
         return 0;
     }
 
-    public String getTitle() {
-        return itemMeta.getDisplayName();
+    public Component getTitle() {
+        if (itemMeta.hasDisplayName()) {
+            return itemMeta.displayName();
+        }
+        return Component.empty();
     }
 }
 

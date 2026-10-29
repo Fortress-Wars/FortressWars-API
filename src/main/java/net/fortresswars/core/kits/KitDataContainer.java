@@ -90,15 +90,6 @@ public class KitDataContainer {
     }
 
     /**
-     * Gets the requested property as melee damage
-     * @param property property to request
-     * @return value as an integer -1
-     */
-    public int getMeleeDamage(KitData property) {
-        return  Math.max(0, getInt(property) - 1);
-    }
-
-    /**
      * Get the requested property as a float
      * @param property property to request
      * @return value as a float

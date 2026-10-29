@@ -33,14 +33,14 @@ public abstract class PauseableTask implements Runnable, Pauseable<PauseableTask
         RUN_TIMER_ASYNC,
     }
 
-    public static PauseableTask createConditionalTask(Predicate<Boolean> checkFunction, IntConsumer onProcess, IntConsumer onEnd, int maxRuns) {
+    public static PauseableTask createConditionalTask(Predicate<Integer> checkFunction, IntConsumer onProcess, IntConsumer onEnd, int maxRuns) {
         return new PauseableTask() {
             private int currentRuns = 0;
 
             @Override
             public void run() {
                 try {
-                    if (checkFunction.test(false)) {
+                    if (checkFunction.test(currentRuns)) {
                         this.cancel();
                         onEnd.accept(currentRuns);
                         return;
