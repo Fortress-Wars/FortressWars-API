@@ -2,6 +2,8 @@ package net.fortresswars.core.statistics;
 
 import net.fortresswars.util.FWNumberFormat;
 
+import java.util.Arrays;
+
 public enum FWStat {
 
     TIME_PLAYED("Time Played", FWNumberFormat.TIME, FWStatAggregationType.SUM, false),
@@ -1091,5 +1093,13 @@ public enum FWStat {
 
     public String getLeaderboardName() {
         return "statistic_" + name().toLowerCase();
+    }
+
+    public double merge(double... values) {
+        return switch (this.aggregationType) {
+            case SUM -> Arrays.stream(values).sum();
+            case MIN -> Arrays.stream(values).min().orElse(0);
+            case MAX -> Arrays.stream(values).max().orElse(0);
+        };
     }
 }
