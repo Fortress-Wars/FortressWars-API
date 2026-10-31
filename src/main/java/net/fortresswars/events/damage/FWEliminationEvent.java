@@ -2,13 +2,13 @@ package net.fortresswars.events.damage;
 
 import net.fortresswars.core.damage.FWDamageCause;
 import net.fortresswars.core.entities.FortressWarsPlayer;
-import net.fortresswars.events.FortressWarsCancellableEvent;
+import net.fortresswars.events.FortressWarsEvent;
 import net.fortresswars.helpers.ColorHelper;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class FWEliminationEvent extends FortressWarsCancellableEvent {
+public class FWEliminationEvent extends FortressWarsEvent {
 
     private final FortressWarsPlayer playerEliminated;
     private final FortressWarsPlayer killer;

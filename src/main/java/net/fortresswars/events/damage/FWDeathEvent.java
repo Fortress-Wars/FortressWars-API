@@ -2,10 +2,10 @@ package net.fortresswars.events.damage;
 
 import net.fortresswars.core.damage.FWDamageCause;
 import net.fortresswars.core.entities.FortressWarsPlayer;
-import net.fortresswars.events.FortressWarsCancellableEvent;
+import net.fortresswars.events.FortressWarsEvent;
 import net.fortresswars.helpers.ColorHelper;
 
-public class FWDeathEvent extends FortressWarsCancellableEvent {
+public class FWDeathEvent extends FortressWarsEvent {
 
     private final FortressWarsPlayer player;
     private final FWDamageEvent lastDamageEvent;
