@@ -1,6 +1,6 @@
 package net.fortresswars.core.statistics;
 
-import java.util.HashMap;
+import java.util.Map;
 
 public interface StatisticsContainer {
 
@@ -35,6 +35,6 @@ public interface StatisticsContainer {
     /**
      * @return the entire hashMap
      */
-    HashMap<FWStat, Double> getAllStatistics();
+    Map<FWStat, Double> getAllStatistics();
 
 }
