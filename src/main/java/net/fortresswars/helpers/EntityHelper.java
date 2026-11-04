@@ -491,4 +491,51 @@ public class EntityHelper {
     public static void removeInternalCooldown(Entity entity, NamespacedKey key) {
         PersistentData.removeData(entity, Set.of(PersistentDataKey.TIME, PersistentDataKey.COOLDOWN), key);
     }
+
+    private static Set<PotionEffectType> negativePotionEffects;
+
+    /**
+     * Get a set of negative potion effects
+     * @return a set of negative potion effects
+     */
+    public static Set<PotionEffectType> getNegativePotionEffects() {
+        if (negativePotionEffects == null) {
+            negativePotionEffects = Set.of(
+                    PotionEffectType.POISON,
+                    PotionEffectType.WEAKNESS,
+                    PotionEffectType.INSTANT_DAMAGE,
+                    PotionEffectType.SLOWNESS,
+                    PotionEffectType.SLOW_FALLING,
+                    PotionEffectType.NAUSEA,
+                    PotionEffectType.DARKNESS,
+                    PotionEffectType.GLOWING,
+                    PotionEffectType.MINING_FATIGUE,
+                    PotionEffectType.UNLUCK,
+                    PotionEffectType.WITHER,
+                    PotionEffectType.BLINDNESS,
+                    PotionEffectType.HUNGER
+            );
+        }
+
+        return negativePotionEffects;
+    }
+
+    /**
+     * Check if a potion effect type is a negative potion effect
+     * @param potionEffectType the potion effect type to check
+     * @return true if the potion effect type is a negative potion effect, false otherwise
+     */
+    public static boolean isNegativePotionEffect(PotionEffectType potionEffectType) {
+        return getNegativePotionEffects().contains(potionEffectType);
+    }
+
+    /**
+     * Remove all negative status effects from an entity
+     * @param entity the entity to remove negative status effects from
+     */
+    public static void removeNegativeStatusEffects(LivingEntity entity) {
+        if (entity == null) return;
+        final var negativePotionEffects = getNegativePotionEffects();
+        negativePotionEffects.forEach(entity::removePotionEffect);
+    }
 }
