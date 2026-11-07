@@ -129,6 +129,18 @@ public class LocationHelper {
         return null;
     }
 
+    public static Location getFirstAirLocation(Location location) {
+        if (location.getBlock().getType().isAir()) return location;
+        final int maxHeight = location.getWorld().getMaxHeight();
+        final Location airLocation = location.clone();
+        while (!airLocation.getBlock().getType().isAir() && airLocation.getBlockY() < maxHeight) {
+            airLocation.add(0, 1, 0);
+        }
+        // The target y-value of the air block location is the bottom of the block
+        airLocation.setY(airLocation.getBlockY());
+        return airLocation;
+    }
+
     public static boolean isInWorld(Entity entity, World world) {
         if (entity == null) return false;
         if (world == null) return false;
