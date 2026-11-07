@@ -1,0 +1,37 @@
+package net.fortresswars.core.entities;
+
+import net.fortresswars.core.kits.Kit;
+import net.fortresswars.core.kits.KitDataContainer;
+import net.fortresswars.core.kits.KitID;
+import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitTask;
+import org.jetbrains.annotations.NotNull;
+
+public interface FortressWarsPlayer extends FortressWarsLivingEntity {
+
+    @NotNull Player getPlayer();
+
+    Kit getKit();
+
+    void setKit(Kit kit);
+
+    KitID getKitID();
+
+    KitDataContainer getKitDataOverrides();
+
+    void resetGear();
+
+    void stopQuitTimer();
+
+    void setQuitTimer(BukkitTask quitTimer);
+
+    boolean isUsingTeamChat();
+
+    void setUsingTeamChat(boolean usingTeamChat);
+
+    void setKitTransferPotions(int kitTransferPotions);
+
+    int getKitTransferPotions();
+
+
+}

@@ -1,0 +1,38 @@
+package net.fortresswars.events.damage;
+
+import net.fortresswars.core.entities.FortressWarsEntity;
+import net.fortresswars.core.player.FWHealingSource;
+import net.fortresswars.events.FortressWarsCancellableEvent;
+import org.jetbrains.annotations.Nullable;
+
+@SuppressWarnings("unused")
+public class FWHealEvent extends FortressWarsCancellableEvent {
+
+    private final FortressWarsEntity entityHealed;
+    private final @Nullable FortressWarsEntity healingSourceEntity;
+    private final FWHealingSource healingSource;
+    private final double healingAmount;
+
+    public FWHealEvent(FortressWarsEntity entityHealed, double healingAmount, @Nullable FortressWarsEntity healingSourceEntity, @Nullable FWHealingSource healingSource) {
+        this.entityHealed = entityHealed;
+        this.healingSourceEntity = healingSourceEntity;
+        this.healingSource = healingSource;
+        this.healingAmount = healingAmount;
+    }
+
+    public FortressWarsEntity getHealed() {
+        return entityHealed;
+    }
+
+    public @Nullable FortressWarsEntity getHealer() {
+        return healingSourceEntity;
+    }
+
+    public FWHealingSource getHealingSource() {
+        return healingSource;
+    }
+
+    public double getHealingAmount() {
+        return healingAmount;
+    }
+}
