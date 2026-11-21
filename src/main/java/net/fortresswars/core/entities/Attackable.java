@@ -1,7 +1,6 @@
 package net.fortresswars.core.entities;
 
 import net.fortresswars.core.damage.FWDamageCause;
-import net.fortresswars.events.damage.FWDamageByEntityEvent;
 import net.fortresswars.events.damage.FWDamageEvent;
 
 public interface Attackable {
@@ -20,7 +19,7 @@ public interface Attackable {
      *  Useful if you want to use subclasses for the FWDamageByEntityEvent
      * @return the final damage that was dealt
      */
-    double damage(FWDamageByEntityEvent damageEvent);
+    double damage(FWDamageEvent damageEvent);
 
     FWDamageEvent getLastDamageEvent();
 
