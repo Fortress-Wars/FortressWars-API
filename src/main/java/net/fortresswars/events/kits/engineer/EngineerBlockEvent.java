@@ -1,15 +1,15 @@
 package net.fortresswars.events.kits.engineer;
 
 import net.fortresswars.core.entities.FortressWarsEntity;
-import net.fortresswars.core.kits.engineer.EngineerBlock;
+import net.fortresswars.core.kits.engineer.EngineerStructure;
 import net.fortresswars.events.FortressWarsCancellableEvent;
 
 public class EngineerBlockEvent extends FortressWarsCancellableEvent {
 
     private final FortressWarsEntity involvedEntity;
-    private final EngineerBlock block;
+    private final EngineerStructure block;
 
-    public EngineerBlockEvent(FortressWarsEntity involvedEntity, EngineerBlock block) {
+    public EngineerBlockEvent(FortressWarsEntity involvedEntity, EngineerStructure block) {
         this.involvedEntity = involvedEntity;
         this.block = block;
     }
@@ -26,7 +26,7 @@ public class EngineerBlockEvent extends FortressWarsCancellableEvent {
      * Get the engineer block involved in this event
      * @return the engineer block
      */
-    public EngineerBlock getBlock() {
+    public EngineerStructure getBlock() {
         return block;
     }
 }

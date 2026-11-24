@@ -1,4 +1,4 @@
 package net.fortresswars.core.kits.engineer;
 
-public interface EngineerDispenser extends EngineerBlock {
+public interface EngineerDispenser extends EngineerStructure {
 }

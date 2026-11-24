@@ -1,31 +1,38 @@
 package net.fortresswars.events.damage;
 
 import net.fortresswars.core.damage.FWDamageCause;
-import net.fortresswars.core.entities.FortressWarsPlayer;
+import net.fortresswars.core.entities.FortressWarsEntity;
 import net.fortresswars.events.FortressWarsEvent;
-import net.fortresswars.helpers.ColorHelper;
+
+import javax.annotation.Nullable;
 
 public class FWDeathEvent extends FortressWarsEvent {
 
-    private final FortressWarsPlayer player;
+    private final FortressWarsEntity entity;
+    private final @Nullable FortressWarsEntity killer;
     private final FWDamageEvent lastDamageEvent;
-    private final FortressWarsPlayer killer;
-    private final String deathMessage;
     private final double distance;
 
-    public FWDeathEvent(FortressWarsPlayer player, FortressWarsPlayer killer, FWDamageEvent lastDamageEvent, String deathMessage, double distance) {
-        this.player = player;
+    public FWDeathEvent(FortressWarsEntity entity, @Nullable FortressWarsEntity killer) {
+        this(entity, killer, entity.getLastDamageEvent(), entity.distance(killer));
+    }
+
+    public FWDeathEvent(FortressWarsEntity entity, @Nullable FortressWarsEntity killer, FWDamageEvent lastDamageEvent) {
+        this(entity, killer, lastDamageEvent, entity.distance(killer));
+    }
+
+    public FWDeathEvent(FortressWarsEntity entity, @Nullable FortressWarsEntity killer, FWDamageEvent lastDamageEvent, double distance) {
+        this.entity = entity;
         this.killer = killer;
         this.lastDamageEvent = lastDamageEvent;
-        this.deathMessage = deathMessage;
         this.distance = distance;
     }
 
-    public FortressWarsPlayer getPlayer() {
-        return player;
+    public FortressWarsEntity getEntity() {
+        return entity;
     }
 
-    public FortressWarsPlayer getKiller() {
+    public @Nullable FortressWarsEntity getKiller() {
         return killer;
     }
 
@@ -44,15 +51,7 @@ public class FWDeathEvent extends FortressWarsEvent {
         return distance;
     }
 
-    public String getDeathMessage() {
-        return deathMessage;
-    }
-
-    public String getUnformattedDeathMessage() {
-        return deathMessage.replaceAll(ColorHelper.COLOR_CODES_REGEX, "");
-    }
-
     public boolean isSuicide() {
-        return this.player == this.killer;
+        return this.entity == this.killer;
     }
 }

@@ -2,9 +2,10 @@ package net.fortresswars.events.damage;
 
 import net.fortresswars.core.entities.FortressWarsEntity;
 import net.fortresswars.core.entities.FortressWarsMinion;
-import net.fortresswars.events.FortressWarsEvent;
 
-public class FWMinionDeathEvent extends FortressWarsEvent {
+import javax.annotation.Nullable;
+
+public class FWMinionDeathEvent extends FWDeathEvent {
 
     public enum Reason {
         DIED,
@@ -15,21 +16,16 @@ public class FWMinionDeathEvent extends FortressWarsEvent {
     }
 
     private final FortressWarsMinion fwm;
-    private final FortressWarsEntity killer;
     private final Reason reason;
 
-    public FWMinionDeathEvent(FortressWarsMinion fwm, FortressWarsEntity killer, Reason reason) {
+    public FWMinionDeathEvent(FortressWarsMinion fwm, @Nullable FortressWarsEntity killer, Reason reason) {
+        super(fwm, killer);
         this.fwm = fwm;
-        this.killer = killer;
         this.reason = reason;
     }
 
     public FortressWarsMinion getMob() {
         return fwm;
-    }
-
-    public FortressWarsEntity getKiller() {
-        return killer;
     }
 
     public Reason getReason() {

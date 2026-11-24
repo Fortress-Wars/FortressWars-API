@@ -1,4 +1,4 @@
-package net.fortresswars.core.kits.abilities.blocks;
+package net.fortresswars.core.entities;
 
 public interface Repairable {
 

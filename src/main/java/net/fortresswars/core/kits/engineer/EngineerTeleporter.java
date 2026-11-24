@@ -1,4 +1,6 @@
 package net.fortresswars.core.kits.engineer;
 
-public interface EngineerTeleporter extends EngineerBlock {
+import net.fortresswars.core.kits.abilities.structures.EntityStructure;
+
+public interface EngineerTeleporter extends EntityStructure {
 }

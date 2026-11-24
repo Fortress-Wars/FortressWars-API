@@ -1,6 +1,7 @@
 package net.fortresswars.core.entities;
 
 import net.fortresswars.core.games.Game;
+import net.fortresswars.core.kits.KitDataContainer;
 import net.fortresswars.core.managers.Enableable;
 import net.fortresswars.core.player.TeamColor;
 import net.fortresswars.core.statistics.StatisticsContainer;
@@ -23,6 +24,8 @@ public interface FortressWarsEntity extends Enableable, Fighter, Hackable, Zappa
     @NotNull Entity getEntity();
 
     @NotNull Game getGame();
+
+    @NotNull KitDataContainer getKitData();
 
     /**
      * Launch the entity in a direction away from the source entity. The velocity is multiplied by the multiplier.

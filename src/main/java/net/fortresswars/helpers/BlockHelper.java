@@ -147,11 +147,12 @@ public class BlockHelper {
      * Call to hook into placing blocks through fortress wars
      * @param player the fortress wars placing blocks
      * @param block the block being placed
+     * @param blockAgainst the block that the new block is being placed against
      * @param previousBlockState the old block state
      * @return true if the event is cancelled, false if it is not cancelled
      */
-    public static boolean placeBlock(FortressWarsPlayer player, Block block, BlockState previousBlockState) {
-        final FWPlaceBlockEvent event = new FWPlaceBlockEvent(player, block, previousBlockState);
+    public static boolean placeBlock(FortressWarsPlayer player, Block block, Block blockAgainst, BlockState previousBlockState) {
+        final FWPlaceBlockEvent event = new FWPlaceBlockEvent(player, block, blockAgainst, previousBlockState);
         Bukkit.getPluginManager().callEvent(event);
         return event.isCancelled();
     }

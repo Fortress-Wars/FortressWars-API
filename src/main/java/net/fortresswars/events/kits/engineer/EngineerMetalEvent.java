@@ -6,9 +6,9 @@ import net.fortresswars.events.FortressWarsCancellableEvent;
 public abstract class EngineerMetalEvent extends FortressWarsCancellableEvent {
 
     protected final FortressWarsPlayer player;
-    protected int metal;
+    protected double metal;
 
-    public EngineerMetalEvent(FortressWarsPlayer player, int metal) {
+    public EngineerMetalEvent(FortressWarsPlayer player, double metal) {
         this.player = player;
         this.metal = metal;
     }
@@ -17,11 +17,11 @@ public abstract class EngineerMetalEvent extends FortressWarsCancellableEvent {
         return player;
     }
 
-    public void setMetal(int metal) {
+    public void setMetal(double metal) {
         this.metal = Math.max(metal, 0);
     }
 
-    public int getMetal() {
+    public double getMetal() {
         return metal;
     }
 }

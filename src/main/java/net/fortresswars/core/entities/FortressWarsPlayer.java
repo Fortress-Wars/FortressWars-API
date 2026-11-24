@@ -1,7 +1,6 @@
 package net.fortresswars.core.entities;
 
 import net.fortresswars.core.kits.Kit;
-import net.fortresswars.core.kits.KitDataContainer;
 import net.fortresswars.core.kits.KitID;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
@@ -16,8 +15,6 @@ public interface FortressWarsPlayer extends FortressWarsLivingEntity {
     void setKit(Kit kit);
 
     KitID getKitID();
-
-    KitDataContainer getKitDataOverrides();
 
     void resetGear();
 

@@ -6,8 +6,8 @@ import org.bukkit.block.Block;
 
 public class FWBlockEvent extends FortressWarsCancellableEvent {
 
-    private final FortressWarsEntity entity;
-    private final Block block;
+    protected final FortressWarsEntity entity;
+    protected final Block block;
 
     public FWBlockEvent(FortressWarsEntity entity, Block block) {
         this.entity = entity;

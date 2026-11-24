@@ -2,19 +2,19 @@ package net.fortresswars.events.kits.engineer;
 
 import net.fortresswars.core.damage.FWDamageCause;
 import net.fortresswars.core.entities.FortressWarsEntity;
-import net.fortresswars.core.kits.engineer.EngineerBlock;
+import net.fortresswars.core.kits.engineer.EngineerStructure;
 
 public class EngineerDestroyBlockEvent extends EngineerBlockEvent {
 
     private final FWDamageCause damageCause;
 
-    public EngineerDestroyBlockEvent(FortressWarsEntity destroyer, FWDamageCause damageCause, EngineerBlock engineerBlock) {
-        super(destroyer, engineerBlock);
+    public EngineerDestroyBlockEvent(FortressWarsEntity destroyer, FWDamageCause damageCause, EngineerStructure engineerStructure) {
+        super(destroyer, engineerStructure);
         this.damageCause = damageCause;
     }
 
-    public EngineerDestroyBlockEvent(EngineerBlock engineerBlock, FWDamageCause damageCause) {
-        super(null, engineerBlock);
+    public EngineerDestroyBlockEvent(EngineerStructure engineerStructure, FWDamageCause damageCause) {
+        super(null, engineerStructure);
         this.damageCause = damageCause;
     }
 
