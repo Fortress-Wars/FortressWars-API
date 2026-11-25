@@ -13,6 +13,10 @@ public class FWDeathEvent extends FortressWarsEvent {
     private final FWDamageEvent lastDamageEvent;
     private final double distance;
 
+    public FWDeathEvent(FortressWarsEntity entity) {
+        this(entity, entity.getLastDamager(), entity.getLastDamageEvent(), entity.distance(entity.getLastDamager()));
+    }
+
     public FWDeathEvent(FortressWarsEntity entity, @Nullable FortressWarsEntity killer) {
         this(entity, killer, entity.getLastDamageEvent(), entity.distance(killer));
     }

@@ -34,6 +34,7 @@ public class FWDamageEvent extends FortressWarsCancellableEvent {
     private ShieldDamageType shieldDamageType;
     private double damage;
     private Set<DamageType> damageTypes;
+    private int noDamageTicks;
 
     private boolean hasBeenTracked;
 
@@ -60,6 +61,7 @@ public class FWDamageEvent extends FortressWarsCancellableEvent {
         damageAdditiveModifiers = new HashMap<>();
         damageMultiplierModifiers = new HashMap<>();
         damageTypeModifiers = new HashMap<>();
+        this.noDamageTicks = 20;
 
         this.doesDamageHitShield = entity.isBlocking() && (damageThatHitShield > 0 || minecraftCause == EntityDamageEvent.DamageCause.CUSTOM);
     }
@@ -320,5 +322,17 @@ public class FWDamageEvent extends FortressWarsCancellableEvent {
 
     public void setTracked() {
         hasBeenTracked = true;
+    }
+
+    public void resetNoDamageTicks() {
+        this.noDamageTicks = 20;
+    }
+
+    public void setNoDamageTicks(int ticks) {
+        this.noDamageTicks = Math.max(ticks, 0);
+    }
+
+    public int getNoDamageTicks() {
+        return this.noDamageTicks;
     }
 }
