@@ -1,5 +1,7 @@
 package net.fortresswars.core.entities;
 
+import net.fortresswars.core.data.PersistentData;
+import net.fortresswars.core.data.PersistentDataKey;
 import org.bukkit.Location;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.BlockData;
@@ -76,6 +78,7 @@ public class DisplayInteractionEntity {
             interaction.setInteractionWidth(width);
             interaction.setInteractionHeight(height);
             interaction.setResponsive(true);
+            PersistentData.setProperty(interaction, PersistentDataKey.HIT,1, null);
         });
     }
 

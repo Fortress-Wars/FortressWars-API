@@ -31,6 +31,10 @@ public class PersistentData {
         return persistentData;
     }
 
+    public static PersistentData fromHolder(PersistentDataHolder holder, Set<PersistentDataKey> propertyKeys) {
+        return fromHolder(holder, propertyKeys, null);
+    }
+
     public static PersistentData fromHolder(PersistentDataHolder holder, Set<PersistentDataKey> propertyKeys, @Nullable NamespacedKey parentKey) {
         final var persistentData = new PersistentData();
         for (var propertyKey : propertyKeys) {
@@ -88,6 +92,30 @@ public class PersistentData {
         if (key == null) return null;
         final var pdc = holder.getPersistentDataContainer();
         return pdc.get(key, persistentDataType);
+    }
+
+    public static boolean hasProperty(PersistentDataHolder holder, String name, PersistentDataType<?,?> type) {
+        return hasProperty(holder, new PersistentDataKey(name, type), null);
+    }
+
+    public static boolean hasProperty(PersistentDataHolder holder, String name, PersistentDataType<?,?> type, NamespacedKey parentKey) {
+        return hasProperty(holder, new PersistentDataKey(name, type), parentKey);
+    }
+
+    public static boolean hasProperty(PersistentDataHolder holder, PersistentDataKey property) {
+        return hasProperty(holder, property, null);
+    }
+
+    public static boolean hasProperty(PersistentDataHolder holder, PersistentDataKey propertyKey, NamespacedKey parentKey) {
+        final var namespacedKey = propertyKey.getNamespacedKey(parentKey);
+        return hasPersistentData(holder, namespacedKey, propertyKey.type());
+    }
+
+    private static boolean hasPersistentData(PersistentDataHolder holder, NamespacedKey key, PersistentDataType<?, ?> persistentDataType) {
+        if (holder == null) return false;
+        if (key == null) return false;
+        final var pdc = holder.getPersistentDataContainer();
+        return pdc.has(key, persistentDataType);
     }
 
     public PersistentData() {

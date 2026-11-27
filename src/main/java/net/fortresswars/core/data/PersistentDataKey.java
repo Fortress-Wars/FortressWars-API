@@ -67,7 +67,8 @@ public record PersistentDataKey (
     public static PersistentDataKey IS_OPEN = new PersistentDataKey("is_open", PersistentDataType.BOOLEAN);
     public static PersistentDataKey MATERIAL = new PersistentDataKey("material", PersistentDataType.STRING);
     public static PersistentDataKey VARIANT = new PersistentDataKey("variant", PersistentDataType.STRING);
-    public static PersistentDataKey IS_MENU_TEM = new PersistentDataKey("is_menu_item", PersistentDataType.BOOLEAN);
+    public static PersistentDataKey IS_MENU_ITEM = new PersistentDataKey("is_menu_item", PersistentDataType.BOOLEAN);
+    public static PersistentDataKey HIT = new PersistentDataKey("hit", PersistentDataType.BYTE);
 
     // Cosmetics
     public static PersistentDataKey DISABLE_COSMETICS = new PersistentDataKey("disable_cosmetics", PersistentDataType.BOOLEAN);
